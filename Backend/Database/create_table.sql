@@ -37,12 +37,11 @@ CREATE TABLE speaks(
 
 CREATE TABLE dish(
     id SERIAl PRIMARY KEY,
-    dish_name TEXT NOT NULL,
-    staff_id INT REFERENCES staff(id)
+    dish_name TEXT NOT NULL
 );
 
 CREATE TABLE can_cook(
-    staff_id INT REFERENCES staff(id),
-    dish_id INT REFERENCES dish(id),
+    staff_id INT REFERENCES staff(id) ON DELETE CASCADE,
+    dish_id INT REFERENCES dish(id) ON DELETE CASCADE,
     PRIMARY KEY(staff_id, dish_id)
 );
