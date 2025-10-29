@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { join } from "path";
+import flight_roster_db from "./Database/connection.js";
 
 //variables and constants
 const app = express();
