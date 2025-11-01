@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400&family=Inknut+Antiqua:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../public/styles/flight_tracker.css">
+</head>
+
+<body>
+    <div class="flight-tracker-container">
+        <img src="../public/assets/images/flight_tracker_background.webp" 
+             alt="Flight Background" 
+             class="background-image">
+        
+        <div class="overlay-container">
+            <div class="overlay-background"></div>
+            
+            <div class="flight-nav">
+                <div class="nav-pill"></div>
+                <h1 class="nav-title">Track Your Flight</h1>
+            </div>
+
+            <div class="input-section">
+                <label class="input-label">Please Input Your Ticket ID or Flight Number</label>
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="flightInput" 
+                        class="flight-input"
+                        placeholder="Enter ticket ID or flight number...">
+                </div>
+            </div>
+
+            <div class="submit-section">
+                <button class="submit-button" id="submitBtn">
+                    Submit
+                </button>
+            </div>
+        </div>
+
+        <div class="plane-icon">
+            <svg viewBox="0 0 49 1" class="line-1">
+                <line stroke="white" x1="0" y1="0.5" x2="48.5" y2="0.5" />
+            </svg>
+            <svg viewBox="0 0 51 1" class="line-2">
+                <line stroke="white" x1="0" y1="0.5" x2="50.5" y2="0.5" />
+            </svg>
+            <svg viewBox="0 0 18 1" class="line-3">
+                <line stroke="white" x1="0" y1="0.5" x2="17" y2="0.5" />
+            </svg>
+            <svg viewBox="0 0 15 1" class="line-4">
+                <line stroke="white" x1="0" y1="0.5" x2="14.8" y2="0.5" />
+            </svg>
+        </div>
+    </div>
+
+</body>
+</html>
