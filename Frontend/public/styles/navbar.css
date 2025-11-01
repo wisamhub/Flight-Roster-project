@@ -14,6 +14,7 @@ a{
 }
 
 .navbar_container {
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
@@ -99,7 +100,7 @@ a{
 
 .nav_upper_bar {
     position: absolute;
-    background-color: #083e93;
+    background-color: #02193f;
     height: 2px;
     left: 0;
     right: 0;
@@ -108,7 +109,7 @@ a{
 
 .nav_lower_bar {
     position: absolute;
-    background-color: #083e93;
+    background-color: #02193f;
     height: 3px;
     left: 0;
     right: 0;

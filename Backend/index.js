@@ -11,13 +11,26 @@ const port = 3000
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 //Middlewares
-app.use("/", express.static(join(__dirname, "..", "Frontend", "public")));
+app.use(express.static(join(__dirname, "..", "Frontend", "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//views files
+app.set('views', join(__dirname, '../Frontend/views'));
+app.set('view engine', 'ejs');
 
 //server requests and responds
 app.get("/",(req, res)=>{
-    res.sendFile(join(__dirname,"..","Frontend","home.html"));
+    res.render("home");
 })
+
+app.get("/guest", (req, res)=>{
+    res.render("flight_tracker");
+})
+
+app.post("/guest/view", (req, res)=>{
+    res.send("<h1>poop</h1>");
+})
+
 
 //server listener
 app.listen(3000, ()=>{

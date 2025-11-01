@@ -12,6 +12,8 @@ Create a new database and call it `flight_roster`
 
 psql -U postgres -d flight_roster -f Backend\Database\create_table.sql
 
+# note: if above code does not work as it is in the root directory, change directory to be inisde the Database folder Flight-Roster-project\Backend\Database and then run psql -U postgres -d flight_roster create_table.sql
+
 # To check if the tables were created successfully type this in the terminal
 psql -U postgres -d flight_roster
 
