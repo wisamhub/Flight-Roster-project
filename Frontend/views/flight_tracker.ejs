@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400&family=Inknut+Antiqua:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/flight_tracker.css">
+</head>
+
+<body>
+    <%- include("partials/navbar.ejs") %>
+    <div class="flight-tracker-container">
+        <img src="/assets/images/flight_tracker_background.webp" 
+             alt="Flight Background" 
+             class="background-image">
+        
+        <div class="overlay-container">
+            <div class="overlay-background"></div>
+            
+            <div class="flight-nav">
+                <div class="nav-pill"></div>
+                <h1 class="nav-title">Track Your Flight</h1>
+            </div>
+
+            <form action="/guest/view" method="POST" class="flight-form">
+                <div class="input-section">
+                    <% if(locals.error){ %>
+                    <label for="flightInput" class="input-label" style="color:red;">
+                        Your input is wrong or does not exist please try again
+                    </label>
+                    <% }else{ %>
+                    <label for="flightInput" class="input-label" style="color: black;">
+                        Please Input Your Ticket ID or Flight Number
+                    </label>
+                    <% } %>
+                    <div class="input-wrapper">
+                        <input 
+                            type="text" 
+                            id="flightInput" 
+                            name="flightInput"
+                            class="flight-input"
+                            placeholder="Enter ticket ID or flight number..."
+                            required>
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" class="submit-button" id="submitBtn">
+                        Submit
+                    </button>
+                </div>
+            </form>
+
+        <div class="plane-icon">
+            <svg viewBox="0 0 49 1" class="line-1">
+                <line stroke="white" x1="0" y1="0.5" x2="48.5" y2="0.5" />
+            </svg>
+            <svg viewBox="0 0 51 1" class="line-2">
+                <line stroke="white" x1="0" y1="0.5" x2="50.5" y2="0.5" />
+            </svg>
+            <svg viewBox="0 0 18 1" class="line-3">
+                <line stroke="white" x1="0" y1="0.5" x2="17" y2="0.5" />
+            </svg>
+            <svg viewBox="0 0 15 1" class="line-4">
+                <line stroke="white" x1="0" y1="0.5" x2="14.8" y2="0.5" />
+            </svg>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,373 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+}
+
+.flight-view {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #F8FAFC;
+}
+
+/* Detail Selection Container */
+.detail-selection {
+  position: absolute;
+  top: 12.31%;
+  right: 0;
+  bottom: 81.11%;
+  left: -0.83%;
+}
+
+/* Gray background bar for all tabs */
+.detail-selection-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0.83%;
+  background: #ffffff;
+}
+
+/* Flight View Tab (Orange - Selected) */
+.tab-flight-view {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  left: 1.98%;
+  width: 31.33%;
+  background: #ff8a02;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-flight-view-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 28px;
+  color: #02124e;
+  text-align: center;
+}
+
+/* Tabular View Tab (Middle) */
+.tab-tabular-view {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  left: 34.12%;
+  width: 31.73%;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-tabular-view-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 28px;
+  color: #02124e;
+  text-align: center;
+}
+
+/* Extended View Tab (Right) */
+.tab-extended-view {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  left: 66.82%;
+  right: 2.15%;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-extended-view-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 28px;
+  color: #02124e;
+  text-align: center;
+}
+
+/* Select Your Seat Title */
+.seat-title {
+  position: absolute;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  top: 22.87%;
+  right: 81.41%;
+  bottom: 74.91%;
+  left: 10.42%;
+  line-height: normal;
+  color: #0a2342;
+  font-size: 20px;
+  white-space: pre;
+}
+
+/* Seat Buttons */
+.seat {
+  position: absolute;
+}
+
+.seat svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.seat-inner {
+  position: absolute;
+  top: -0.833%;
+  right: -0.833%;
+  bottom: -0.833%;
+  left: -0.833%;
+}
+
+.seat-label {
+  position: absolute;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: normal;
+  font-style: normal;
+  font-size: 12px;
+  white-space: pre;
+}
+
+.seat-label-dark {
+  color: #0a2342;
+}
+
+.seat-label-gray {
+  color: #6b7280;
+}
+
+/* Row 1 */
+.seat-1a { top: 30.56%; right: 60.42%; bottom: 63.89%; left: 36.46%; }
+.seat-1a-label { top: 32.96%; right: 61.88%; bottom: 65.65%; left: 37.4%; }
+.seat-1b { top: 30.56%; right: 56.56%; bottom: 63.89%; left: 40.31%; }
+.seat-1b-label { top: 32.96%; right: 58.02%; bottom: 65.65%; left: 41.25%; }
+.seat-1c { top: 30.56%; right: 52.71%; bottom: 63.89%; left: 44.17%; }
+.seat-1c-label { top: 32.96%; right: 54.12%; bottom: 65.65%; left: 45.1%; }
+.seat-1d { top: 30.56%; right: 44.17%; bottom: 63.89%; left: 52.71%; }
+.seat-1d-label { top: 32.96%; right: 45.57%; bottom: 65.65%; left: 53.65%; }
+.seat-1e { top: 30.56%; right: 40.31%; bottom: 63.89%; left: 56.56%; }
+.seat-1e-label { top: 32.96%; right: 41.82%; bottom: 65.65%; left: 57.5%; }
+.seat-1f { top: 30.56%; right: 36.46%; bottom: 63.89%; left: 60.42%; }
+.seat-1f-label { top: 32.96%; right: 37.97%; bottom: 65.65%; left: 61.35%; }
+
+/* Row 2 */
+.seat-2a { top: 37.41%; right: 60.42%; bottom: 57.04%; left: 36.46%; }
+.seat-2a-label { top: 39.81%; right: 61.77%; bottom: 58.8%; left: 37.4%; }
+.seat-2b { top: 37.41%; right: 56.56%; bottom: 57.04%; left: 40.31%; }
+.seat-2b-label { top: 39.81%; right: 57.92%; bottom: 58.8%; left: 41.25%; }
+.seat-2c { top: 37.41%; right: 52.71%; bottom: 57.04%; left: 44.17%; }
+.seat-2c-label { top: 39.81%; right: 54.06%; bottom: 58.8%; left: 45.1%; }
+.seat-2d { top: 37.41%; right: 44.17%; bottom: 57.04%; left: 52.71%; }
+.seat-2d-label { top: 39.81%; right: 45.52%; bottom: 58.8%; left: 53.65%; }
+.seat-2e { top: 37.41%; right: 40.31%; bottom: 57.04%; left: 56.56%; }
+.seat-2e-label { top: 39.81%; right: 41.72%; bottom: 58.8%; left: 57.5%; }
+.seat-2f { top: 37.41%; right: 36.46%; bottom: 57.04%; left: 60.42%; }
+.seat-2f-label { top: 39.81%; right: 37.87%; bottom: 58.8%; left: 61.35%; }
+
+/* Row 3 */
+.seat-3a { top: 44.26%; right: 60.42%; bottom: 50.19%; left: 36.46%; }
+.seat-3a-label { top: 46.67%; right: 61.77%; bottom: 51.94%; left: 37.4%; }
+.seat-3b { top: 44.26%; right: 56.56%; bottom: 50.19%; left: 40.31%; }
+.seat-3b-label { top: 46.67%; right: 57.92%; bottom: 51.94%; left: 41.25%; }
+.seat-3c { top: 44.26%; right: 52.71%; bottom: 50.19%; left: 44.17%; }
+.seat-3c-label { top: 46.67%; right: 54.01%; bottom: 51.94%; left: 45.1%; }
+.seat-3d { top: 44.26%; right: 44.17%; bottom: 50.19%; left: 52.71%; }
+.seat-3d-label { top: 46.67%; right: 45.47%; bottom: 51.94%; left: 53.65%; }
+.seat-3e { top: 44.26%; right: 40.31%; bottom: 50.19%; left: 56.56%; }
+.seat-3e-label { top: 46.67%; right: 41.72%; bottom: 51.94%; left: 57.5%; }
+.seat-3f { top: 44.26%; right: 36.46%; bottom: 50.19%; left: 60.42%; }
+.seat-3f-label { top: 46.67%; right: 37.87%; bottom: 51.94%; left: 61.35%; }
+
+/* Row 4 */
+.seat-4a { top: 51.11%; right: 60.42%; bottom: 43.33%; left: 36.46%; }
+.seat-4a-label { top: 53.52%; right: 61.77%; bottom: 45.09%; left: 37.4%; }
+.seat-4b { top: 51.11%; right: 56.56%; bottom: 43.33%; left: 40.31%; }
+.seat-4b-label { top: 53.52%; right: 57.92%; bottom: 45.09%; left: 41.25%; }
+.seat-4c { top: 51.11%; right: 52.71%; bottom: 43.33%; left: 44.17%; }
+.seat-4c-label { top: 53.52%; right: 54.01%; bottom: 45.09%; left: 45.1%; }
+.seat-4d { top: 51.11%; right: 44.17%; bottom: 43.33%; left: 52.71%; }
+.seat-4d-label { top: 53.52%; right: 45.47%; bottom: 45.09%; left: 53.65%; }
+.seat-4e { top: 51.11%; right: 40.31%; bottom: 43.33%; left: 56.56%; }
+.seat-4e-label { top: 53.52%; right: 41.72%; bottom: 45.09%; left: 57.5%; }
+.seat-4f { top: 51.11%; right: 36.46%; bottom: 43.33%; left: 60.42%; }
+.seat-4f-label { top: 53.52%; right: 37.87%; bottom: 45.09%; left: 61.35%; }
+
+/* Row 5 */
+.seat-5a { top: 57.96%; right: 60.42%; bottom: 36.48%; left: 36.46%; }
+.seat-5a-label { top: 60.37%; right: 61.77%; bottom: 38.24%; left: 37.4%; }
+.seat-5b { top: 57.96%; right: 56.56%; bottom: 36.48%; left: 40.31%; }
+.seat-5b-label { top: 60.37%; right: 57.92%; bottom: 38.24%; left: 41.25%; }
+.seat-5c { top: 57.96%; right: 52.71%; bottom: 36.48%; left: 44.17%; }
+.seat-5c-label { top: 60.37%; right: 54.01%; bottom: 38.24%; left: 45.1%; }
+.seat-5d { top: 57.96%; right: 44.17%; bottom: 36.48%; left: 52.71%; }
+.seat-5d-label { top: 60.37%; right: 45.52%; bottom: 38.24%; left: 53.65%; }
+.seat-5e { top: 57.96%; right: 40.31%; bottom: 36.48%; left: 56.56%; }
+.seat-5e-label { top: 60.37%; right: 41.72%; bottom: 38.24%; left: 57.5%; }
+.seat-5f { top: 57.96%; right: 36.46%; bottom: 36.48%; left: 60.42%; }
+.seat-5f-label { top: 60.37%; right: 37.87%; bottom: 38.24%; left: 61.35%; }
+
+/* Row 6 */
+.seat-6a { top: 64.81%; right: 60.42%; bottom: 29.63%; left: 36.46%; }
+.seat-6a-label { top: 67.22%; right: 61.77%; bottom: 31.39%; left: 37.4%; }
+.seat-6b { top: 64.81%; right: 56.56%; bottom: 29.63%; left: 40.31%; }
+.seat-6b-label { top: 67.22%; right: 57.92%; bottom: 31.39%; left: 41.25%; }
+.seat-6c { top: 64.81%; right: 52.71%; bottom: 29.63%; left: 44.17%; }
+.seat-6c-label { top: 67.22%; right: 54.01%; bottom: 31.39%; left: 45.1%; }
+.seat-6d { top: 64.81%; right: 44.17%; bottom: 29.63%; left: 52.71%; }
+.seat-6d-label { top: 67.22%; right: 45.47%; bottom: 31.39%; left: 53.65%; }
+.seat-6e { top: 64.81%; right: 40.31%; bottom: 29.63%; left: 56.56%; }
+.seat-6e-label { top: 67.22%; right: 41.72%; bottom: 31.39%; left: 57.5%; }
+.seat-6f { top: 64.81%; right: 36.46%; bottom: 29.63%; left: 60.42%; }
+.seat-6f-label { top: 67.22%; right: 37.87%; bottom: 31.39%; left: 61.35%; }
+
+/* Row 7 */
+.seat-7a { top: 71.67%; right: 60.42%; bottom: 22.78%; left: 36.46%; }
+.seat-7a-label { top: 74.07%; right: 61.88%; bottom: 24.54%; left: 37.4%; }
+.seat-7b { top: 71.67%; right: 56.56%; bottom: 22.78%; left: 40.31%; }
+.seat-7b-label { top: 74.07%; right: 57.97%; bottom: 24.54%; left: 41.25%; }
+.seat-7c { top: 71.67%; right: 52.71%; bottom: 22.78%; left: 44.17%; }
+.seat-7c-label { top: 74.07%; right: 54.06%; bottom: 24.54%; left: 45.1%; }
+.seat-7d { top: 71.67%; right: 44.17%; bottom: 22.78%; left: 52.71%; }
+.seat-7d-label { top: 74.07%; right: 45.52%; bottom: 24.54%; left: 53.65%; }
+.seat-7e { top: 71.67%; right: 40.31%; bottom: 22.78%; left: 56.56%; }
+.seat-7e-label { top: 74.07%; right: 41.72%; bottom: 24.54%; left: 57.5%; }
+.seat-7f { top: 71.67%; right: 36.46%; bottom: 22.78%; left: 60.42%; }
+.seat-7f-label { top: 74.07%; right: 37.92%; bottom: 24.54%; left: 61.35%; }
+
+/* Row 8 */
+.seat-8a { top: 78.52%; right: 60.42%; bottom: 15.93%; left: 36.46%; }
+.seat-8a-label { top: 80.93%; right: 61.77%; bottom: 17.68%; left: 37.4%; }
+.seat-8b { top: 78.52%; right: 56.56%; bottom: 15.93%; left: 40.31%; }
+.seat-8b-label { top: 80.93%; right: 57.92%; bottom: 17.68%; left: 41.25%; }
+.seat-8c { top: 78.52%; right: 52.71%; bottom: 15.93%; left: 44.17%; }
+.seat-8c-label { top: 80.93%; right: 54.01%; bottom: 17.68%; left: 45.1%; }
+.seat-8d { top: 78.52%; right: 44.17%; bottom: 15.93%; left: 52.71%; }
+.seat-8d-label { top: 80.93%; right: 45.47%; bottom: 17.68%; left: 53.65%; }
+.seat-8e { top: 78.52%; right: 40.31%; bottom: 15.93%; left: 56.56%; }
+.seat-8e-label { top: 80.93%; right: 41.72%; bottom: 17.68%; left: 57.5%; }
+.seat-8f { top: 78.52%; right: 36.46%; bottom: 15.93%; left: 60.42%; }
+.seat-8f-label { top: 80.93%; right: 37.87%; bottom: 17.68%; left: 61.35%; }
+
+/* Legend */
+.legend-item {
+  position: absolute;
+  top: 87.96%;
+  bottom: 10.19%;
+}
+
+.legend-inner {
+  position: absolute;
+  top: -2.5%;
+  right: -2.5%;
+  bottom: -2.5%;
+  left: -2.5%;
+}
+
+.legend-free {
+  right: 58.33%;
+  left: 40.63%;
+}
+
+.legend-taken {
+  right: 52.08%;
+  left: 46.88%;
+}
+
+.legend-selected {
+  right: 45.83%;
+  left: 53.13%;
+}
+
+.legend-text {
+  position: absolute;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  top: 88.24%;
+  bottom: 10.37%;
+  line-height: normal;
+  font-style: normal;
+  font-size: 12px;
+  color: #6b7280;
+  white-space: pre;
+}
+
+.legend-free-text {
+  right: 56.46%;
+  left: 42.19%;
+}
+
+.legend-taken-text {
+  right: 49.79%;
+  left: 48.44%;
+}
+
+.legend-selected-text {
+  right: 42.71%;
+  left: 54.69%;
+}
+
+/* Bottom Section */
+.divider-line {
+  position: absolute;
+  top: 92.59%;
+  right: 10.42%;
+  bottom: 7.41%;
+  left: 10.42%;
+}
+
+.selected-seat-text {
+  position: absolute;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  top: 95.19%;
+  right: 83.54%;
+  bottom: 3.43%;
+  left: 10.42%;
+  line-height: normal;
+  font-style: normal;
+  color: #0a2342;
+  font-size: 12px;
+  white-space: pre;
+}
+
+.continue-button {
+  position: absolute;
+  top: 93.52%;
+  right: 7.29%;
+  bottom: 1.39%;
+  left: 83.33%;
+}
+
+.continue-text {
+  position: absolute;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  top: 95.37%;
+  right: 10.63%;
+  bottom: 3.24%;
+  left: 86.67%;
+  line-height: normal;
+  font-style: normal;
+  font-size: 12px;
+  color: white;
+  white-space: pre;
+}
