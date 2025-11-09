@@ -9,5 +9,6 @@ const flight_roster_db = new pg.Client({
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
 });
+
 flight_roster_db.connect();
 export default flight_roster_db;

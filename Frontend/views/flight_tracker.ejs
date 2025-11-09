@@ -7,13 +7,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400&family=Inknut+Antiqua:wght@400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/flight_tracker.css">
+    <link rel="stylesheet" href="/styles/flight_tracker.css">
 </head>
 
 <body>
     <%- include("partials/navbar.ejs") %>
     <div class="flight-tracker-container">
-        <img src="assets/images/flight_tracker_background.webp" 
+        <img src="/assets/images/flight_tracker_background.webp" 
              alt="Flight Background" 
              class="background-image">
         
@@ -27,9 +27,15 @@
 
             <form action="/guest/view" method="POST" class="flight-form">
                 <div class="input-section">
-                    <label for="flightInput" class="input-label">
+                    <% if(locals.error){ %>
+                    <label for="flightInput" class="input-label" style="color:red;">
+                        Your input is wrong or does not exist please try again
+                    </label>
+                    <% }else{ %>
+                    <label for="flightInput" class="input-label" style="color: black;">
                         Please Input Your Ticket ID or Flight Number
                     </label>
+                    <% } %>
                     <div class="input-wrapper">
                         <input 
                             type="text" 
