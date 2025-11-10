@@ -3,87 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabular View Responsive</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link href="/styles/Tabular_View.css" rel="stylesheet">
+    <title>Tabular View - Responsive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/tabular_view.css">
 </head>
 <body>
     <%- include("partials/navbar.ejs") %>
-    <div class="tabular-view">
-        <div class="nav-tabs">
-            <div class="tab">Flight View</div>
-            <div class="tab active">Tabular View</div>
-            <div class="tab">Extended View</div>
-        </div>
+    <div class="main-app-container">
 
-        <section class="section">
-            <div class="section-header">
-                <h2 class="section-title">Flight Information</h2>
+        <nav class="nav-container">
+            <button class="nav-item">FLIGHT VIEW</button>
+            <button class="nav-item active">TABULAR VIEW</button>
+            <button class="nav-item">EXTENDED VIEW</button>
+        </nav>
+
+        <main class="content-area">
+            <div class="tabular-view">
+                
+                <section class="info-section">
+                    <div class="section-header">
+                        <h2 class="section-title">FLIGHT INFORMATION</h2>
+                    </div>
+                    <div class="responsive-grid col-4">
+                        <div class="grid-cell header-cell">FLIGHT NUMBER</div>
+                        <div class="grid-cell header-cell">DATE</div>
+                        <div class="grid-cell header-cell">DEPARTURE AIRPORT</div>
+                        <div class="grid-cell header-cell">GATE</div>
+                        
+                        <div class="grid-cell data-cell">AA123</div>
+                        <div class="grid-cell data-cell">11, 11, 2025</div>
+                        <div class="grid-cell data-cell">JFK</div>
+                        <div class="grid-cell data-cell">B14</div>
+                    </div>
+                </section>
+        
+                <div class="split-section-container">  
+                    <section class="info-section">
+                        <div class="section-header">
+                            <h2 class="section-title">PASSENGER</h2>
+                        </div>
+                        <div class="responsive-grid col-3">
+                            <div class="grid-cell header-cell">NAME</div>
+                            <div class="grid-cell header-cell">SEAT</div>
+                            <div class="grid-cell header-cell">CLASS</div>
+                            
+                            <div class="grid-cell data-cell">Joe Burrow</div>
+                            <div class="grid-cell data-cell">21A</div>
+                            <div class="grid-cell data-cell">Economy</div>
+                        </div>
+                    </section>
+        
+                    <section class="info-section">
+                        <div class="section-header">
+                            <h2 class="section-title">STAFF</h2>
+                        </div>
+                        <div class="responsive-grid col-3">
+                            <div class="grid-cell header-cell">NAME</div>
+                            <div class="grid-cell header-cell">ROLE</div>
+                            <div class="grid-cell header-cell">RANK</div>
+
+                            <div class="grid-cell data-cell">Jalon Walker</div>
+                            <div class="grid-cell data-cell">Pilot</div>
+                            <div class="grid-cell data-cell">Senior</div>
+                        </div>
+                    </section>
+                </div>
             </div>
-            
-            <div class="data-table">
-                <div class="data-column">
-                    <div class="column-header">Flight Number</div>
-                    <div class="column-body"><!-- Data goes here --></div>
-                </div>
-                <div class="data-column">
-                    <div class="column-header">Date</div>
-                    <div class="column-body"><!-- Data goes here --></div>
-                </div>
-                <div class="data-column">
-                    <div class="column-header">Departure Airport</div>
-                    <div class="column-body"><!-- Data goes here --></div>
-                </div>
-                 <div class="data-column">
-                    <div class="column-header">Gate</div>
-                    <div class="column-body"><!-- Data goes here --></div>
-                </div>
-            </div>
-        </section>
-
-        <div class="split-section-container">
-            
-            <section class="section">
-                <div class="section-header">
-                    <h2 class="section-title">Passenger</h2>
-                </div>
-                <div class="data-table">
-                    <div class="data-column">
-                        <div class="column-header">Name</div>
-                        <div class="column-body"></div>
-                    </div>
-                    <div class="data-column">
-                        <div class="column-header">Seat</div>
-                        <div class="column-body"></div>
-                    </div>
-                    <div class="data-column">
-                        <div class="column-header">Class</div>
-                        <div class="column-body"></div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <div class="section-header">
-                    <h2 class="section-title">Staff</h2>
-                </div>
-                <div class="data-table">
-                    <div class="data-column">
-                        <div class="column-header">Name</div>
-                        <div class="column-body"></div>
-                    </div>
-                    <div class="data-column">
-                        <div class="column-header">Role</div>
-                        <div class="column-body"></div>
-                    </div>
-                    <div class="data-column">
-                        <div class="column-header">Rank</div>
-                        <div class="column-body"></div>
-                    </div>
-                </div>
-            </section>
-
-        </div>
+        </main>
     </div>
 </body>
 </html>
