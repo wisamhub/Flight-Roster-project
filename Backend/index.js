@@ -27,13 +27,16 @@ app.get("/guest", (req, res)=>{
     res.render("flight_tracker");
 })
 
+
 app.post("/guest/view", (req, res)=>{
     const guestInput = req.body.flightInput.trim();
     const ticketPattern = /^\d{9}$/;        // 9 digits only
     const flightPattern = /^AN\d{3}$/i;     // starts with AN, then 3 digits
     if(ticketPattern.test(guestInput)){
+        //DB queries will be done here
         res.render("tabular_view");
     } else if(flightPattern.test(guestInput)){
+        //also here
         res.render("tabular_view");
     } else{
         res.render("flight_tracker", {error:true});
@@ -41,10 +44,16 @@ app.post("/guest/view", (req, res)=>{
 })
 
 app.get("/test", (req, res)=>{
-    res.render("tabular_view");
+    res.render("flight_view");
     //simple test URL will be removed later change file name to check certain pages too
 }) 
 
+
+
+//404 pages
+app.use((req, res) => {
+  res.status(404).send("404 Not Found");
+});
 
 //server listener
 app.listen(3000, ()=>{
