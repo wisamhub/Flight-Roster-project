@@ -10,24 +10,21 @@
   <link rel="stylesheet" href="/styles/flight_view.css">
 </head>
 <body>
-  <%- include("partials/navbar.ejs") %>
-  <div class="flight-view">
-    <!-- Detail Selection Tabs -->
-    <div class="detail-selection">
-      <div class="detail-selection-bg"></div>
-      
-      <div class="tab-flight-view">
-        <span class="tab-flight-view-text">FLIGHT VIEW</span>
-      </div>
-      
-      <div class="tab-tabular-view">
-        <span class="tab-tabular-view-text">TABULAR VIEW</span>
-      </div>
-      
-      <div class="tab-extended-view">
-        <span class="tab-extended-view-text">EXTENDED VIEW</span>
-      </div>
-    </div>
+
+    <%- include("partials/navbar.ejs") %>
+  <div class="main-app-container">
+        <nav class="nav-container">
+            <button class="nav-item active">
+                FLIGHT VIEW
+            </button>
+            <button class="nav-item">
+                TABULAR VIEW
+            </button>
+            <button class="nav-item">
+                EXTENDED VIEW
+            </button>
+        </nav>
+        <main class="seat-map-container">
 
     <!-- Select Your Seat Title -->
     <p class="seat-title">Select Your Seat</p>

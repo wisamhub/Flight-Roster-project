@@ -1,106 +1,86 @@
+:root {
+    --deep-blue: #02124e;
+    --accent-orange: #ff8a02;
+    --divider-blue: #02193f;
+    --bg-gray: #f3f4f6;
+    --text-gray: #6b7280;
+    --border-gray: #e5e7eb;
+}
+
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body, html {
-  width: 100%;
-  height: 100%;
-  font-family: 'Inter', sans-serif;
+body {
+    font-family: 'Roboto', 'Inter', sans-serif;
+    margin-top: 70px;
+    background-color: var(--bg-gray);
+    min-height: 100vh;
+    padding: 1rem;
 }
 
-.flight-view {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: #F8FAFC;
+@media (min-width: 768px) {
+    body {
+        padding: 2rem;
+    }
 }
 
-/* Detail Selection Container */
-.detail-selection {
-  position: absolute;
-  top: 12.31%;
-  right: 0;
-  bottom: 81.11%;
-  left: -0.83%;
+.main-app-container {
+    max-width: 1920px;
+    height: 90vh;
+    min-height: 800px;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Gray background bar for all tabs */
-.detail-selection-bg {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0.83%;
-  background: #ffffff;
+.nav-container {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border-gray);
+    background-color: #f9fafb;
+    flex-shrink: 0;
+    z-index: 10;
 }
 
-/* Flight View Tab (Orange - Selected) */
-.tab-flight-view {
-  position: absolute;
-  top: 10%;
-  bottom: 10%;
-  left: 1.98%;
-  width: 31.33%;
-  background: #ff8a02;
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.nav-item {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    color: var(--text-gray);
+    background: transparent;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 1.125rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    min-width: 150px;
 }
 
-.tab-flight-view-text {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 28px;
-  color: #02124e;
-  text-align: center;
+.nav-item:hover {
+    background-color: var(--bg-gray);
 }
 
-/* Tabular View Tab (Middle) */
-.tab-tabular-view {
-  position: absolute;
-  top: 10%;
-  bottom: 10%;
-  left: 34.12%;
-  width: 31.73%;
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.nav-item.active {
+    background-color: var(--accent-orange);
+    color: var(--deep-blue);
+    font-weight: 700;
+    box-shadow: inset 0 -4px 0 0 rgba(0,0,0,0.1);
 }
 
-.tab-tabular-view-text {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 28px;
-  color: #02124e;
-  text-align: center;
-}
-
-/* Extended View Tab (Right) */
-.tab-extended-view {
-  position: absolute;
-  top: 10%;
-  bottom: 10%;
-  left: 66.82%;
-  right: 2.15%;
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tab-extended-view-text {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 28px;
-  color: #02124e;
-  text-align: center;
+.seat-map-container {
+    position: relative;
+    flex-grow: 1;
+    width: 100%;
+    background-color: #F8FAFC;
+    overflow: hidden;
 }
 
 /* Select Your Seat Title */
@@ -108,13 +88,10 @@ body, html {
   position: absolute;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  top: 22.87%;
-  right: 81.41%;
-  bottom: 74.91%;
-  left: 10.42%;
-  line-height: normal;
+  top: 5%; 
+  left: 5%;
   color: #0a2342;
-  font-size: 20px;
+  font-size: 24px;
   white-space: pre;
 }
 
@@ -127,6 +104,7 @@ body, html {
   display: block;
   width: 100%;
   height: 100%;
+  object-fit: contain; 
 }
 
 .seat-inner {
@@ -140,20 +118,16 @@ body, html {
 .seat-label {
   position: absolute;
   font-family: 'Inter', sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   line-height: normal;
   font-style: normal;
   font-size: 12px;
   white-space: pre;
+  pointer-events: none;
 }
 
-.seat-label-dark {
-  color: #0a2342;
-}
-
-.seat-label-gray {
-  color: #6b7280;
-}
+.seat-label-dark { color: #0a2342; }
+.seat-label-gray { color: #6b7280; }
 
 /* Row 1 */
 .seat-1a { top: 30.56%; right: 60.42%; bottom: 63.89%; left: 36.46%; }
@@ -185,9 +159,9 @@ body, html {
 
 /* Row 3 */
 .seat-3a { top: 44.26%; right: 60.42%; bottom: 50.19%; left: 36.46%; }
-.seat-3a-label { top: 46.67%; right: 61.77%; bottom: 51.94%; left: 37.4%; }
+.seat-3a-label { top: 46.67%; right: 61.77%; bottom: 51.94%; left: 37.4%; color: white; z-index: 2; }
 .seat-3b { top: 44.26%; right: 56.56%; bottom: 50.19%; left: 40.31%; }
-.seat-3b-label { top: 46.67%; right: 57.92%; bottom: 51.94%; left: 41.25%; }
+.seat-3b-label { top: 46.67%; right: 57.92%; bottom: 51.94%; left: 41.25%; z-index: 2; }
 .seat-3c { top: 44.26%; right: 52.71%; bottom: 50.19%; left: 44.17%; }
 .seat-3c-label { top: 46.67%; right: 54.01%; bottom: 51.94%; left: 45.1%; }
 .seat-3d { top: 44.26%; right: 44.17%; bottom: 50.19%; left: 52.71%; }
@@ -306,7 +280,7 @@ body, html {
   line-height: normal;
   font-style: normal;
   font-size: 12px;
-  color: #6b7280;
+  color: var(--text-gray);
   white-space: pre;
 }
 
@@ -332,6 +306,7 @@ body, html {
   right: 10.42%;
   bottom: 7.41%;
   left: 10.42%;
+  background: var(--border-gray);
 }
 
 .selected-seat-text {
@@ -344,8 +319,8 @@ body, html {
   left: 10.42%;
   line-height: normal;
   font-style: normal;
-  color: #0a2342;
-  font-size: 12px;
+  color: var(--deep-blue);
+  font-size: 16px;
   white-space: pre;
 }
 
@@ -355,12 +330,13 @@ body, html {
   right: 7.29%;
   bottom: 1.39%;
   left: 83.33%;
+  cursor: pointer;
 }
 
 .continue-text {
   position: absolute;
   font-family: 'Inter', sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   top: 95.37%;
   right: 10.63%;
   bottom: 3.24%;
@@ -370,4 +346,5 @@ body, html {
   font-size: 12px;
   color: white;
   white-space: pre;
+  pointer-events: none;
 }

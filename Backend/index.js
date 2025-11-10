@@ -47,6 +47,14 @@ app.get("/test", (req, res)=>{
     res.render("flight_view");
     //simple test URL will be removed later change file name to check certain pages too
 }) 
+app.get("/test2", (req, res)=>{
+    res.render("tabular_view");
+    //simple test URL will be removed later change file name to check certain pages too
+})
+app.get("/test3", (req, res)=>{
+    res.render("extended_view");
+    //simple test URL will be removed later change file name to check certain pages too
+})
 
 
 
