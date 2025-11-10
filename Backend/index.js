@@ -26,9 +26,22 @@ app.get("/",(req, res)=>{
 app.get("/guest", (req, res)=>{
     res.render("flight_tracker");
 })
+app.get("/login", (req, res)=>{
+    res.render("staff_login");
+})
+app.get("/guest/flight-view", (req, res)=>{
+    res.render("flight_view");
+})
+app.get("/guest/tabular-view", (req, res)=>{
+    res.render("tabular_view");
+})
+app.get("/guest/extended-view", (req, res)=>{
+    res.render("extended_view");
+})
 
 
-app.post("/guest/view", (req, res)=>{
+
+app.post("/guest/tabular-view", (req, res)=>{
     const guestInput = req.body.flightInput.trim();
     const ticketPattern = /^\d{9}$/;        // 9 digits only
     const flightPattern = /^AN\d{3}$/i;     // starts with AN, then 3 digits
@@ -47,16 +60,6 @@ app.get("/test", (req, res)=>{
     res.render("flight_view");
     //simple test URL will be removed later change file name to check certain pages too
 }) 
-app.get("/test2", (req, res)=>{
-    res.render("tabular_view");
-    //simple test URL will be removed later change file name to check certain pages too
-})
-app.get("/test3", (req, res)=>{
-    res.render("extended_view");
-    //simple test URL will be removed later change file name to check certain pages too
-})
-
-
 
 //404 pages
 app.use((req, res) => {
