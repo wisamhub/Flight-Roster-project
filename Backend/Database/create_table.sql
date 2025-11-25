@@ -1,7 +1,7 @@
 CREATE TYPE gender_enum AS ENUM ('Male', 'Female', 'Other');
 CREATE TYPE role_enum AS ENUM ('Pilot', 'Cabin Crew');
 CREATE TYPE rank_enum AS ENUM ('Senior', 'Junior', 'Trainee');
-CREATE TYPE flight_status AS ENUM ('Scheduled','Boarding','Departed','Delayed','Cancelled','Diverted','Landed','Arrived');
+CREATE TYPE flight_status AS ENUM ('Scheduled', 'enroute', 'Boarding','Departed','Delayed','Cancelled','Diverted','Landed','Deboarding');
 
 CREATE TABLE aircraft_type(
     aircraft_type_id SERIAL PRIMARY KEY,
