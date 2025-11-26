@@ -7,7 +7,7 @@ INSERT INTO type_rating (type_rating_id, rating_name) VALUES
 INSERT INTO aircraft_family (family_id, family_name, manufacturer) VALUES 
 (1, '757', 'Boeing'),
 (2, '767', 'Boeing'),
-(3,  '320', 'Airbus'),
+(3,  'A320', 'Airbus'),
 (4,  '777', 'Boeing');
 
 INSERT INTO aircraft_type (aircraft_type_id, variant_name, family_id, type_rating_id, max_range_km) VALUES 
@@ -31,5 +31,5 @@ INSERT INTO staff (staff_id, password_hash, first_name, last_name, birth_date, g
 (1, 'hash123', 'James', 'Bond', '1949-12-01', 'Male', 'Turkish', 'Pilot', 'Junior'),
 (2, 'hash456', 'John', 'Doe', '1979-05-21', 'Female', 'Turkish', 'Cabin Crew', 'Senior'),
 (3, 'hash789', 'Jackie', 'Chan', '1999-01-02', 'Male', 'Turkish', 'Pilot', 'Senior'),
-(4, 'hash321', 'Johannes', 'Keplar', '2005-7-14', 'Male', 'Turkish', 'Cabin Crew', 'Trainee'),
-(4, 'hash321', 'Isaac', 'Newton', '2006-7-14', 'Male', 'Turkish', 'Cabin Crew', 'Junior');
+(4, 'hash321', 'Johannes', 'Keplar', '2005-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Trainee'),
+(5, 'hash321', 'Isaac', 'Newton', '2006-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Junior');
