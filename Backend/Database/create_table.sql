@@ -1,7 +1,7 @@
 CREATE TYPE gender_enum AS ENUM ('Male', 'Female', 'Other');
 CREATE TYPE role_enum AS ENUM ('Pilot', 'Cabin Crew');
 CREATE TYPE rank_enum AS ENUM ('Senior', 'Junior', 'Trainee');
-CREATE TYPE flight_status AS ENUM ('Scheduled', 'enroute', 'Boarding','Departed','Delayed','Cancelled','Diverted','Landed','Deboarding');
+CREATE TYPE flight_status AS ENUM ('Scheduled', 'Enroute', 'Boarding','Departed','Delayed','Cancelled','Diverted','Landed','Deboarding');
 
 CREATE TABLE aircraft_type(
     aircraft_type_id SERIAL PRIMARY KEY,
@@ -47,19 +47,27 @@ CREATE TABLE dish(
     dish_name TEXT NOT NULL UNIQUE
 );
 
-CREATE FUNCTION is_cabin_crew(id_to_check INT)
-RETURNS BOOLEAN AS $$
-DECLARE
-    staff_role role_enum;
-BEGIN
-    SELECT role INTO staff_role FROM staff WHERE staff_id = id_to_check;
-    RETURN staff_role = 'Cabin Crew';
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TABLE can_cook(
     staff_id INT NOT NULL REFERENCES staff(staff_id) ON DELETE CASCADE,
     dish_id INT NOT NULL REFERENCES dish(dish_id) ON DELETE CASCADE,
-    PRIMARY KEY(staff_id, dish_id),
-    CONSTRAINT staff_must_be_cabin_crew CHECK (is_cabin_crew(staff_id))
+    PRIMARY KEY(staff_id, dish_id)
 );
+
+CREATE FUNCTION check_staff_is_crew()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM staff 
+        WHERE staff_id = NEW.staff_id 
+        AND role = 'Cabin Crew'
+    ) THEN
+        RAISE EXCEPTION 'Only Cabin Crew can be assigned to can_cook';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER enforce_cabin_crew_cooking
+BEFORE INSERT OR UPDATE ON can_cook
+FOR EACH ROW
+EXECUTE FUNCTION check_staff_is_crew();
