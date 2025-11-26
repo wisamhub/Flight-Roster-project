@@ -3,11 +3,25 @@ CREATE TYPE role_enum AS ENUM ('Pilot', 'Cabin Crew');
 CREATE TYPE rank_enum AS ENUM ('Senior', 'Junior', 'Trainee');
 CREATE TYPE flight_status AS ENUM ('Scheduled', 'Enroute', 'Boarding','Departed','Delayed','Cancelled','Diverted','Landed','Deboarding');
 
+CREATE TABLE type_rating(
+    type_rating_id SERIAL PRIMARY KEY,
+    rating_name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE aircraft_family(
+    family_id SERIAL PRIMARY KEY,
+    manufacturer TEXT NOT NULL,
+    family_name TEXT NOT NULL,
+    UNIQUE(manufacturer, family_name)
+);
+
 CREATE TABLE aircraft_type(
     aircraft_type_id SERIAL PRIMARY KEY,
-    aircraft_type TEXT NOT NULL UNIQUE,
-    manufacturer TEXT NOT NULL,
-    max_range INT  NOT NULL CHECK (max_range > 0)
+    family_id INT NOT NULL REFERENCES aircraft_family(family_id) ON DELETE RESTRICT,
+    type_rating_id INT NOT NULL REFERENCES type_rating(type_rating_id) ON DELETE RESTRICT, 
+    variant_name TEXT NOT NULL,       
+    max_range_km INT NOT NULL CHECK (max_range_km > 0),
+    UNIQUE(family_id, variant_name)
 );
 
 CREATE TABLE aircraft(
@@ -32,8 +46,8 @@ CREATE TABLE staff(
 
 CREATE TABLE licensed_on(
     staff_id INT NOT NULL REFERENCES staff(staff_id) ON DELETE CASCADE,
-    aircraft_type_id INT NOT NULL REFERENCES aircraft_type(aircraft_type_id) ON DELETE CASCADE,
-    PRIMARY KEY (staff_id, aircraft_type_id)
+    type_rating_id INT NOT NULL REFERENCES type_rating(type_rating_id) ON DELETE CASCADE, 
+    PRIMARY KEY (staff_id, type_rating_id)
 );
 
 CREATE TABLE speaks(
