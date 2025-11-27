@@ -3,12 +3,33 @@ import bodyParser from "body-parser";
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { join } from "path";
+import bcrypt from "bcrypt";
 import flight_roster_db from "./Database/connection.js";
 
-//variables and constants
+//variables, constants, functions
 const app = express();
 const port = 3000
+const saltRounds = 10;
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+
+const password = "hello";
+//use this to get the hashing
+async function getHash(password) {
+  const hash = await bcrypt.hash(password , saltRounds);
+  console.log("Hashed password:", hash);
+  return hash;
+}
+
+async function compare(password, hash){
+ const match = await bcrypt.compare(password, hash);
+ if(match){
+    console.log("yes");
+ } else {
+    console.log("no");
+ }
+};
+
 
 //Middlewares
 app.use(express.static(join(__dirname, "..", "Frontend", "public")));
@@ -67,6 +88,7 @@ app.use((req, res) => {
 });
 
 //server listener
-app.listen(3000, ()=>{
+app.listen(3000, async ()=>{
     console.log("server started at port:"+ port);
+    const hash = await getHash(password); 
 })
