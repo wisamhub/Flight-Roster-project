@@ -33,3 +33,68 @@ INSERT INTO staff (staff_id, password_hash, first_name, last_name, birth_date, g
 (3, 'hash789', 'Jackie', 'Chan', '1999-01-02', 'Male', 'Turkish', 'Pilot', 'Senior'),
 (4, 'hash321', 'Johannes', 'Keplar', '2005-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Trainee'),
 (5, 'hash321', 'Isaac', 'Newton', '2006-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Junior');
+
+INSERT INTO licensed_on(staff_id, type_rating_id) VALUES
+(1,1),
+(1,2),
+(2,1),
+(2,2);
+
+INSERT INTO speaks (staff_id,language) VALUES
+(1,'English'),
+(1,'Turkish'),
+(2,'English'),
+(2,'Japanese');
+
+INSERT INTO dish(dish_id, dish_name) VALUES
+(1, 'Pizza'),
+(2, 'Beef burger');
+
+INSERT INTO can_cook(staff_id,dish_id) VALUES
+(2,1),
+(2,2),
+(4,1),
+(4,2);
+ 
+
+INSERT INTO flight (flight_id, aircraft_id, date, dept_time, dept_airport,arrival_time,arrival_airport, gate, status,flight_number,boarding_time) VALUES
+(1,1,'2026-12-15','03:30','IST','05:30','LHR','12A','Enroute','AN251','03:10'),
+(2,1,'2026-12-15','15:45','LHR','17:45','IST','5P','Boarding','AN111','15:25'),
+(3,2,'2026-12-15','03:30','LHR','05:30','IST','5B','Landed','AN878','03:10'),
+(4,4,'2026-12-15','12:30','SAW','02:30','LHR','7C','Scheduled','AN123','12:10'),
+(5,5,'2026-12-15','11:00','SAW','01:00','LHR','9A','Deboarding','AN456','10:30');
+
+INSERT INTO operating_on(staff_id,flight_id) VALUES
+(1,1),
+(1,2),
+(2,1),
+(2,2);
+
+INSERT INTO passenger(passport_number, first_name, last_name, birth_date, gender, has_allergy, disability_assistance, nationality) VALUES
+('N1289','John','smith', '1949-12-01', 'Male', 'Yes peanut allergy', 'Yes wheelchair','Turkish'),
+('N5678','Joe','biden', '1979-05-21', 'Female', 'No', 'Yes blind','American'),
+('N7826','Ben','ten', '2000-11-24', 'Male', 'Yes dairy', 'No','Turkish'),
+('N9611','Tom','cruise', '1967-02-16', 'Male', 'No', 'No','Turkish'),
+('N8177','Jack','willer', '1915-05-09', 'Male', 'No', 'Yes deaf ','Turkish');
+
+INSERT INTO flight_ticket(ticket_id, passport_number, seat_number, class) VALUES
+(1,'N1289','12A', 'Economy'),
+(2,'N5678', '24B', 'Economy'),
+(3,'N7826', '32A', 'Economy'),
+(4,'N9611', '01C', 'Business');
+
+
+INSERT INTO connected_flight(flight_id, ticket_id) VALUES
+(1,1),
+(2,1),
+(1,2),
+(2,2);
+
+INSERT INTO guardian(guardian_passport, child_passport) VALUES
+('N1289','N5678'),
+('N1289','N7826'),
+('N9611','N8177');
+
+
+
+
