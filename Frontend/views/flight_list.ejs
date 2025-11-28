@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight View</title>
+    <link rel="stylesheet" href="/styles/flight_list.css">
+</head>
+<body>
+    <%- include("partials/navbar.ejs") %>
+    <div class="employee-header">
+        <div class="field"><span class="label">Employee Name:</span></div>
+        <div class="field"><span class="label">Employee ID:</span></div>
+    </div>
+    <div class="flight-list-container">
+        <h2 class="section-title">Assigned Flights</h2>
+        <div class="flight-card" onclick="window.location.href='/guest/flight-view'">
+            <div class="group-airline">
+                <span class="highlight large">AA5455</span>
+            </div>
+            <div class="center-section">
+                <div class="info-col">
+                    <span class="highlight time">9:55 - 12:15</span>
+                    <span class="sub-text date">Sat Sep 13th 2025</span>
+                </div>
+                <div class="info-col">
+                    <span class="highlight duration">3h 20m</span>
+                    <span class="sub-text route">Istanbul (SAW) &rarr; Berlin (BER)</span>
+                </div>
+            </div>
+            <div class="group-status">
+                <span class="status-text">Direct</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
