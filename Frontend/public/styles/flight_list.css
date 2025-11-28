@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap');
+
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+body {
+    font-family: 'Inknut Antiqua', serif;
+    background-color: #001f3f;
+    color: white;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column; 
+    padding: 0; 
+}
+.employee-header {
+    margin-top:100px;
+    width: 100%;
+    padding-top: 20px;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.field { 
+    background: #c7640d; 
+    padding: 8px 16px; 
+    border-radius: 6px; 
+    font-size: 0.9rem;
+    width: fit-content;
+    min-width: 200px;
+}
+
+.flight-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%; 
+    max-width: 900px; 
+    margin: 40px auto; 
+    gap: 20px;
+}
+
+.section-title { 
+    color: #ff8a02; 
+    font-size: 1.4rem; 
+    margin-bottom: 0.5rem; 
+    text-align: center; 
+    align-self: center; 
+}
+
+.flight-card {
+    background-color: #02193f;
+    border: 3px solid white;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px; 
+    width: 100%;
+    min-width: 500px;
+    white-space: nowrap;
+}
+
+.group-airline {
+    width: 15%; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
+}
+
+.center-section {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem; 
+    flex: 1; 
+    justify-content: center; 
+}
+
+.info-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; 
+    text-align: left;
+    gap: 4px; 
+}
+
+.group-status {
+    width: auto; 
+    min-width: 80px; 
+    display: flex; 
+    justify-content: flex-end; 
+}
+
+.highlight {
+    color: #ff8a02;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.sub-text {
+    margin-top:10px;
+    color: #ff8a02;
+    opacity: 0.8;
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.large { 
+    font-size: clamp(18px, 2vw, 28px); 
+}
+
+.time  { 
+    font-size: clamp(16px, 1.5vw, 22px); 
+}
+
+.duration {
+    font-size: clamp(16px, 1.5vw, 22px); 
+}
+
+
+.date  {
+    font-size: clamp(10px, 1vw, 12px); color: #ff8a02;
+}
+
+.route {
+    font-size: clamp(10px, 1vw, 13px);
+}
+
+.status-text {
+    color: #ff8a02;
+    text-transform: uppercase;
+    font-size: clamp(12px, 1.2vw, 16px);
+    font-weight: 400;
+}
