@@ -2,7 +2,7 @@ CREATE TYPE gender_enum AS ENUM ('Male', 'Female', 'Other');
 CREATE TYPE role_enum AS ENUM ('Pilot', 'Cabin Crew');
 CREATE TYPE rank_enum AS ENUM ('Senior', 'Junior', 'Trainee');
 CREATE TYPE flight_status_enum AS ENUM ('Scheduled', 'Enroute', 'Boarding','Departed','Delayed','Cancelled','Diverted','Landed','Deboarding');
-CREATE TYPE class_enum AS ENUM ('economy', 'business');
+CREATE TYPE class_enum AS ENUM ('Economy', 'Business');
 
 CREATE TABLE type_rating(
     type_rating_id SERIAL PRIMARY KEY,
@@ -89,7 +89,7 @@ EXECUTE FUNCTION check_staff_is_crew();
 
 CREATE TABLE flight (
     flight_id SERIAL PRIMARY KEY,
-    aircraft_id INT NOT NULL REFERENCES aircraft (aircraft_id)
+    aircraft_id INT NOT NULL REFERENCES aircraft (aircraft_id),
     date DATE,
     dept_time TIME,
     dept_airport TEXT NOT NULL,
@@ -128,7 +128,7 @@ CREATE TABLE flight_ticket (
     class class_enum NOT NULL
 );
 
-CREATE TABLE connected_flights(
+CREATE TABLE connected_flight(
     ticket_id INT REFERENCES flight_ticket(ticket_id),
     flight_id INT REFERENCES flight(flight_id),
     PRIMARY KEY (ticket_id,flight_id)
