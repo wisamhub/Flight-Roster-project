@@ -14,7 +14,8 @@
     </div>
     <div class="flight-list-container">
         <h2 class="section-title">Assigned Flights</h2>
-        <div class="flight-card" onclick="window.location.href='/guest/flight-view'">
+        <% for(var i = 0;i<10;i++){ %>
+        <div class="flight-card" onclick="window.location.href='/staff/flight-view'">
             <div class="group-airline">
                 <span class="highlight large">AA5455</span>
             </div>
@@ -32,6 +33,7 @@
                 <span class="status-text">Direct</span>
             </div>
         </div>
+        <% } %>
     </div>
 
 </body>
