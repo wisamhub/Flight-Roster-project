@@ -4,7 +4,16 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { join } from "path";
 import bcrypt from "bcrypt";
-import flight_roster_db from "./Database/connection.js";
+import {
+  getMainPassengerByTicketId,
+  getFlightInfoByTicketId,
+  getCoPassengersByTicketId,
+  getStaffByTicketId,
+  getFlightInfoByFlightNumber,
+  getPassengersByFlightNumber,
+  getStaffByFlightNumber,
+  getFlightsByStaffId
+} from "./Database/connection.js";
 
 //variables, constants, functions
 const app = express();
@@ -27,6 +36,12 @@ var flight = {
     flightNumber: "none",
 };
 
+// This variable stores data for all of the views
+var globalFlightData = {
+    flightInfo: null,
+    passengers: [],
+    staff: []
+};
 
 const password = "hello";
 //use this to get the hashing
@@ -71,32 +86,62 @@ app.get("/guest", (req, res)=>{
     "ticketId":-1,
     };
 
-    flight = {
-    flightNumber: "none",
-    otherPassengers: [],
-    otherStaff: []
-    };
+    flight = { flightNumber: "none" };
+    globalFlightData = { flightInfo: null, passengers: [], staff: [] };
 
     res.render("flight_tracker", {error});
     error = false;
 })
 
-app.post("/guest/tabular-view", (req, res)=>{
-    const guestInput = req.body.flightInput.trim();
-    const ticketPattern = /^\d{9}$/;        // 9 digits only
-    const flightPattern = /^AN\d{3}$/i;     // starts with AN, then 3 digits
-    if(ticketPattern.test(guestInput)){
-        passenger["ticketId"]=guestInput;
-        //DB queries will be done here
-        res.render("tabular_view");
-    } else if(flightPattern.test(guestInput)){
-        flight["flightNumber"]=guestInput;
+// Sotres the ticket pattern and flight pattern
+const ticketPattern = /^\d{9}$/;        // 9 digits only
+const flightPattern = /^AN\d{3}$/i;     // starts with AN, then 3 digits
+
+async function fetchFlightData(input) {
+    let data = {
+        flightInfo: null,
+        passengers: [],
+        staff: []
+    };
+
+    if (ticketPattern.test(input)) {
+        passenger["ticketId"]=input;
+        flight["flightNumber"] = "none";
+        const mainPassenger = await getPassengerByTicketId(input);
+        const flightInfoArr = await getFlightInfoByTicketId(input);
+        data.flightInfo = flightInfoArr[0];
+        const coPassengers = await getCoPassengersByTicketId(input);
+
+        // puts the main passenger first then adds the other passengers
+        if (mainPassenger) {
+            data.passengers = [mainPassenger, ...coPassengers];
+        } else {
+            data.passengers = coPassengers;
+        }
+
+        data.staff = await getStaffByTicketId(input);
+    } 
+
+    else if (flightPattern.test(input)) {
+        flight["flightNumber"]=input;
         passenger["ticketId"]=0;
-        //also here
-        res.render("tabular_view");
-    } else{
+        data.flightInfo = await getFlightInfoByFlightNumber(input);
+        data.passengers = await getPassengersByFlightNumber(input);
+        data.staff = await getStaffByFlightNumber(input);
+    }
+    return data;
+}
+
+app.post("/guest/tabular-view", async (req, res)=>{
+    const guestInput = req.body.flightInput.trim();
+    globalFlightData = await fetchFlightData(guestInput);
+
+    if(!globalFlightData || !globalFlightData.flightInfo){
         error=true;
         res.redirect("/guest");
+    }
+    else{
+        res.render("tabular_view", globalFlightData);
     }
 });
 
@@ -104,7 +149,7 @@ app.get("/guest/flight-view", (req, res)=>{
     if(passenger["ticketId"]==-1||flight["flightNumber"]==="none"){
         res.redirect('/guest');
     } else {
-    res.render("flight_view");
+    res.render("flight_view", globalFlightData);
     }
 });
 
@@ -112,7 +157,7 @@ app.get("/guest/tabular-view", (req, res)=>{
      if(passenger["ticketId"]==-1||flight["flightNumber"]==="none"){
         res.redirect('/guest');
     } else {
-    res.render("tabular_view");
+    res.render("tabular_view", globalFlightData);
     }
 });
 
@@ -120,7 +165,7 @@ app.get("/guest/extended-view", (req, res)=>{
     if(passenger["ticketId"]==-1||flight["flightNumber"]==="none"){
         res.redirect('/guest');
     } else {
-    res.render("extended_view");
+    res.render("extended_view", globalFlightData);
     }
 });
 //end of passenger requests

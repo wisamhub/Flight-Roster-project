@@ -38,12 +38,12 @@
                     <div class="grid-cell header-cell">ARRIVAL TIME</div>
                 </div>
                 <div class="responsive-grid data-row">
-                     <div class="grid-cell data-cell">AA123</div>
-                     <div class="grid-cell data-cell">B12</div>
-                     <div class="grid-cell data-cell">JFK</div>
-                     <div class="grid-cell data-cell">10:00 AM</div>
-                     <div class="grid-cell data-cell">LAX</div>
-                     <div class="grid-cell data-cell">01:00 PM</div>
+                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.flight_number : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.gate : 'TBD' %></div>
+                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.dept_airport : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.dept_time : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.arrival_airport : 'N/A' %></div> 
+                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.arrival_time : 'N/A' %></div>
                 </div>
                 
             </section>

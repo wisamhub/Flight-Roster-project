@@ -30,10 +30,10 @@
                         <div class="grid-cell header-cell">DEPARTURE AIRPORT</div>
                         <div class="grid-cell header-cell">GATE</div>
                         
-                        <div class="grid-cell data-cell">AA123</div>
-                        <div class="grid-cell data-cell">11, 11, 2025</div>
-                        <div class="grid-cell data-cell">JFK</div>
-                        <div class="grid-cell data-cell">B14</div>
+                        <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.flight_number : 'N/A' %></div>
+                        <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.date.toISOString().split('T')[0] : 'N/A' %></div>
+                        <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.dept_airport : 'N/A' %></div>
+                        <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.gate : 'TBD' %></div>
                     </div>
                 </section>
         
@@ -46,10 +46,16 @@
                             <div class="grid-cell header-cell">NAME</div>
                             <div class="grid-cell header-cell">SEAT</div>
                             <div class="grid-cell header-cell">CLASS</div>
-                            
-                            <div class="grid-cell data-cell">Joe Burrow</div>
-                            <div class="grid-cell data-cell">21A</div>
-                            <div class="grid-cell data-cell">Economy</div>
+
+                        <% if (passengers && passengers.length > 0) { %>
+                            <% passengers.forEach(function(p) { %>
+                                <div class="grid-cell data-cell"><%= p.first_name %> <%= p.last_name %></div>
+                                <div class="grid-cell data-cell"><%= p.seat_number %></div>
+                                <div class="grid-cell data-cell"><%= p.class %></div>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="grid-cell data-cell" style="grid-column: span 3;">No passengers found</div>
+                        <% } %>
                         </div>
                     </section>
         
@@ -62,9 +68,15 @@
                             <div class="grid-cell header-cell">ROLE</div>
                             <div class="grid-cell header-cell">RANK</div>
 
-                            <div class="grid-cell data-cell">Jalon Walker</div>
-                            <div class="grid-cell data-cell">Pilot</div>
-                            <div class="grid-cell data-cell">Senior</div>
+                        <% if (staff && staff.length > 0) { %>
+                            <% staff.forEach(function(s) { %>
+                                <div class="grid-cell data-cell"><%= s.first_name %> <%= s.last_name %></div>
+                                <div class="grid-cell data-cell"><%= s.role %></div>
+                                <div class="grid-cell data-cell"><%= s.rank || 'N/A' %></div>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="grid-cell data-cell" style="grid-column: span 3;">No staff assigned</div>
+                        <% } %>
                         </div>
                     </section>
                 </div>
