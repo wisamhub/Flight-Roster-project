@@ -12,7 +12,8 @@ import {
   getFlightInfoByFlightNumber,
   getPassengersByFlightNumber,
   getStaffByFlightNumber,
-  getFlightsByStaffId
+  getFlightsByStaffId,
+  getStaffHashedPasswordById
 } from "./Database/connection.js";
 
 //variables, constants, functions
@@ -43,21 +44,17 @@ var globalFlightData = {
     staff: []
 };
 
-const password = "hello";
+const password = "staff5";
 //use this to get the hashing
 async function getHash(password) {
   const hash = await bcrypt.hash(password , saltRounds);
-  console.log("Hashed password:", hash);
+  console.log("Staff 5 Hashed password:", hash);
   return hash;
 }
 
 async function compare(password, hash){
  const match = await bcrypt.compare(password, hash);
- if(match){
-    console.log("yes");
- } else {
-    console.log("no");
- }
+ return match;
 };
 
 
@@ -73,6 +70,26 @@ app.set('view engine', 'ejs');
 app.get("/",(req, res)=>{
     res.render("home");
 })
+
+app.post("/login/flight-list", async (req, res) => {
+    const staffId = 1; // get inputed staff id
+    const inputPassword = "staff1"; // get inputed password
+    const hashedPassword = await getStaffHashedPasswordById(staffId);
+
+    if(!hashedPassword){
+        res.render("staff_login", {error:true});
+    }
+
+    let passwordIsCorrect = await compare(inputPassword, hashedPassword);
+    if(passwordIsCorrect){
+        let staffAssignedFlights = await getFlightsByStaffId(staffId);
+        res.render("flight_list", {employee: staffId, flights: staffAssignedFlights});
+    }
+    
+    else{
+        res.render("staff_login", {error:true});
+    }
+});
 
 app.get("/login", (req, res)=>{
     res.render("staff_login");

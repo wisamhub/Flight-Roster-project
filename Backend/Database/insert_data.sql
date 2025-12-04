@@ -28,11 +28,11 @@ INSERT INTO aircraft (aircraft_id, aircraft_type_id, pilot_capacity, cabin_crew_
 (7, 6, 4, 14, 384);
 
 INSERT INTO staff (staff_id, password_hash, first_name, last_name, birth_date, gender, nationality, role, rank) VALUES 
-(1, 'hash123', 'James', 'Bond', '1949-12-01', 'Male', 'Turkish', 'Pilot', 'Junior'),
-(2, 'hash456', 'John', 'Doe', '1979-05-21', 'Female', 'Turkish', 'Cabin Crew', 'Senior'),
-(3, 'hash789', 'Jackie', 'Chan', '1999-01-02', 'Male', 'Turkish', 'Pilot', 'Senior'),
-(4, 'hash321', 'Johannes', 'Keplar', '2005-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Trainee'),
-(5, 'hash321', 'Isaac', 'Newton', '2006-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Junior');
+(1, '$2b$10$9CvqUv.vOEhEYCiWJ3GfDe4A.NNMMhQDUwjxWs26ZkLZicZbs5d8i', 'James', 'Bond', '1949-12-01', 'Male', 'Turkish', 'Pilot', 'Junior'),
+(2, '$2b$10$XW9L.j4YgrBRkAoe.DKoUOBlhf3O4PyIpBiLpKq9JeDtShanPl8Cm', 'John', 'Doe', '1979-05-21', 'Female', 'Turkish', 'Cabin Crew', 'Senior'),
+(3, '$2b$10$FSUaBqZwmY0n17NLoJSJluoT2.g0ud7z3gey3I8N/Kw2EEIwP8daK', 'Jackie', 'Chan', '1999-01-02', 'Male', 'Turkish', 'Pilot', 'Senior'),
+(4, '$2b$10$LvgeT0To1I7cAj/Jum3SDeD9XG4cKdGl/h1p6s4w.MLbYqdR3fCZu', 'Johannes', 'Keplar', '2005-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Trainee'),
+(5, '$2b$10$yyucEh47HATd4mKFukVwtOe4iEY9RDcLcoDC2AQ027OBt1sFXo166', 'Isaac', 'Newton', '2006-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Junior');
 
 INSERT INTO licensed_on(staff_id, type_rating_id) VALUES
 (1,1),
