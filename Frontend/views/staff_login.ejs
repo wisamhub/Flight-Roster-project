@@ -34,47 +34,39 @@
         <!-- Subtitle -->
         <p class="subtitle">Use your Staff ID and password to continue.</p>
         
-        <!-- Staff ID Label -->
-        <p class="label-staff-id">Staff ID</p>
-        
-        <!-- Staff ID Input Box -->
-        <div class="input-box-1" data-name="Vector">
-            <div class="input-box-inner">
-                <svg class="svg-full" fill="none" preserveAspectRatio="none" viewBox="0 0 561 57">
-                    <path d="M544.5 0.5H16.5C7.66344 0.5 0.5 6.9471 0.5 14.9V41.3C0.5 49.2529 7.66344 55.7 16.5 55.7H544.5C553.337 55.7 560.5 49.2529 560.5 41.3V14.9C560.5 6.9471 553.337 0.5 544.5 0.5Z" fill="white" id="Vector" stroke="#E5E7EB" />
-                </svg>
+        <form action="/login/flight-list" method="POST">
+            
+            <p class="label-staff-id">Staff ID</p>
+            
+            <div class="input-box-1" data-name="Vector">
+                <div class="input-box-inner">
+                    <svg class="svg-full" fill="none" preserveAspectRatio="none" viewBox="0 0 561 57">
+                        <path d="M544.5 0.5H16.5C7.66344 0.5 0.5 6.9471 0.5 14.9V41.3C0.5 49.2529 7.66344 55.7 16.5 55.7H544.5C553.337 55.7 560.5 49.2529 560.5 41.3V14.9C560.5 6.9471 553.337 0.5 544.5 0.5Z" fill="white" id="Vector" stroke="#E5E7EB" />
+                    </svg>
+                </div>
+                <input type="number" name="staffId" id="staffId" placeholder="Your Staff ID" required />
             </div>
-        </div>
-        
-        <!-- Staff ID Placeholder -->
-        <p class="placeholder-staff-id">e.g., AT-1045</p>
-        
-        <!-- Password Label -->
-        <p class="label-password">Password</p>
-        
-        <!-- Password Input Box -->
-        <div class="input-box-2" data-name="Vector">
-            <div class="input-box-inner">
-                <svg class="svg-full" fill="none" preserveAspectRatio="none" viewBox="0 0 561 57">
-                    <path d="M544.5 0.5H16.5C7.66344 0.5 0.5 6.9471 0.5 14.9V41.3C0.5 49.2529 7.66344 55.7 16.5 55.7H544.5C553.337 55.7 560.5 49.2529 560.5 41.3V14.9C560.5 6.9471 553.337 0.5 544.5 0.5Z" fill="white" id="Vector" stroke="#E5E7EB" />
-                </svg>
+            
+            <p class="label-password">Password</p>
+            
+            <div class="input-box-2" data-name="Vector">
+                <div class="input-box-inner">
+                    <svg class="svg-full" fill="none" preserveAspectRatio="none" viewBox="0 0 561 57">
+                        <path d="M544.5 0.5H16.5C7.66344 0.5 0.5 6.9471 0.5 14.9V41.3C0.5 49.2529 7.66344 55.7 16.5 55.7H544.5C553.337 55.7 560.5 49.2529 560.5 41.3V14.9C560.5 6.9471 553.337 0.5 544.5 0.5Z" fill="white" id="Vector" stroke="#E5E7EB" />
+                    </svg>
+                </div>
+                <input type="password" name="password" id="password" placeholder="••••••••" required />
             </div>
-        </div>
-        
-        <!-- Password Placeholder -->
-        <p class="placeholder-password">••••••••</p>
-        
-        <!-- Sign In Button -->
-        <div class="button" data-name="Vector">
-            <svg class="svg-full" fill="none" preserveAspectRatio="none" viewBox="0 0 560 60">
-                <path d="M544 0H16C7.16344 0 0 6.4471 0 14.4V45.6C0 53.5529 7.16344 60 16 60H544C552.837 60 560 53.5529 560 45.6V14.4C560 6.4471 552.837 0 544 0Z" fill="#FF6B00" id="Vector" />
-            </svg>
-        </div>
-        
-        <!-- Sign In Text -->
-        <p class="button-text">Sign In</p>
-        
-        <!-- Copyright -->
+
+            <button type="submit" class="button" data-name="Vector">
+                <svg class="svg-full" fill="none" preserveAspectRatio="none" viewBox="0 0 560 60">
+                    <path d="M544 0H16C7.16344 0 0 6.4471 0 14.4V45.6C0 53.5529 7.16344 60 16 60H544C552.837 60 560 53.5529 560 45.6V14.4C560 6.4471 552.837 0 544 0Z" fill="#FF6B00" id="Vector" />
+                </svg>
+            </button>
+            
+            <p class="button-text">Sign In</p>
+
+        </form>
         <p class="copyright">© 2025 Anuti Airlines. All rights reserved.</p>
         
         <!-- Logo -->
