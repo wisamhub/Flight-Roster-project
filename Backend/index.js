@@ -13,7 +13,7 @@ import {
   getPassengersByFlightNumber,
   getStaffByFlightNumber,
   getFlightsByStaffId,
-  getStaffHashedPasswordById
+  getStaffInfoByStaffId
 } from "./Database/connection.js";
 
 //variables, constants, functions
@@ -74,16 +74,16 @@ app.get("/",(req, res)=>{
 app.post("/login/flight-list", async (req, res) => {
     const staffId = 1; // get inputed staff id
     const inputPassword = "staff1"; // get inputed password
-    const hashedPassword = await getStaffHashedPasswordById(staffId);
+    const staff = await getStaffInfoByStaffId(staffId);
 
-    if(!hashedPassword){
+    if(!staff){
         res.render("staff_login", {error:true});
     }
 
-    let passwordIsCorrect = await compare(inputPassword, hashedPassword);
+    let passwordIsCorrect = await compare(inputPassword, staff.password_hash);
     if(passwordIsCorrect){
         let staffAssignedFlights = await getFlightsByStaffId(staffId);
-        res.render("flight_list", {employee: staffId, flights: staffAssignedFlights});
+        res.render("flight_list", {employee: staff, flights: staffAssignedFlights});
     }
     
     else{

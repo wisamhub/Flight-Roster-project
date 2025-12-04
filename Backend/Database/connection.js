@@ -228,24 +228,23 @@ export const getFlightsByStaffId = async (staffId) => {
     }
 };
 
-// 2. Get the hashed password of the staff by using their staff id
-export const getStaffHashedPasswordById = async (staffId) => {
+// 2. Get the staff's information by using staff id
+export const getStaffInfoByStaffId = async (staffId) => {
     try {
         const query = `
-            SELECT password_hash 
-            FROM staff 
+            SELECT * FROM staff 
             WHERE staff_id = $1
         `;
         const values = [staffId];
         const result = await flight_roster_db.query(query, values);
         
         if (result.rows.length > 0) {
-            return result.rows[0].password_hash;
+            return result.rows[0];
         } else {
             return null;
         }
     } catch (err) {
-        console.error("Error fetching staff hashed password by staff id:", err);
+        console.error("Error fetching staff info by staff id:", err);
         throw err;
     }
 };
