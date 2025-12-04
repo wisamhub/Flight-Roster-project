@@ -72,8 +72,8 @@ app.get("/",(req, res)=>{
 })
 
 app.post("/login/flight-list", async (req, res) => {
-    const staffId = 1; // get inputed staff id
-    const inputPassword = "staff1"; // get inputed password
+    const staffId = req.body.staffId;
+    const inputPassword = req.body.password;
     const staff = await getStaffInfoByStaffId(staffId);
 
     if(!staff){
