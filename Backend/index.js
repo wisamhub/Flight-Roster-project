@@ -71,13 +71,20 @@ app.get("/",(req, res)=>{
     res.render("home");
 })
 
+let loginError = false;
+app.get("/login", (req, res)=>{
+    res.render("staff_login", {loginError});
+    loginError = false;
+})
+
 app.post("/login/flight-list", async (req, res) => {
     const staffId = req.body.staffId;
     const inputPassword = req.body.password;
     const staff = await getStaffInfoByStaffId(staffId);
 
     if(!staff){
-        res.render("staff_login", {error:true});
+        loginError = true;
+        res.redirect("/login");
     }
 
     let passwordIsCorrect = await compare(inputPassword, staff.password_hash);
@@ -87,16 +94,13 @@ app.post("/login/flight-list", async (req, res) => {
     }
     
     else{
-        res.render("staff_login", {error:true});
+        loginError = true;
+        res.redirect("/login");
     }
 });
 
-app.get("/login", (req, res)=>{
-    res.render("staff_login");
-})
-
 //start of passenger requests
-var error = false;
+var guestError = false;
 
 app.get("/guest", (req, res)=>{
     passenger = {
@@ -106,8 +110,8 @@ app.get("/guest", (req, res)=>{
     flight = { flightNumber: "none" };
     globalFlightData = { flightInfo: null, passengers: [], staff: [] };
 
-    res.render("flight_tracker", {error});
-    error = false;
+    res.render("flight_tracker", {guestError});
+    guestError = false;
 })
 
 // Sotres the ticket pattern and flight pattern
@@ -154,7 +158,7 @@ app.post("/guest/tabular-view", async (req, res)=>{
     globalFlightData = await fetchFlightData(guestInput);
 
     if(!globalFlightData || !globalFlightData.flightInfo){
-        error=true;
+        guestError=true;
         res.redirect("/guest");
     }
     else{
