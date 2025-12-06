@@ -29,7 +29,9 @@ var passenger = {
 
 //object of the staff currently using the software
 var staff = {
-    "Id":-1
+    "Id":-1,
+    staffInfo: [],
+    staffAssignedFlights: []
 };
 
 //other members in the selected flight
@@ -73,24 +75,38 @@ app.get("/",(req, res)=>{
 
 let loginError = false;
 app.get("/login", (req, res)=>{
+    staff = {
+        "Id": -1,
+        staffInfo: [],
+        staffAssignedFlights: []
+    };
     res.render("staff_login", {loginError});
     loginError = false;
+})
+
+app.get("/login/flight-list", (req, res)=>{
+    if(staff["Id"] == -1){
+        res.redirect("/login");
+    }
+    else{
+        res.render("flight-list", {employee: staff.staffInfo, flights: staff.staffAssignedFlights});
+    }
 })
 
 app.post("/login/flight-list", async (req, res) => {
     const staffId = req.body.staffId;
     const inputPassword = req.body.password;
-    const staff = await getStaffInfoByStaffId(staffId);
-
-    if(!staff){
+    staff.staffInfo = await getStaffInfoByStaffId(staffId);
+    
+    if(!staff.staffInfo){
         loginError = true;
         res.redirect("/login");
     }
-
-    let passwordIsCorrect = await compare(inputPassword, staff.password_hash);
+    staff["Id"] = staffId;
+    let passwordIsCorrect = await compare(inputPassword, staff.staffInfo.password_hash);
     if(passwordIsCorrect){
-        let staffAssignedFlights = await getFlightsByStaffId(staffId);
-        res.render("flight_list", {employee: staff, flights: staffAssignedFlights});
+        staff.staffAssignedFlights = await getFlightsByStaffId(staffId);
+        res.render("flight_list", {employee: staff.staffInfo, flights: staff.staffAssignedFlights});
     }
     
     else{
