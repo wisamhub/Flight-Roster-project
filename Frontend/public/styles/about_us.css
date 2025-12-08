@@ -1,0 +1,74 @@
+body{
+    background-color: #02193F;
+    margin: 0;
+    padding: 0;
+    font-family: "Corben", serif;
+    font-weight: 400;
+}
+
+#about_us_airport_image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1920 / 375;
+    object-fit: cover;
+    display: block;
+}
+
+h1{
+    color:#FF8A02;
+    font-size: 40px;
+    margin: 0 auto;
+}
+
+h2{
+    color:#FF8A02;
+    font-size: 24px;
+    width: 40%;
+    margin: 0 auto;
+}
+
+h3{
+    color:#E4A064;
+    font-size: 18px;
+    width: 35%;
+    margin: 0 auto;
+}
+
+#about_us_text_container{
+    text-align: center;
+}
+
+.section_list_row {
+    margin-top: 20px;
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+.about_us_section_item {
+    text-align: center;
+    color:#FF8A02
+}
+
+.circular_section_display {
+    background-color: rgb(255, 255, 255);
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 35px 12px #FF8A02;
+}
+
+
+.circular_section_display img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.about_us_section_item p {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 600;
+}

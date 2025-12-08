@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>About Us</title>
+    <link rel="stylesheet" href="/styles/about_us.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Corben:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <%- include("partials/navbar.ejs") %>
+    <section id="about_us_intro">
+        <img src="/assets/images/about_us_anuti_airlines.jpg" alt="Anuti Airlines Airplanes Parked Next To An Airport" id="about_us_airport_image">
+        <div id="about_us_text_container">
+        <h1>About Us</h1>
+        <h2>Learn More About Our  Airplanes, Crew, Founders, and Destinations.</h2>
+        <h3>Anuti Airlines connects the world through its global hub in 
+            Istanbul. We have the best airplanes out there; our aircrafts 
+            comfort and speed are unmatched.</h3>
+        </div>
+        <div class="section_list_row">
+            <div class="about_us_section_item">
+                <div class="circular_section_display"><img src="/assets/images/logo.png" alt="Airplane"></div>
+                <p>Airplanes</p>
+            </div>
+
+            <div class="about_us_section_item">
+                <div class="circular_section_display"><img src="/assets/images/crew_icon.png" alt="Cabin Crew Man"></div>
+                <p>Crew</p>
+            </div>
+
+            <div class="about_us_section_item">
+                <div class="circular_section_display"><img src="/assets/images/founders_icon.png" alt="three hands on top each other indicating teamwork"></div>
+                <p>Founders</p>
+            </div>
+
+            <div class="about_us_section_item">
+                <div class="circular_section_display"><img src="/assets/images/destinations_icon.png" alt="a point on a map"></div>
+                <p>Destinations</p>
+            </div>
+        </div>
+    </section>
+</body>

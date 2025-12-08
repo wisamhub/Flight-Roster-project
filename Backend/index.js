@@ -207,8 +207,12 @@ app.get("/guest/extended-view", (req, res)=>{
 });
 //end of passenger requests
 
+app.get("/about-us", (req, res)=>{
+    res.render("about_us");
+});
+
 app.get("/test", (req, res)=>{
-    res.render("flight_list");
+    res.render("about_us");
     //simple test URL will be removed later change file name to check certain pages too
 }) 
 
