@@ -59,16 +59,30 @@
                     <div class="grid-cell header-cell">NATIONALITY</div>
                     <div class="grid-cell header-cell">LANGUAGE</div>
                     <div class="grid-cell header-cell">AGE</div>
+                    <%function calculateAge(dateString) {
+                        const today = new Date();
+                        const birthDate = new Date(dateString);
+
+                        let age = today.getFullYear() - birthDate.getFullYear();
+                        const monthDiff = today.getMonth() - birthDate.getMonth();
+                        const dayDiff = today.getDate() - birthDate.getDate();
+
+                        // If the persons birthday hasn't happened yet
+                        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+                            age--;
+                        }
+                        return age; 
+                    } %>
                 </div>
                 <div class="responsive-grid data-row">
                     <% if (staff.cabinCrew && staff.cabinCrew.length > 0) { %>
                         <% staff.cabinCrew.forEach(function(c){ %>
-                    <div class="grid-cell data-cell"><%= c.first_name %> <%= c.last_name %></div>
-                     <div class="grid-cell data-cell"><%= c.gender %></div>
-                     <div class="grid-cell data-cell"><%= c.rank %></div>
-                     <div class="grid-cell data-cell"><%= c.nationality %></div>
-                     <div class="grid-cell data-cell"><%= c.speaks %></div>
-                     <div class="grid-cell data-cell"><%= c.birth_date %></div>
+                    <div class="grid-cell data-cell"><%= c.first_name || 'N/A' %> <%= c.last_name || 'N/A' %></div>
+                     <div class="grid-cell data-cell"><%= c.gender || 'N/A' %></div>
+                     <div class="grid-cell data-cell"><%= c.rank || 'N/A' %></div>
+                     <div class="grid-cell data-cell"><%= c.nationality || 'N/A' %></div>
+                     <div class="grid-cell data-cell"><%= c.speaks || 'N/A' %></div>
+                     <div class="grid-cell data-cell"><%= c.birth_date ? calculateAge(c.birth_date) : 'N/A' %></div>
                      <% })} %>
                 </div>
             </section>
@@ -88,12 +102,12 @@
                 <div class="responsive-grid data-row">
                     <% if (staff.pilot && staff.pilot.length > 0) { %>
                          <% staff.pilot.forEach(function(p) { %>
-                    <div class="grid-cell data-cell"><%= p.first_name %> <%= p.last_name %></div>
-                     <div class="grid-cell data-cell"><%= p.gender %></div>
-                     <div class="grid-cell data-cell"><%= p.rank %></div>
-                     <div class="grid-cell data-cell"><%= p.nationality %></div>
-                     <div class="grid-cell data-cell"><%= p.speaks %></div>
-                     <div class="grid-cell data-cell"><%= p.birth_date %></div>
+                    <div class="grid-cell data-cell"><%= p.first_name || 'N/A' %> <%= p.last_name || 'N/A' %></div>
+                     <div class="grid-cell data-cell"><%= p.gender || 'N/A' %></div>
+                     <div class="grid-cell data-cell"><%= p.rank || 'N/A' %></div>
+                     <div class="grid-cell data-cell"><%= p.nationality || 'N/A' %></div>
+                     <div class="grid-cell data-cell"><%= p.speaks || 'N/A' %></div>
+                     <div class="grid-cell data-cell"><%= p.birth_date ? calculateAge(p.birth_date) : 'N/A' %></div>
                      <% })} %>
                 </div>
             </section>
@@ -109,8 +123,8 @@
                 <div class="responsive-grid-chef data-row">
                     <% if (staff.chef && staff.chef.length > 0) { %>
                         <% staff.chef.forEach(function(c){ %>
-                    <div class="grid-cell data-cell"><%= c.first_name %> <%= c.last_name %></div>
-                     <div class="grid-cell data-cell" id="cook_description"><%= c.dishes %></div>
+                    <div class="grid-cell data-cell"><%= c.first_name || 'N/A' %> <%= c.last_name || 'N/A' %></div>
+                     <div class="grid-cell data-cell" id="cook_description"><%= c.dishes || 'N/A' %></div>
                     <% })} %>
                 </div>
             </section>
@@ -125,18 +139,18 @@
                     <div class="grid-cell header-cell">AGE</div>
                     <div class="grid-cell header-cell">NATIONALITY</div>
                     <div class="grid-cell header-cell">GENDER</div>
-                    <div class="grid-cell header-cell">NOTES</div>
+                    <div class="grid-cell header-cell">Allergens/Disabilities</div>
                 </div>
                 <div class="responsive-grid data-row">
                     <% if (passengers && passengers.length > 0) { %>
                         
                             <% passengers.forEach(function(p) { %>
-                        <div class="grid-cell data-cell"><%= p.passport_number %></div>
-                        <div class="grid-cell data-cell"><%= p.first_name %> <%= p.last_name %></div>
-                        <div class="grid-cell data-cell"><% p.age %></div>
-                        <div class="grid-cell data-cell"><% p.nationality %></div>
-                        <div class="grid-cell data-cell"><% p.gender %></div>
-                        <div class="grid-cell data-cell"><% p.notes %></div>
+                        <div class="grid-cell data-cell"><%= p.passport_number || 'N/A' %></div>
+                        <div class="grid-cell data-cell"><%= p.first_name || 'N/A' %> <%= p.last_name || 'N/A' %></div>
+                        <div class="grid-cell data-cell"><%= p.birth_date ? calculateAge(p.birth_date) : 'N/A' %></div>
+                        <div class="grid-cell data-cell"><%= p.nationality || 'N/A' %></div>
+                        <div class="grid-cell data-cell"><%= p.gender || 'N/A' %></div>
+                        <div class="grid-cell data-cell"><%= p.has_allergy || 'N/A' %> / <%= p.disability_assistance || 'N/A' %></div>
                     <% }) %>
                     <% } else { %>
                         <div class="grid-cell data-cell" style="grid-column: span 3;">No passengers found</div>

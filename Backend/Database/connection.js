@@ -23,6 +23,8 @@ export const getMainPassengerByTicketId = async (ticketId) => {
                 p.passport_number,
                 p.birth_date, 
                 p.nationality,
+                p.has_allergy,
+                p.disability_assistance,
                 ft.seat_number, 
                 ft.class,
                 ft.ticket_id
@@ -41,27 +43,29 @@ export const getMainPassengerByTicketId = async (ticketId) => {
 };
 
 // Get the other passengers on the flight by using ticket id
-export const getCoPassengersByTicketId = async (ticketId) => {
+export const getChildrenByGuardianTicketId = async (ticketId) => {
     try {
         const query = `
             SELECT DISTINCT
                 p.first_name, 
                 p.last_name,
+                p.gender,
+                p.passport_number,
                 p.birth_date,
                 p.gender, 
                 p.nationality,
-                ft.seat_number,
-                ft.class
+                p.has_allergy,
+                p.disability_assistance,
+                child_ft.seat_number,
+                child_ft.class
             FROM passenger p
-            JOIN flight_ticket ft ON p.passport_number = ft.passport_number
-            JOIN connected_flight cf ON ft.ticket_id = cf.ticket_id
-            WHERE cf.flight_id IN (
-                -- Subquery: Get the flight_ids associated with the user's ticket
-                SELECT flight_id 
-                FROM connected_flight 
-                WHERE ticket_id = $1
-            )
-            AND ft.ticket_id != $1; -- Exclude the passenger themselves
+            JOIN guardian g ON p.passport_number = g.child_passport
+            JOIN flight_ticket guardian_ft ON g.guardian_passport = guardian_ft.passport_number
+            JOIN flight_ticket child_ft ON p.passport_number = child_ft.passport_number
+            JOIN connected_flight cf_guardian ON guardian_ft.ticket_id = cf_guardian.ticket_id
+            JOIN connected_flight cf_child ON child_ft.ticket_id = cf_child.ticket_id
+            WHERE guardian_ft.ticket_id = $1
+            AND cf_guardian.flight_id = cf_child.flight_id;
         `;
         const values = [ticketId];
 
@@ -72,75 +76,6 @@ export const getCoPassengersByTicketId = async (ticketId) => {
         throw err;
     }
 };
-
-// Get all of the pilots on the flight by using ticket id
-export const getPilotByTicketId = async (ticketId) => {
-    try {
-        const query = `
-            SELECT 
-                s.first_name, 
-                s.last_name,
-                s.gender, 
-                s.birth_date,
-                s.role, 
-                s.rank,
-                s.nationality,
-                STRING_AGG(sp.language, ', ') as speaks
-            FROM staff s
-            JOIN operating_on op ON s.staff_id = op.staff_id
-            LEFT JOIN speaks sp ON s.staff_id = sp.staff_id
-            WHERE op.flight_id IN (
-                SELECT flight_id 
-                FROM connected_flight 
-                WHERE ticket_id = $1 AND s.role = 'Pilot'
-            )
-            GROUP BY s.staff_id
-        `;
-        
-        const values = [ticketId];
-
-        const result = await flight_roster_db.query(query, values);
-        return result.rows;
-    } catch (err) {
-        console.error("Error fetching pilots by ticket id:", err);
-        throw err;
-    }
-};
-
-// Get all of the cabin crew on the flight by using ticket id
-export const getCabinCrewByTicketId = async (ticketId) => {
-    try {
-        const query = `
-            SELECT 
-                s.first_name, 
-                s.last_name,
-                s.gender, 
-                s.birth_date,
-                s.role, 
-                s.rank,
-                s.nationality,
-                STRING_AGG(sp.language, ', ') as speaks
-            FROM staff s
-            JOIN operating_on op ON s.staff_id = op.staff_id
-            LEFT JOIN speaks sp ON s.staff_id = sp.staff_id
-            WHERE op.flight_id IN (
-                SELECT flight_id 
-                FROM connected_flight 
-                WHERE ticket_id = $1 AND s.role = 'Cabin Crew'
-            )
-            GROUP BY s.staff_id
-        `;
-        
-        const values = [ticketId];
-
-        const result = await flight_roster_db.query(query, values);
-        return result.rows;
-    } catch (err) {
-        console.error("Error fetching cabin crew by ticket id:", err);
-        throw err;
-    }
-};
-
 
 // Get the flight data by using ticket id
 export const getFlightInfoByTicketId = async (ticketId) => {
@@ -153,7 +88,8 @@ export const getFlightInfoByTicketId = async (ticketId) => {
                 f.dept_time,
                 f.arrival_time,
                 f.date,
-                f.status
+                f.status,
+                f.gate
             FROM flight f
             JOIN connected_flight cf ON f.flight_id = cf.flight_id
             WHERE cf.ticket_id = $1
@@ -161,7 +97,7 @@ export const getFlightInfoByTicketId = async (ticketId) => {
         const values = [ticketId];
 
         const result = await flight_roster_db.query(query, values);
-        return result.rows;
+        return result.rows[0];
     } catch (err) {
         console.error("Error fetching flight info by ticket:", err);
         throw err;
@@ -179,6 +115,8 @@ export const getPassengersByFlightNumber = async (flightNumber) => {
                 p.birth_date,
                 p.gender, 
                 p.nationality,
+                p.has_allergy,
+                p.disability_assistance,
                 ft.seat_number, 
                 ft.class
             FROM passenger p

@@ -7,10 +7,8 @@ import bcrypt from "bcrypt";
 import {
   getMainPassengerByTicketId,
   getFlightInfoByTicketId,
-  getCoPassengersByTicketId,
+  getChildrenByGuardianTicketId,
   getChefByFlightNumber,
-  getPilotByTicketId,
-  getCabinCrewByTicketId,
   getFlightInfoByFlightNumber,
   getPassengersByFlightNumber,
   getPilotByFlightNumber,
@@ -154,25 +152,33 @@ async function fetchFlightData(input) {
 
     if (ticketPattern.test(input)) {
         passenger["ticketId"]=input;
-        flight["flightNumber"] = "none";
         const mainPassenger = await getMainPassengerByTicketId(input);
-        const flightInfoArr = await getFlightInfoByTicketId(input);
+        data.flightInfo= await getFlightInfoByTicketId(input);
 
-        data.flightInfo = flightInfoArr[0];
-        const coPassengers = await getCoPassengersByTicketId(input);
-        
-        console.log(flightInfoArr)
-
-        // puts the main passenger first then adds the other passengers
-        if (mainPassenger) {
-            data.passengers = [mainPassenger, ...coPassengers];
-        } else {
-            data.passengers = coPassengers;
+        if(!data.flightInfo){
+            flight["flightNumber"] = "none";
+            data.staff.pilot = [];
+            data.staff.cabinCrew = [];
+            data.staff.chef = [];
+        }
+        else{
+            flight["flightNumber"] = data.flightInfo.flight_number;
+            data.staff.pilot = await getPilotByFlightNumber(data.flightInfo.flight_number);
+            data.staff.cabinCrew = await getCabinCrewByFlightNumber(data.flightInfo.flight_number);
+            data.staff.chef = await getChefByFlightNumber(data.flightInfo.flight_number);
         }
 
-        data.staff.pilot = await getPilotByFlightNumber(flightInfoArr[0]);
-        data.staff.cabinCrew = await getCabinCrewByFlightNumber(flightInfoArr[0]);
-        data.staff.chef = await getChefByFlightNumber(flightInfoArr[0]);
+        const mainPassengerChildren = await getChildrenByGuardianTicketId(input);
+        
+        // puts the main passenger first then adds the other passengers
+        if (mainPassenger) {
+            if(mainPassengerChildren.length > 0){
+                data.passengers = [mainPassenger, ...mainPassengerChildren];
+            }
+            else{
+                data.passengers = [mainPassenger];
+            }
+        }
     } 
 
     else if (flightPattern.test(input)) {
@@ -180,13 +186,20 @@ async function fetchFlightData(input) {
         passenger["ticketId"]=0;
         data.flightInfo = await getFlightInfoByFlightNumber(input);
         if(staff["Id"]==-1){
-            data.passengers = null;
+            data.passengers = [];
         } else {
-        data.passengers = await getPassengersByFlightNumber(input);
+            data.passengers = await getPassengersByFlightNumber(input);
         }
-        data.staff.pilot = await getPilotByFlightNumber(input);
-        data.staff.cabinCrew = await getCabinCrewByFlightNumber(input);
-        data.staff.chef = await getChefByFlightNumber(input);
+        if(!data.flightInfo){
+            data.staff.pilot = [];
+            data.staff.cabinCrew = [];
+            data.staff.chef = [];
+        }
+        else{
+            data.staff.pilot = await getPilotByFlightNumber(input);
+            data.staff.cabinCrew = await getCabinCrewByFlightNumber(input);
+            data.staff.chef = await getChefByFlightNumber(input);
+        }
     }
     return data;
 }
@@ -225,7 +238,6 @@ app.get("/guest/extended-view", (req, res)=>{
         res.redirect('/guest');
     } else {
     res.render("extended_view", globalFlightData);
-    console.log(globalFlightData);
     }
 });
 //end of passenger requests

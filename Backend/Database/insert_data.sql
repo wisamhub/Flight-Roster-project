@@ -71,24 +71,27 @@ INSERT INTO operating_on(staff_id,flight_id) VALUES
 (2,2);
 
 INSERT INTO passenger(passport_number, first_name, last_name, birth_date, gender, has_allergy, disability_assistance, nationality) VALUES
-('N1289','John','smith', '1949-12-01', 'Male', 'Yes peanut allergy', 'Yes wheelchair','Turkish'),
-('N5678','Joe','biden', '1979-05-21', 'Female', 'No', 'Yes blind','American'),
-('N7826','Ben','ten', '2000-11-24', 'Male', 'Yes dairy', 'No','Turkish'),
-('N9611','Tom','cruise', '1967-02-16', 'Male', 'No', 'No','Turkish'),
-('N8177','Jack','willer', '1915-05-09', 'Male', 'No', 'Yes deaf ','Turkish');
+('N1289','John','smith', '1949-12-01', 'Male', 'Peanuts', 'Wheelchair','Turkish'),
+('N5678','Joe','biden', '1979-05-21', 'Female', 'None', 'Blind, deaf','American'),
+('N7826','Ben','ten', '2000-11-24', 'Male', 'Dairy', 'None','Turkish'),
+('N9611','Tom','cruise', '1967-02-16', 'Male', 'None', 'None','Turkish'),
+('N8177','Jack','willer', '1915-05-09', 'Male', 'None', 'Deaf ','Turkish');
 
 INSERT INTO flight_ticket(ticket_id, passport_number, seat_number, class) VALUES
 (111111111,'N1289','12A', 'Economy'),
 (222222222,'N5678', '24B', 'Economy'),
 (333333333,'N7826', '32A', 'Economy'),
-(444444444,'N9611', '01C', 'Business');
+(444444444,'N9611', '01C', 'Business'),
+(555555555, 'N9611', '21A', 'Economy');
 /* flight ticket IDs must be exactly 9 digits*/
 
 INSERT INTO connected_flight(flight_id, ticket_id) VALUES
 (1,111111111),
-(2,111111111),
 (1,222222222),
-(2,222222222);
+(1,555555555),
+(2,333333333),
+(2,444444444);
+
 
 INSERT INTO guardian(guardian_passport, child_passport) VALUES
 ('N1289','N5678'),

@@ -197,6 +197,6 @@ body {
 .continue-text { position: absolute; bottom: 4.5%; right: 7%; font-family: 'Inter', sans-serif; font-weight: 500; color: white; pointer-events: none; }
 
 .tabular-view { width: 100%; display: flex; flex-direction: column; }
-.split-section-container { display: flex; gap: 2rem; width: 100%; }
+.split-section-container { display: flex; gap: 2rem; width: 100%; align-items: flex-start;}
 .split-section-container .info-section { flex: 1; }
 @media (max-width: 1024px) { .split-section-container { flex-direction: column; gap: 0; } }
