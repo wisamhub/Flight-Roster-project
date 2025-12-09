@@ -55,9 +55,11 @@
                         <path d="M544.5 0.5H16.5C7.66344 0.5 0.5 6.9471 0.5 14.9V41.3C0.5 49.2529 7.66344 55.7 16.5 55.7H544.5C553.337 55.7 560.5 49.2529 560.5 41.3V14.9C560.5 6.9471 553.337 0.5 544.5 0.5Z" fill="white" id="Vector" stroke="#E5E7EB" />
                     </svg>
                 </div>
-                <input type="password" name="password" id="password" placeholder="••••••••" required />
+                <input type="password" name="password" id="password" placeholder="••••••••" required />          
             </div>
-
+            <% if (locals.loginError){%>
+           <p id="label">staff id or password is incorrect</p> 
+            <% } %>
             <button type="submit" class="button" data-name="Vector">
                 <svg class="svg-full" fill="none" preserveAspectRatio="none" viewBox="0 0 560 60">
                     <path d="M544 0H16C7.16344 0 0 6.4471 0 14.4V45.6C0 53.5529 7.16344 60 16 60H544C552.837 60 560 53.5529 560 45.6V14.4C560 6.4471 552.837 0 544 0Z" fill="#FF6B00" id="Vector" />

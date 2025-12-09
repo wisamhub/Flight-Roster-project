@@ -78,11 +78,11 @@ INSERT INTO passenger(passport_number, first_name, last_name, birth_date, gender
 ('N8177','Jack','willer', '1915-05-09', 'Male', 'No', 'Yes deaf ','Turkish');
 
 INSERT INTO flight_ticket(ticket_id, passport_number, seat_number, class) VALUES
-(1,'N1289','12A', 'Economy'),
-(2,'N5678', '24B', 'Economy'),
-(3,'N7826', '32A', 'Economy'),
-(4,'N9611', '01C', 'Business');
-
+(111111111,'N1289','12A', 'Economy'),
+(222222222,'N5678', '24B', 'Economy'),
+(333333333,'N7826', '32A', 'Economy'),
+(444444444,'N9611', '01C', 'Business');
+/* flight ticket IDs must be exactly 9 digits*/
 
 INSERT INTO connected_flight(flight_id, ticket_id) VALUES
 (1,1),
