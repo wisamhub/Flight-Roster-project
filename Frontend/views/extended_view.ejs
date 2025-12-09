@@ -61,12 +61,15 @@
                     <div class="grid-cell header-cell">AGE</div>
                 </div>
                 <div class="responsive-grid data-row">
-                    <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
+                    <% if (staff.cabinCrew && staff.cabinCrew.length > 0) { %>
+                        <% staff.cabinCrew.forEach(function(c){ %>
+                    <div class="grid-cell data-cell"><%= c.first_name %> <%= c.last_name %></div>
+                     <div class="grid-cell data-cell"><%= c.gender %></div>
+                     <div class="grid-cell data-cell"><%= c.rank %></div>
+                     <div class="grid-cell data-cell"><%= c.nationality %></div>
+                     <div class="grid-cell data-cell"><%= c.speaks %></div>
+                     <div class="grid-cell data-cell"><%= c.birth_date %></div>
+                     <% })} %>
                 </div>
             </section>
 
@@ -83,12 +86,15 @@
                     <div class="grid-cell header-cell">AGE</div>
                 </div>
                 <div class="responsive-grid data-row">
-                    <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
+                    <% if (staff.pilot && staff.pilot.length > 0) { %>
+                         <% staff.pilot.forEach(function(p) { %>
+                    <div class="grid-cell data-cell"><%= p.first_name %> <%= p.last_name %></div>
+                     <div class="grid-cell data-cell"><%= p.gender %></div>
+                     <div class="grid-cell data-cell"><%= p.rank %></div>
+                     <div class="grid-cell data-cell"><%= p.nationality %></div>
+                     <div class="grid-cell data-cell"><%= p.speaks %></div>
+                     <div class="grid-cell data-cell"><%= p.birth_date %></div>
+                     <% })} %>
                 </div>
             </section>
 
@@ -96,21 +102,16 @@
                 <div class="section-header">
                     <h2>CHEFS</h2>
                 </div>
-                <div class="responsive-grid grid-header-row compact-text">
-                    <div class="grid-cell header-cell">NAME</div>
-                    <div class="grid-cell header-cell">GENDER</div>
-                    <div class="grid-cell header-cell">RANK</div>
-                    <div class="grid-cell header-cell">NATIONALITY</div>
-                    <div class="grid-cell header-cell">LANG</div>
-                    <div class="grid-cell header-cell">AGE</div>
+                <div class="responsive-grid-chef grid-header-row compact-text">
+                    <div class="grid-cell header-cell" >NAME</div>
+                    <div class="grid-cell header-cell" id="cook_title">CAN COOK</div>
                 </div>
-                <div class="responsive-grid data-row">
-                    <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
+                <div class="responsive-grid-chef data-row">
+                    <% if (staff.chef && staff.chef.length > 0) { %>
+                        <% staff.chef.forEach(function(c){ %>
+                    <div class="grid-cell data-cell"><%= c.first_name %> <%= c.last_name %></div>
+                     <div class="grid-cell data-cell" id="cook_description"><%= c.dishes %></div>
+                    <% })} %>
                 </div>
             </section>
 
@@ -127,12 +128,19 @@
                     <div class="grid-cell header-cell">NOTES</div>
                 </div>
                 <div class="responsive-grid data-row">
-                    <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
-                     <div class="grid-cell data-cell">test</div>
+                    <% if (passengers && passengers.length > 0) { %>
+                        
+                            <% passengers.forEach(function(p) { %>
+                        <div class="grid-cell data-cell"><%= p.passport_number %></div>
+                        <div class="grid-cell data-cell"><%= p.first_name %> <%= p.last_name %></div>
+                        <div class="grid-cell data-cell"><% p.age %></div>
+                        <div class="grid-cell data-cell"><% p.nationality %></div>
+                        <div class="grid-cell data-cell"><% p.gender %></div>
+                        <div class="grid-cell data-cell"><% p.notes %></div>
+                    <% }) %>
+                    <% } else { %>
+                        <div class="grid-cell data-cell" style="grid-column: span 3;">No passengers found</div>
+                    <% } %>
                 </div>
             </section>
 

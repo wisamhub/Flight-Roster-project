@@ -8,6 +8,7 @@ import {
   getMainPassengerByTicketId,
   getFlightInfoByTicketId,
   getCoPassengersByTicketId,
+  getChefByFlightNumber,
   getPilotByTicketId,
   getCabinCrewByTicketId,
   getFlightInfoByFlightNumber,
@@ -136,7 +137,7 @@ app.get("/guest", (req, res)=>{
     guestError = false;
 })
 
-// Sotres the ticket pattern and flight pattern
+// Stores the ticket pattern and flight pattern
 const ticketPattern = /^\d{9}$/;        // 9 digits only
 const flightPattern = /^AN\d{3}$/i;     // starts with AN, then 3 digits
 
@@ -154,10 +155,13 @@ async function fetchFlightData(input) {
     if (ticketPattern.test(input)) {
         passenger["ticketId"]=input;
         flight["flightNumber"] = "none";
-        const mainPassenger = await getPassengerByTicketId(input);
+        const mainPassenger = await getMainPassengerByTicketId(input);
         const flightInfoArr = await getFlightInfoByTicketId(input);
+
         data.flightInfo = flightInfoArr[0];
         const coPassengers = await getCoPassengersByTicketId(input);
+        
+        console.log(flightInfoArr)
 
         // puts the main passenger first then adds the other passengers
         if (mainPassenger) {
@@ -166,16 +170,23 @@ async function fetchFlightData(input) {
             data.passengers = coPassengers;
         }
 
-        data.staff = await getStaffByTicketId(input);
+        data.staff.pilot = await getPilotByFlightNumber(flightInfoArr[0]);
+        data.staff.cabinCrew = await getCabinCrewByFlightNumber(flightInfoArr[0]);
+        data.staff.chef = await getChefByFlightNumber(flightInfoArr[0]);
     } 
 
     else if (flightPattern.test(input)) {
         flight["flightNumber"]=input;
         passenger["ticketId"]=0;
         data.flightInfo = await getFlightInfoByFlightNumber(input);
+        if(staff["Id"]==-1){
+            data.passengers = null;
+        } else {
         data.passengers = await getPassengersByFlightNumber(input);
+        }
         data.staff.pilot = await getPilotByFlightNumber(input);
         data.staff.cabinCrew = await getCabinCrewByFlightNumber(input);
+        data.staff.chef = await getChefByFlightNumber(input);
     }
     return data;
 }
@@ -214,6 +225,7 @@ app.get("/guest/extended-view", (req, res)=>{
         res.redirect('/guest');
     } else {
     res.render("extended_view", globalFlightData);
+    console.log(globalFlightData);
     }
 });
 //end of passenger requests

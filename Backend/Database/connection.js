@@ -19,7 +19,9 @@ export const getMainPassengerByTicketId = async (ticketId) => {
             SELECT 
                 p.first_name, 
                 p.last_name, 
-                p.passport_number, 
+                p.gender,
+                p.passport_number,
+                p.birth_date, 
                 p.nationality,
                 ft.seat_number, 
                 ft.class,
@@ -44,7 +46,9 @@ export const getCoPassengersByTicketId = async (ticketId) => {
         const query = `
             SELECT DISTINCT
                 p.first_name, 
-                p.last_name, 
+                p.last_name,
+                p.birth_date,
+                p.gender, 
                 p.nationality,
                 ft.seat_number,
                 ft.class
@@ -75,7 +79,9 @@ export const getPilotByTicketId = async (ticketId) => {
         const query = `
             SELECT 
                 s.first_name, 
-                s.last_name, 
+                s.last_name,
+                s.gender, 
+                s.birth_date,
                 s.role, 
                 s.rank,
                 s.nationality,
@@ -107,7 +113,9 @@ export const getCabinCrewByTicketId = async (ticketId) => {
         const query = `
             SELECT 
                 s.first_name, 
-                s.last_name, 
+                s.last_name,
+                s.gender, 
+                s.birth_date,
                 s.role, 
                 s.rank,
                 s.nationality,
@@ -132,6 +140,7 @@ export const getCabinCrewByTicketId = async (ticketId) => {
         throw err;
     }
 };
+
 
 // Get the flight data by using ticket id
 export const getFlightInfoByTicketId = async (ticketId) => {
@@ -166,7 +175,9 @@ export const getPassengersByFlightNumber = async (flightNumber) => {
             SELECT 
                 p.first_name, 
                 p.last_name, 
-                p.passport_number, 
+                p.passport_number,
+                p.birth_date,
+                p.gender, 
                 p.nationality,
                 ft.seat_number, 
                 ft.class
@@ -193,6 +204,8 @@ export const getPilotByFlightNumber = async (flightNumber) => {
             SELECT 
                 s.first_name, 
                 s.last_name, 
+                s.gender,
+                s.birth_date,
                 s.role, 
                 s.rank,
                 s.nationality,
@@ -221,6 +234,8 @@ export const getCabinCrewByFlightNumber = async (flightNumber) => {
             SELECT 
                 s.first_name, 
                 s.last_name, 
+                s.gender,
+                s.birth_date,
                 s.role, 
                 s.rank,
                 s.nationality,
@@ -242,7 +257,38 @@ export const getCabinCrewByFlightNumber = async (flightNumber) => {
     }
 };
 
+// Get all of the chefs on a flight using flight number
+export const getChefByFlightNumber = async (flightNumber) => {
+        try {
+        const query = `
+                    SELECT 
+            s.first_name, 
+            s.last_name, 
+            STRING_AGG(DISTINCT d.dish_name, ', ') AS dishes
+        FROM staff s 
+        JOIN operating_on op ON s.staff_id = op.staff_id
+        JOIN flight f ON op.flight_id = f.flight_id
+        LEFT JOIN can_cook cc ON s.staff_id = cc.staff_id
+        LEFT JOIN dish d ON cc.dish_id = d.dish_id
+        WHERE f.flight_number = $1 
+          AND s.role = 'Cabin Crew' 
+          AND EXISTS (
+          SELECT 1
+          FROM can_cook
+          WHERE cc.staff_id = s.staff_id
+          )
+        GROUP BY s.staff_id;
 
+        `;
+        const values = [flightNumber];
+
+        const result = await flight_roster_db.query(query, values);
+        return result.rows;
+    } catch (err) {
+        console.error("Error fetching cabin crew by flight number:", err);
+        throw err;
+    }
+}
 // Get the flight data by using flight number
 export const getFlightInfoByFlightNumber = async (flightNumber) => {
     try {

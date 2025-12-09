@@ -85,10 +85,10 @@ INSERT INTO flight_ticket(ticket_id, passport_number, seat_number, class) VALUES
 /* flight ticket IDs must be exactly 9 digits*/
 
 INSERT INTO connected_flight(flight_id, ticket_id) VALUES
-(1,1),
-(2,1),
-(1,2),
-(2,2);
+(1,111111111),
+(2,111111111),
+(1,222222222),
+(2,222222222);
 
 INSERT INTO guardian(guardian_passport, child_passport) VALUES
 ('N1289','N5678'),
