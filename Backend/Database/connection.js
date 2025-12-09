@@ -69,8 +69,8 @@ export const getCoPassengersByTicketId = async (ticketId) => {
     }
 };
 
-// Get all of the staff on the flight by using ticket id
-export const getStaffByTicketId = async (ticketId) => {
+// Get all of the pilots on the flight by using ticket id
+export const getPilotByTicketId = async (ticketId) => {
     try {
         const query = `
             SELECT 
@@ -86,7 +86,7 @@ export const getStaffByTicketId = async (ticketId) => {
             WHERE op.flight_id IN (
                 SELECT flight_id 
                 FROM connected_flight 
-                WHERE ticket_id = $1
+                WHERE ticket_id = $1 AND s.role = 'Pilot'
             )
             GROUP BY s.staff_id
         `;
@@ -96,7 +96,39 @@ export const getStaffByTicketId = async (ticketId) => {
         const result = await flight_roster_db.query(query, values);
         return result.rows;
     } catch (err) {
-        console.error("Error fetching flight staff by ticket:", err);
+        console.error("Error fetching pilots by ticket id:", err);
+        throw err;
+    }
+};
+
+// Get all of the cabin crew on the flight by using ticket id
+export const getCabinCrewByTicketId = async (ticketId) => {
+    try {
+        const query = `
+            SELECT 
+                s.first_name, 
+                s.last_name, 
+                s.role, 
+                s.rank,
+                s.nationality,
+                STRING_AGG(sp.language, ', ') as speaks
+            FROM staff s
+            JOIN operating_on op ON s.staff_id = op.staff_id
+            LEFT JOIN speaks sp ON s.staff_id = sp.staff_id
+            WHERE op.flight_id IN (
+                SELECT flight_id 
+                FROM connected_flight 
+                WHERE ticket_id = $1 AND s.role = 'Cabin Crew'
+            )
+            GROUP BY s.staff_id
+        `;
+        
+        const values = [ticketId];
+
+        const result = await flight_roster_db.query(query, values);
+        return result.rows;
+    } catch (err) {
+        console.error("Error fetching cabin crew by ticket id:", err);
         throw err;
     }
 };
@@ -154,8 +186,8 @@ export const getPassengersByFlightNumber = async (flightNumber) => {
     }
 };
 
-// Get all of the staff on the flight by using flight number
-export const getStaffByFlightNumber = async (flightNumber) => {
+// Get all of the pilots on the flight by using flight number
+export const getPilotByFlightNumber = async (flightNumber) => {
     try {
         const query = `
             SELECT 
@@ -169,7 +201,7 @@ export const getStaffByFlightNumber = async (flightNumber) => {
             JOIN operating_on op ON s.staff_id = op.staff_id
             JOIN flight f ON op.flight_id = f.flight_id
             LEFT JOIN speaks sp ON s.staff_id = sp.staff_id
-            WHERE f.flight_number = $1
+            WHERE f.flight_number = $1 AND s.role = 'Pilot'
             GROUP BY s.staff_id
         `;
         const values = [flightNumber];
@@ -177,10 +209,39 @@ export const getStaffByFlightNumber = async (flightNumber) => {
         const result = await flight_roster_db.query(query, values);
         return result.rows;
     } catch (err) {
-        console.error("Error fetching staff by flight number:", err);
+        console.error("Error fetching pilots by flight number:", err);
         throw err;
     }
 };
+
+// Get all of the cabin crew on the flight by using flight number
+export const getCabinCrewByFlightNumber = async (flightNumber) => {
+    try {
+        const query = `
+            SELECT 
+                s.first_name, 
+                s.last_name, 
+                s.role, 
+                s.rank,
+                s.nationality,
+                STRING_AGG(sp.language, ', ') as speaks
+            FROM staff s 
+            JOIN operating_on op ON s.staff_id = op.staff_id
+            JOIN flight f ON op.flight_id = f.flight_id
+            LEFT JOIN speaks sp ON s.staff_id = sp.staff_id
+            WHERE f.flight_number = $1 AND s.role = 'Cabin Crew'
+            GROUP BY s.staff_id
+        `;
+        const values = [flightNumber];
+
+        const result = await flight_roster_db.query(query, values);
+        return result.rows;
+    } catch (err) {
+        console.error("Error fetching cabin crew by flight number:", err);
+        throw err;
+    }
+};
+
 
 // Get the flight data by using flight number
 export const getFlightInfoByFlightNumber = async (flightNumber) => {

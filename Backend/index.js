@@ -8,10 +8,12 @@ import {
   getMainPassengerByTicketId,
   getFlightInfoByTicketId,
   getCoPassengersByTicketId,
-  getStaffByTicketId,
+  getPilotByTicketId,
+  getCabinCrewByTicketId,
   getFlightInfoByFlightNumber,
   getPassengersByFlightNumber,
-  getStaffByFlightNumber,
+  getPilotByFlightNumber,
+  getCabinCrewByFlightNumber,
   getFlightsByStaffId,
   getStaffInfoByStaffId
 } from "./Database/connection.js";
@@ -43,7 +45,11 @@ var flight = {
 var globalFlightData = {
     flightInfo: null,
     passengers: [],
-    staff: []
+    staff: {
+        chef: [],
+        cabinCrew: [],
+        pilot: [] 
+    }
 };
 
 const password = "staff5";
@@ -138,7 +144,11 @@ async function fetchFlightData(input) {
     let data = {
         flightInfo: null,
         passengers: [],
-        staff: []
+        staff: {
+            chef: [],
+            cabinCrew: [],
+            pilot: [] 
+    }
     };
 
     if (ticketPattern.test(input)) {
@@ -164,7 +174,8 @@ async function fetchFlightData(input) {
         passenger["ticketId"]=0;
         data.flightInfo = await getFlightInfoByFlightNumber(input);
         data.passengers = await getPassengersByFlightNumber(input);
-        data.staff = await getStaffByFlightNumber(input);
+        data.staff.pilot = await getPilotByFlightNumber(input);
+        data.staff.cabinCrew = await getCabinCrewByFlightNumber(input);
     }
     return data;
 }
