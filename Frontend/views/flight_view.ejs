@@ -7,13 +7,20 @@
   <link rel="stylesheet" href="/styles/flight_view.css">
 </head>
 <body>
-  <main class="content">
-    <h1>Flight View</h1>
+  <%- include("partials/navbar.ejs") %>
+
+  <div class="content-wrapper">
+    <nav class="nav-container">
+              <button class="nav-item active">FLIGHT VIEW</button>
+              <button class="nav-item" onclick="window.location.href='/guest/tabular-view'">TABULAR VIEW</button>
+              <button class="nav-item" onclick="window.location.href='/guest/extended-view'">EXTENDED VIEW</button>
+    </nav>
+    
 
     <div class="cabin-wrapper">
-      <!-- BUSINESS -->
-      <section class="cabin cabin-business" aria-label="Business cabin">
-        <h2 class="cabin-title">Business</h2>
+        <!-- BUSINESS -->
+        <section class="cabin cabin-business" aria-label="Business cabin">
+          <h2 class="cabin-title">Business</h2>
 
         <div class="seat-grid">
           <!-- Sol blok -->
@@ -189,7 +196,7 @@
         </span>
       </div>
     </div>
-  </main>
+  </div>
 
   <script src="/Scripts/flight_view.js"></script>
 </body>
