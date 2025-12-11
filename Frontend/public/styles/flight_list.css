@@ -56,7 +56,7 @@ body {
 
 .flight-card {
     background-color: #02193f;
-    border: 3px solid white;
+    border: 3px solid #ff8a02;
     border-radius: 40px;
     display: flex;
     flex-direction: row;
@@ -114,7 +114,8 @@ body {
 }
 
 .large { 
-    font-size: clamp(18px, 2vw, 28px); 
+    font-size: clamp(18px, 2vw, 28px);
+    margin-right:50px; 
 }
 
 .time  { 
@@ -139,4 +140,10 @@ body {
     text-transform: uppercase;
     font-size: clamp(12px, 1.2vw, 16px);
     font-weight: 400;
+}
+
+button {
+    background-color: #02193f;
+    margin: 0px;
+    border-radius:50%;
 }

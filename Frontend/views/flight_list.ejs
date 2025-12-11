@@ -9,31 +9,37 @@
 <body>
     <%- include("partials/navbar.ejs") %>
     <div class="employee-header">
-        <div class="field"><span class="label">Employee Name:</span></div>
-        <div class="field"><span class="label">Employee ID:</span></div>
+        <div class="field"><span class="label">Employee Name: <%= employee.first_name %> <%= employee.last_name%></span></div>
+        <div class="field"><span class="label">Employee ID: <%= employee.staff_id %></span></div>
     </div>
     <div class="flight-list-container">
         <h2 class="section-title">Assigned Flights</h2>
-        <% for(var i = 0;i<10;i++){ %>
-        <div class="flight-card" onclick="window.location.href='/staff/flight-view'">
-            <div class="group-airline">
-                <span class="highlight large">AA5455</span>
-            </div>
-            <div class="center-section">
-                <div class="info-col">
-                    <span class="highlight time">9:55 - 12:15</span>
-                    <span class="sub-text date">Sat Sep 13th 2025</span>
+        <% if (flights && flights.length > 0) { %>
+            <% flights.forEach(function(flight) { %>
+        <form action="/staff/tabular-view" method="POST">
+            <input type="hidden" name="flight_number" value="<%= flight.flight_number %>">
+            <button type="submit">
+                <div class="flight-card" >
+                    <div class="group-airline">
+                        <span class="highlight large"><%= flight.flight_number%> </span>
+                    </div>
+                    <div class="center-section">
+                        <div class="info-col">
+                            <span class="highlight time"><%= flight.dept_time %> - <%= flight.arrival_time %></span>
+                            <span class="sub-text date"><%= flight.date.toISOString().split('T')[0]%> </span>
+                        </div>
+                        <div class="info-col">
+                            <span class="highlight duration"><%= flight.status %></span>
+                            <span class="sub-text route"><%= flight.dept_airport %> - <%= flight.arrival_airport %></span>
+                        </div>
+                    </div>
+                    <div class="group-status">
+                        <span class="status-text">Direct</span>
+                    </div>
                 </div>
-                <div class="info-col">
-                    <span class="highlight duration">3h 20m</span>
-                    <span class="sub-text route">Istanbul (SAW) &rarr; Berlin (BER)</span>
-                </div>
-            </div>
-            <div class="group-status">
-                <span class="status-text">Direct</span>
-            </div>
-        </div>
-        <% } %>
+            </button>
+        </form>
+        <% })} %>
     </div>
 
 </body>

@@ -114,6 +114,7 @@ async function fetchFlightData(input) {
             data.staff.chef = await getChefByFlightNumber(input);
         }
     }
+    console.log(staff["Id"]);
     return data;
 }
 
@@ -176,6 +177,7 @@ app.post("/login/flight-list", async (req, res) => {
     if(passwordIsCorrect){
         staff.staffAssignedFlights = await getFlightsByStaffId(staffId);
         res.render("flight_list", {employee: staff.staffInfo, flights: staff.staffAssignedFlights});
+        console.log(staff.staffAssignedFlights);
     }
     
     else{
@@ -185,6 +187,23 @@ app.post("/login/flight-list", async (req, res) => {
 });
 
 
+app.post("/staff/tabular-view", async (req, res) => {
+    const flight_number = req.body.flight_number;
+    globalFlightData = await fetchFlightData(flight_number);
+    res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers});
+})
+
+app.get("/staff/extended-view", async (req,res) => {
+    res.render("extended_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers})
+})
+
+app.get("/staff/tabular-view", async (req,res) => {
+    res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers})
+})
+
+app.get("/staff/flight-view", async (req,res) => {
+    res.render("flight_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers})
+})
 
 //passenger exclusive requests
 var guestError = false;
