@@ -145,18 +145,5 @@ body {
 
 
 
-.legend-item { position: absolute; bottom: 15%; width: 24px; height: 24px; }
-.legend-text { position: absolute; bottom: 15.5%; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-gray); }
-.legend-free { left: 38%; } .legend-free-text { left: 40%; }
-.legend-taken { left: 48%; } .legend-taken-text { left: 50%; }
-.legend-selected { left: 58%; } .legend-selected-text { left: 60%; }
-.divider-line { position: absolute; bottom: 10%; left: 5%; right: 5%; height: 1px; background: var(--border-gray); }
-.selected-seat-text { position: absolute; bottom: 4%; left: 5%; font-family: 'Inter', sans-serif; font-size: 16px; color: var(--deep-blue); font-weight: 700; }
-.continue-button { position: absolute; bottom: 3%; right: 5%; width: 140px; height: 45px; cursor: pointer; }
-.continue-button svg { width: 100%; height: 100%; display: block; }
-.continue-text { position: absolute; bottom: 4.5%; right: 7%; font-family: 'Inter', sans-serif; font-weight: 500; color: white; pointer-events: none; }
 
-.tabular-view { width: 100%; display: flex; flex-direction: column; }
-.split-section-container { display: flex; gap: 2rem; width: 100%; align-items: flex-start;}
-.split-section-container .info-section { flex: 1; }
-@media (max-width: 1024px) { .split-section-container { flex-direction: column; gap: 0; } }
+

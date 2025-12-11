@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabular View - Responsive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/guest_view.css">
+</head>
+<body>
+    <%- include("partials/navbar.ejs") %>
+    <div class="main-app-container">
+        <main class="content-area">
+            <div class="tabular-view">
+                
+                <section class="info-section">
+                    <div class="section-header">
+                        <h2 class="section-title">FLIGHT INFORMATION</h2>
+                    </div>
+                    <div class="responsive-grid col-4">
+                        <div class="grid-cell header-cell">FLIGHT NUMBER</div>
+                        <div class="grid-cell header-cell">DATE</div>
+                        <div class="grid-cell header-cell">DEPARTURE AIRPORT</div>
+                        <div class="grid-cell header-cell">GATE</div>
+                       
+                        <div class="grid-cell data-cell"><%= flightInfo.flight_number ? flightInfo.flight_number : 'N/A' %></div>
+                        <div class="grid-cell data-cell"><%= flightInfo.date ? flightInfo.date.toISOString().split('T')[0] : 'N/A'%></div>
+                        <div class="grid-cell data-cell"><%= flightInfo.dept_airport ? flightInfo.dept_airport : 'N/A'%></div>
+                        <div class="grid-cell data-cell"><%= flightInfo.gate ? flightInfo.gate : 'TBD'%></div>
+                    </div>
+                </section>
+
+                <% if (passengers && passengers.length > 0) {  %>    
+                <div class="split-section-container">  
+                    <section class="info-section">
+                        <div class="section-header">
+                            <h2 class="section-title">PASSENGER</h2>
+                        </div>
+                        <div class="responsive-grid col-3">
+                            <div class="grid-cell header-cell">NAME</div>
+                            <div class="grid-cell header-cell">SEAT</div>
+                            <div class="grid-cell header-cell">CLASS</div>
+                            <% passengers.forEach(function(p) { %>  
+                                <div class="grid-cell data-cell"><%=  p.first_name || 'N/A' %>  <%= p.last_name || 'N/A'%></div>
+                                <div class="grid-cell data-cell"><%=   p.seat_number || 'N/A' %></div>
+                                <div class="grid-cell data-cell"><%=  p.class || 'N/A'%> </div>
+                            <% })} %>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

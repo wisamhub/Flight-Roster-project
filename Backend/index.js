@@ -51,6 +51,72 @@ var globalFlightData = {
     }
 };
 
+// Stores the ticket pattern and flight pattern
+const ticketPattern = /^\d{9}$/;        // 9 digits only
+const flightPattern = /^AN\d{3}$/i;     // starts with AN, then 3 digits
+// gets the flight info based on the input type
+async function fetchFlightData(input) {
+    let data = {
+        flightInfo: null,
+        passengers: [],
+        staff: {
+            chef: [],
+            cabinCrew: [],
+            pilot: [] 
+    }
+    };
+
+    if (ticketPattern.test(input)) {
+        passenger["ticketId"]=input;
+        const mainPassenger = await getMainPassengerByTicketId(input);
+        data.flightInfo= await getFlightInfoByTicketId(input);
+
+        if(!data.flightInfo){
+            flight["flightNumber"] = "none";
+            data.staff.pilot = [];
+            data.staff.cabinCrew = [];
+            data.staff.chef = [];
+        }
+        else{
+            flight["flightNumber"] = data.flightInfo.flight_number;
+        }
+
+        const mainPassengerChildren = await getChildrenByGuardianTicketId(input);
+        
+        // puts the main passenger first then adds the other passengers
+        if (mainPassenger) {
+            if(mainPassengerChildren.length > 0){
+                data.passengers = [mainPassenger, ...mainPassengerChildren];
+            }
+            else{
+                data.passengers = [mainPassenger];
+            }
+        }
+    } 
+
+    else if (flightPattern.test(input)) {
+        flight["flightNumber"]=input;
+        passenger["ticketId"]=0;
+        data.flightInfo = await getFlightInfoByFlightNumber(input);
+        if(staff["Id"]==-1){
+            data.passengers = [];
+        } else {
+            data.passengers = await getPassengersByFlightNumber(input);
+        }
+        if(!data.flightInfo){
+            data.staff.pilot = [];
+            data.staff.cabinCrew = [];
+            data.staff.chef = [];
+        }
+        else{
+            data.staff.pilot = await getPilotByFlightNumber(input);
+            data.staff.cabinCrew = await getCabinCrewByFlightNumber(input);
+            data.staff.chef = await getChefByFlightNumber(input);
+        }
+    }
+    return data;
+}
+
 const password = "staff5";
 //use this to get the hashing
 async function getHash(password) {
@@ -73,11 +139,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('views', join(__dirname, '../Frontend/views'));
 app.set('view engine', 'ejs');
 
-//server requests and responds
-app.get("/",(req, res)=>{
-    res.render("home");
-})
+//--------------server requests and responds--------------------
 
+// staff exclusive requests
 let loginError = false;
 app.get("/login", (req, res)=>{
     staff = {
@@ -120,9 +184,12 @@ app.post("/login/flight-list", async (req, res) => {
     }
 });
 
-//start of passenger requests
+
+
+//passenger exclusive requests
 var guestError = false;
 
+//this is what the passenger first sees they will be able to input their flight number or ticket ID
 app.get("/guest", (req, res)=>{
     passenger = {
     "ticketId":-1,
@@ -135,77 +202,10 @@ app.get("/guest", (req, res)=>{
     guestError = false;
 })
 
-// Stores the ticket pattern and flight pattern
-const ticketPattern = /^\d{9}$/;        // 9 digits only
-const flightPattern = /^AN\d{3}$/i;     // starts with AN, then 3 digits
-
-async function fetchFlightData(input) {
-    let data = {
-        flightInfo: null,
-        passengers: [],
-        staff: {
-            chef: [],
-            cabinCrew: [],
-            pilot: [] 
-    }
-    };
-
-    if (ticketPattern.test(input)) {
-        passenger["ticketId"]=input;
-        const mainPassenger = await getMainPassengerByTicketId(input);
-        data.flightInfo= await getFlightInfoByTicketId(input);
-
-        if(!data.flightInfo){
-            flight["flightNumber"] = "none";
-            data.staff.pilot = [];
-            data.staff.cabinCrew = [];
-            data.staff.chef = [];
-        }
-        else{
-            flight["flightNumber"] = data.flightInfo.flight_number;
-            data.staff.pilot = await getPilotByFlightNumber(data.flightInfo.flight_number);
-            data.staff.cabinCrew = await getCabinCrewByFlightNumber(data.flightInfo.flight_number);
-            data.staff.chef = await getChefByFlightNumber(data.flightInfo.flight_number);
-        }
-
-        const mainPassengerChildren = await getChildrenByGuardianTicketId(input);
-        
-        // puts the main passenger first then adds the other passengers
-        if (mainPassenger) {
-            if(mainPassengerChildren.length > 0){
-                data.passengers = [mainPassenger, ...mainPassengerChildren];
-            }
-            else{
-                data.passengers = [mainPassenger];
-            }
-        }
-    } 
-
-    else if (flightPattern.test(input)) {
-        flight["flightNumber"]=input;
-        passenger["ticketId"]=0;
-        data.flightInfo = await getFlightInfoByFlightNumber(input);
-        if(staff["Id"]==-1){
-            data.passengers = [];
-        } else {
-            data.passengers = await getPassengersByFlightNumber(input);
-        }
-        if(!data.flightInfo){
-            data.staff.pilot = [];
-            data.staff.cabinCrew = [];
-            data.staff.chef = [];
-        }
-        else{
-            data.staff.pilot = await getPilotByFlightNumber(input);
-            data.staff.cabinCrew = await getCabinCrewByFlightNumber(input);
-            data.staff.chef = await getChefByFlightNumber(input);
-        }
-    }
-    return data;
-}
-
-app.post("/guest/tabular-view", async (req, res)=>{
+//after the passenger inputs one of the two inputs the guest-view page will be presented
+app.post("/guest/guest-view", async (req, res)=>{
     const guestInput = req.body.flightInput.trim();
+    console.log(guestInput);
     globalFlightData = await fetchFlightData(guestInput);
 
     if(!globalFlightData || !globalFlightData.flightInfo){
@@ -213,45 +213,28 @@ app.post("/guest/tabular-view", async (req, res)=>{
         res.redirect("/guest");
     }
     else{
-        res.render("tabular_view", globalFlightData);
+        res.render("guest_view", globalFlightData);
+        console.log(globalFlightData);
     }
 });
 
-app.get("/guest/flight-view", (req, res)=>{
-    if(passenger["ticketId"]==-1||flight["flightNumber"]==="none"){
-        res.redirect('/guest');
-    } else {
-    res.render("flight_view", globalFlightData);
-    }
-});
 
-app.get("/guest/tabular-view", (req, res)=>{
-     if(passenger["ticketId"]==-1||flight["flightNumber"]==="none"){
-        res.redirect('/guest');
-    } else {
-    res.render("tabular_view", globalFlightData);
-    }
-});
 
-app.get("/guest/extended-view", (req, res)=>{
-    if(passenger["ticketId"]==-1||flight["flightNumber"]==="none"){
-        res.redirect('/guest');
-    } else {
-    res.render("extended_view", globalFlightData);
-    }
-});
-//end of passenger requests
+// global user requests (staff and passengers can use)
+app.get("/",(req, res)=>{
+    res.render("home");
+})
 
 app.get("/about-us", (req, res)=>{
     res.render("about_us");
 });
 
 app.get("/test", (req, res)=>{
-    res.render("about_us");
+    res.render("tabular_view");
     //simple test URL will be removed later change file name to check certain pages too
 }) 
 
-//404 pages
+//404 page
 app.use((req, res) => {
   res.status(404).send("404 Not Found");
 });
