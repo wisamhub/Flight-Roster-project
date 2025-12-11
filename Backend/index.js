@@ -177,7 +177,6 @@ app.post("/login/flight-list", async (req, res) => {
     if(passwordIsCorrect){
         staff.staffAssignedFlights = await getFlightsByStaffId(staffId);
         res.render("flight_list", {employee: staff.staffInfo, flights: staff.staffAssignedFlights});
-        console.log(staff.staffAssignedFlights);
     }
     
     else{
