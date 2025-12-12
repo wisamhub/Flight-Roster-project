@@ -66,6 +66,7 @@ async function fetchFlightData(input) {
     }
     };
 
+    // if it is a ticket pattern in the passengers section it will only show the main passenger and his children even for staff
     if (ticketPattern.test(input)) {
         passenger["ticketId"]=input;
         const mainPassenger = await getMainPassengerByTicketId(input);
@@ -79,6 +80,17 @@ async function fetchFlightData(input) {
         }
         else{
             flight["flightNumber"] = data.flightInfo.flight_number;
+            if(staff["Id"] == -1){
+                data.staff.pilot = [];
+                data.staff.cabinCrew = [];
+                data.staff.chef = [];
+            }
+            else{
+                data.staff.pilot = await getPilotByFlightNumber(data.flightInfo.flight_number);
+                console.log("FligjtnI<BER: ", data.staff.pilot)
+                data.staff.cabinCrew = await getCabinCrewByFlightNumber(data.flightInfo.flight_number);
+                data.staff.chef = await getChefByFlightNumber(data.flightInfo.flight_number);
+            }
         }
 
         const mainPassengerChildren = await getChildrenByGuardianTicketId(input);
@@ -94,6 +106,7 @@ async function fetchFlightData(input) {
         }
     } 
 
+    // if it is a flight number pattern all passengers and staff will be shown to the staff but no passengers and staff will be shown to guest
     else if (flightPattern.test(input)) {
         flight["flightNumber"]=input;
         passenger["ticketId"]=0;
@@ -187,21 +200,53 @@ app.post("/login/flight-list", async (req, res) => {
 
 
 app.post("/staff/tabular-view", async (req, res) => {
-    const flight_number = req.body.flight_number;
-    globalFlightData = await fetchFlightData(flight_number);
-    res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers});
-})
+    if(staff["Id"] == -1){
+        res.redirect("/login");
+    }
+    else if(!globalFlightData || !globalFlightData.flightInfo){
+        res.status(404).send("404 Not Found");
+    }
+    else{
+        const flight_number = req.body.flight_number;
+        globalFlightData = await fetchFlightData(flight_number);
+        res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers});
+    }
+});
 
 app.get("/staff/extended-view", async (req,res) => {
-    res.render("extended_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers})
+    if(staff["Id"] == -1){
+        res.redirect("/login");
+    }
+    else if(!globalFlightData || !globalFlightData.flightInfo){
+        res.status(404).send("404 Not Found");
+    }
+    else{
+        res.render("extended_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers});
+    }
 })
 
 app.get("/staff/tabular-view", async (req,res) => {
-    res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers})
+    if(staff["Id"] == -1){
+        res.redirect("/login");
+    }
+    else if(!globalFlightData || !globalFlightData.flightInfo){
+       res.status(404).send("404 Not Found");
+    }
+    else{
+         res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers});
+    }
 })
 
 app.get("/staff/flight-view", async (req,res) => {
-    res.render("flight_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers})
+    if(staff["Id"] == -1){
+        res.redirect("/login");
+    }
+    else if(!globalFlightData || !globalFlightData.flightInfo){
+        res.status(404).send("404 Not Found");
+    }
+    else{
+        res.render("flight_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers});
+    }
 })
 
 //passenger exclusive requests
@@ -221,7 +266,7 @@ app.get("/guest", (req, res)=>{
 })
 
 //after the passenger inputs one of the two inputs the guest-view page will be presented
-app.post("/guest/guest-view", async (req, res)=>{
+app.post("/guest", async (req, res)=>{
     const guestInput = req.body.flightInput.trim();
     console.log(guestInput);
     globalFlightData = await fetchFlightData(guestInput);
@@ -230,13 +275,22 @@ app.post("/guest/guest-view", async (req, res)=>{
         guestError=true;
         res.redirect("/guest");
     }
+    else if(staff["Id"] == -1){
+        res.redirect("/guest/guest-view");
+    }
     else{
-        res.render("guest_view", globalFlightData);
-        console.log(globalFlightData);
+        res.redirect("/staff/tabular-view");
     }
 });
 
-
+app.get("/guest/guest-view",(req, res)=>{
+    if(!globalFlightData || !globalFlightData.flightInfo){
+        res.redirect("/guest");
+    }
+    else{
+        res.render("guest_view", globalFlightData);
+    }   
+})
 
 // global user requests (staff and passengers can use)
 app.get("/",(req, res)=>{
