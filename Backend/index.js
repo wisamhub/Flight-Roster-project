@@ -203,12 +203,12 @@ app.post("/staff/tabular-view", async (req, res) => {
     if(staff["Id"] == -1){
         res.redirect("/login");
     }
-    else if(!globalFlightData || !globalFlightData.flightInfo){
+    globalFlightData = await fetchFlightData(flight_number);
+    if(!globalFlightData || !globalFlightData.flightInfo){
         res.status(404).send("404 Not Found");
     }
     else{
         const flight_number = req.body.flight_number;
-        globalFlightData = await fetchFlightData(flight_number);
         res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers});
     }
 });
@@ -217,7 +217,7 @@ app.get("/staff/extended-view", async (req,res) => {
     if(staff["Id"] == -1){
         res.redirect("/login");
     }
-    else if(!globalFlightData || !globalFlightData.flightInfo){
+    if(!globalFlightData || !globalFlightData.flightInfo){
         res.status(404).send("404 Not Found");
     }
     else{
@@ -229,7 +229,7 @@ app.get("/staff/tabular-view", async (req,res) => {
     if(staff["Id"] == -1){
         res.redirect("/login");
     }
-    else if(!globalFlightData || !globalFlightData.flightInfo){
+    if(!globalFlightData || !globalFlightData.flightInfo){
        res.status(404).send("404 Not Found");
     }
     else{
@@ -241,7 +241,7 @@ app.get("/staff/flight-view", async (req,res) => {
     if(staff["Id"] == -1){
         res.redirect("/login");
     }
-    else if(!globalFlightData || !globalFlightData.flightInfo){
+    if(!globalFlightData || !globalFlightData.flightInfo){
         res.status(404).send("404 Not Found");
     }
     else{
