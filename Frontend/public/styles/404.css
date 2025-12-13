@@ -1,0 +1,42 @@
+#box{
+    background-image: linear-gradient(to bottom right, #ff8a02, rgb(88, 88, 88), #02193f);
+    height:100vh;
+}
+
+#main-container{
+    display:flex;
+   position:relative;
+   top:150px;
+   justify-content:center;
+   align-items:center;
+   width:100%;
+}
+
+h1 {
+    position:relative;
+    left:200px;
+    bottom:30px;
+    font-size:100px;
+    color:white;
+}
+
+h2{ 
+    position:relative;
+    bottom:10px;
+    right:20px;
+    align-self:flex-end;
+    color:white;
+
+}
+
+img{
+    border-radius:30%;
+}
+
+p{
+    position:relative;
+    top:280px;
+    left:30%;
+    width:50%;
+    color:white;
+}

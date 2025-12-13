@@ -210,7 +210,7 @@ app.post("/staff/tabular-view", async (req, res) => {
     const flight_number = req.body.flight_number;
     globalFlightData = await fetchFlightData(flight_number);
     if(!globalFlightData || !globalFlightData.flightInfo){
-        res.status(404).send("404 Not Found");
+        res.status(404).render("404");
     }
     else{
         res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
@@ -222,7 +222,7 @@ app.get("/staff/extended-view", async (req,res) => {
         res.redirect("/login");
     }
     if(!globalFlightData || !globalFlightData.flightInfo){
-        res.status(404).send("404 Not Found");
+        res.status(404).render("404");
     }
     else{
         res.render("extended_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
@@ -234,7 +234,7 @@ app.get("/staff/tabular-view", async (req,res) => {
         res.redirect("/login");
     }
     if(!globalFlightData || !globalFlightData.flightInfo){
-       res.status(404).send("404 Not Found");
+       res.status(404).render("404");
     }
     else{
          res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
@@ -246,7 +246,7 @@ app.get("/staff/flight-view", async (req,res) => {
         res.redirect("/login");
     }
     if(!globalFlightData || !globalFlightData.flightInfo){
-        res.status(404).send("404 Not Found");
+        res.status(404).render("404");
     }
     else{
         res.render("flight_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
@@ -331,13 +331,13 @@ app.get("/about-us", (req, res)=>{
 });
 
 app.get("/test", (req, res)=>{
-    res.render("tabular_view");
+    res.render("404");
     //simple test URL will be removed later change file name to check certain pages too
 }) 
 
 //404 page
 app.use((req, res) => {
-  res.status(404).send("404 Not Found");
+  res.status(404).render("404");
 });
 
 //server listener
