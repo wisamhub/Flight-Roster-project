@@ -171,7 +171,7 @@ app.get("/login", (req, res)=>{
 
 app.get("/login/flight-list", (req, res)=>{
     if(staff["Id"] == -1){
-        res.redirect("/login");
+        return res.redirect("/login");
     }
     else{
         res.render("flight-list", {employee: staff.staffInfo, flights: staff.staffAssignedFlights});
@@ -185,14 +185,14 @@ app.post("/login/flight-list", async (req, res) => {
     
     if(!staff.staffInfo){
         loginError = true;
-        res.redirect("/login");
+        return res.redirect("/login");
     }
     staff["Id"] = staffId;
     let passwordIsCorrect = await compare(inputPassword, staff.staffInfo.password_hash);
     if(passwordIsCorrect){
         staff.staffAssignedFlights = await getFlightsByStaffId(staffId);
         loggedIn = true;
-        res.render("flight_list", {employee: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn});
+        return res.render("flight_list", {employee: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn});
     }
     
     else{
@@ -205,12 +205,12 @@ app.post("/login/flight-list", async (req, res) => {
 
 app.post("/staff/tabular-view", async (req, res) => {
     if(staff["Id"] == -1){
-        res.redirect("/login");
+        return res.redirect("/login");
     }
     const flight_number = req.body.flight_number;
     globalFlightData = await fetchFlightData(flight_number);
     if(!globalFlightData || !globalFlightData.flightInfo){
-        res.status(404).render("404");
+        return res.status(404).render("404");
     }
     else{
         res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
@@ -219,10 +219,10 @@ app.post("/staff/tabular-view", async (req, res) => {
 
 app.get("/staff/extended-view", async (req,res) => {
     if(staff["Id"] == -1){
-        res.redirect("/login");
+        return res.redirect("/login");
     }
     if(!globalFlightData || !globalFlightData.flightInfo){
-        res.status(404).render("404");
+        return res.status(404).render("404");
     }
     else{
         res.render("extended_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
@@ -231,22 +231,22 @@ app.get("/staff/extended-view", async (req,res) => {
 
 app.get("/staff/tabular-view", async (req,res) => {
     if(staff["Id"] == -1){
-        res.redirect("/login");
+        return res.redirect("/login");
     }
     if(!globalFlightData || !globalFlightData.flightInfo){
-       res.status(404).render("404");
+       return res.status(404).render("404");
     }
     else{
-         res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
+        res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
     }
 })
 
 app.get("/staff/flight-view", async (req,res) => {
     if(staff["Id"] == -1){
-        res.redirect("/login");
+        return res.redirect("/login");
     }
     if(!globalFlightData || !globalFlightData.flightInfo){
-        res.status(404).render("404");
+        return res.status(404).render("404");
     }
     else{
         res.render("flight_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
@@ -281,10 +281,10 @@ app.post("/guest", async (req, res)=>{
 
     if(!globalFlightData || !globalFlightData.flightInfo){
         guestError=true;
-        res.redirect("/guest");
+        return res.redirect("/guest");
     }
     else if(staff["Id"] == -1){
-        res.redirect("/guest/guest-view");
+        return res.redirect("/guest/guest-view");
     }
     else{
         res.redirect("/staff/tabular-view");
@@ -293,7 +293,7 @@ app.post("/guest", async (req, res)=>{
 
 app.get("/guest/guest-view",(req, res)=>{
     if(!globalFlightData || !globalFlightData.flightInfo){
-        res.redirect("/guest");
+        return res.redirect("/guest");
     }
     else{
         res.render("guest_view", globalFlightData);
@@ -305,15 +305,15 @@ app.get("/",(req, res)=>{
     if(loggedIn){
         //wipes out every saved data if user logs out
         loggedIn = false;
-        var staff = {
+        staff = {
         "Id":-1,
         staffInfo: [],
         staffAssignedFlights: []
         };
-        var flight = {
+        flight = {
             flightNumber: "none",
         };
-        var globalFlightData = {
+        globalFlightData = {
         flightInfo: null,
         passengers: [],
         staff: {
