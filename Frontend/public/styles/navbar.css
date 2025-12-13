@@ -115,6 +115,16 @@ a{
     bottom: 0;
 }
 
+.nav_logOut{
+    position: absolute;
+    right:40px;
+}
+
+.nav_download{
+    position: absolute;
+    right:150px;
+}
+
 @media screen and (max-width: 1024px) {
     .nav_link {
         font-size: 16px;

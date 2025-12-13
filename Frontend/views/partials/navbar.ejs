@@ -22,7 +22,13 @@
         <a class="nav_link nav_home" href="/">Home</a>
         <a class="nav_link nav_about" href="/about-us">About Us</a>
         <a class="nav_link nav_tracker" href="/guest">Flight Tracker</a>
-s
+        <% if(locals.logIn){ %>
+        <% if(logIn){ %>
+        <a class="nav_link nav_logOut" href="/">log out</a>
+        <% if (locals.downloadJSON){ %>
+        <% if(downloadJSON) {%>
+        <a class="nav_link nav_download" href="/staff/flightJSON">download file</a> 
+        <% }}}} %>
         <div class="nav_lower_bar"></div>
     </div>
 </body>

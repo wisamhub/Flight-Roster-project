@@ -22,6 +22,7 @@ const app = express();
 const port = 3000
 const saltRounds = 10;
 const __dirname = dirname(fileURLToPath(import.meta.url));
+let loggedIn = false;
 
 //object of the passenger currently using the software
 var passenger = {
@@ -34,6 +35,7 @@ var staff = {
     staffInfo: [],
     staffAssignedFlights: []
 };
+
 
 //other members in the selected flight
 var flight = {
@@ -189,11 +191,13 @@ app.post("/login/flight-list", async (req, res) => {
     let passwordIsCorrect = await compare(inputPassword, staff.staffInfo.password_hash);
     if(passwordIsCorrect){
         staff.staffAssignedFlights = await getFlightsByStaffId(staffId);
-        res.render("flight_list", {employee: staff.staffInfo, flights: staff.staffAssignedFlights});
+        loggedIn = true;
+        res.render("flight_list", {employee: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn});
     }
     
     else{
         loginError = true;
+        loggedIn = false;
         res.redirect("/login");
     }
 });
@@ -209,7 +213,7 @@ app.post("/staff/tabular-view", async (req, res) => {
         res.status(404).send("404 Not Found");
     }
     else{
-        res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers});
+        res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
     }
 });
 
@@ -221,7 +225,7 @@ app.get("/staff/extended-view", async (req,res) => {
         res.status(404).send("404 Not Found");
     }
     else{
-        res.render("extended_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers});
+        res.render("extended_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
     }
 })
 
@@ -233,7 +237,7 @@ app.get("/staff/tabular-view", async (req,res) => {
        res.status(404).send("404 Not Found");
     }
     else{
-         res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers});
+         res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
     }
 })
 
@@ -245,8 +249,12 @@ app.get("/staff/flight-view", async (req,res) => {
         res.status(404).send("404 Not Found");
     }
     else{
-        res.render("flight_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers});
+        res.render("flight_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
     }
+})
+
+app.get("/staff/flightJSON", (req, res)=>{
+    res.send(globalFlightData);
 })
 
 //passenger exclusive requests
@@ -261,7 +269,7 @@ app.get("/guest", (req, res)=>{
     flight = { flightNumber: "none" };
     globalFlightData = { flightInfo: null, passengers: [], staff: [] };
 
-    res.render("flight_tracker", {guestError});
+    res.render("flight_tracker", {guestError, logIn: loggedIn});
     guestError = false;
 })
 
@@ -294,11 +302,32 @@ app.get("/guest/guest-view",(req, res)=>{
 
 // global user requests (staff and passengers can use)
 app.get("/",(req, res)=>{
+    if(loggedIn){
+        //wipes out every saved data if user logs out
+        loggedIn = false;
+        var staff = {
+        "Id":-1,
+        staffInfo: [],
+        staffAssignedFlights: []
+        };
+        var flight = {
+            flightNumber: "none",
+        };
+        var globalFlightData = {
+        flightInfo: null,
+        passengers: [],
+        staff: {
+            chef: [],
+            cabinCrew: [],
+            pilot: [] 
+        }
+};
+    }
     res.render("home");
 })
 
 app.get("/about-us", (req, res)=>{
-    res.render("about_us");
+    res.render("about_us", {logIn: loggedIn});
 });
 
 app.get("/test", (req, res)=>{
