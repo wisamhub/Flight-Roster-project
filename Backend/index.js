@@ -181,6 +181,12 @@ app.get("/login/flight-list", (req, res)=>{
 app.post("/login/flight-list", async (req, res) => {
     const staffId = req.body.staffId;
     const inputPassword = req.body.password;
+
+    if (!/^[1-9]$/.test(staffId)) {
+        loginError = true;
+        return res.redirect("/login");
+    }
+
     staff.staffInfo = await getStaffInfoByStaffId(staffId);
     
     if(!staff.staffInfo){
