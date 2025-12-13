@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/styles/navbar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
 </head>
 <body>
@@ -24,10 +24,10 @@
         <a class="nav_link nav_tracker" href="/guest">Flight Tracker</a>
         <% if(locals.logIn){ %>
         <% if(logIn){ %>
-        <a class="nav_link nav_logOut" href="/">log out</a>
+        <a class="nav_link nav_logOut" href="/">Log Out</a>
         <% if (locals.downloadJSON){ %>
         <% if(downloadJSON) {%>
-        <a class="nav_link nav_download" href="/staff/flightJSON">download file</a> 
+        <a class="nav_link nav_download" href="/staff/flightJSON">Download File</a> 
         <% }}}} %>
         <div class="nav_lower_bar"></div>
     </div>

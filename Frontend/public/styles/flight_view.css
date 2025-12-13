@@ -8,6 +8,7 @@
   --accent-orange: #ff8a02;
   --deep-blue: #02124e;
   --bg-gray: #f3f4f6;
+  --text-gray: #6b7280;
   }
 * { box-sizing: border-box; }
 body {
@@ -198,8 +199,8 @@ h1 {
   color: var(--text-gray);
   background: transparent;
   border: none;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
+  font-family: "Corben", serif;
+  font-weight: 400;
   font-size: 1.125rem;
   cursor: pointer;
   transition: background-color 0.2s, color 0.2s;

@@ -4,10 +4,6 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Inknut Antiqua', serif;
-}
-
 a{
     text-decoration:none;
 }
@@ -53,7 +49,7 @@ a{
 
 .company_name {
     position: absolute;
-    font-family: 'Inknut Antiqua', 'Noto Sans Math', sans-serif;
+    font-family: "Libre Baskerville", serif;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
@@ -67,10 +63,10 @@ a{
 
 .nav_link {
     position: absolute;
-    font-family: 'Inknut Antiqua', sans-serif;
+    font-family: "Libre Baskerville", serif;
     font-size: 20px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 700;
     line-height: normal;
     color: #ff8a02;
     top: 50%;
