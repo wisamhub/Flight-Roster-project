@@ -97,3 +97,21 @@ Once the server is running, open your web browser and navigate to:
 http://localhost:3000
 
 and enjoy :D
+
+# Part 3: Extras for Developers
+
+If you plan on editing or extending this project, it is recommended to install **nodemon** for easier development.
+
+Nodemon automatically restarts the server whenever you save changes to the source files.
+
+Install nodemon globally by running:
+
+npm install -g nodemon
+
+Then, start the server with:
+
+nodemon index.js
+
+Instead of:
+
+node index.js
