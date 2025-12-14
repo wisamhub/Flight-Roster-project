@@ -45,6 +45,7 @@ var flight = {
 // This variable stores data for all of the views
 var globalFlightData = {
     flightInfo: null,
+    aircraftInfo: null,
     passengers: [],
     staff: {
         chef: [],
@@ -60,28 +61,31 @@ const flightPattern = /^AN\d{3}$/i;     // starts with AN, then 3 digits
 async function fetchFlightData(input) {
     let data = {
         flightInfo: null,
+        aircraftInfo: null,
         passengers: [],
         staff: {
             chef: [],
             cabinCrew: [],
             pilot: [] 
-    }
+        }
     };
 
     // if it is a ticket pattern in the passengers section it will only show the main passenger and his children even for staff
     if (ticketPattern.test(input)) {
         passenger["ticketId"]=input;
-        const mainPassenger = await getMainPassengerByTicketId(input);
         data.flightInfo= await getFlightInfoByTicketId(input);
 
         if(!data.flightInfo){
             flight["flightNumber"] = "none";
+            data.aircraftInfo = null;
             data.staff.pilot = [];
             data.staff.cabinCrew = [];
             data.staff.chef = [];
         }
         else{
+            const mainPassenger = await getMainPassengerByTicketId(input);
             flight["flightNumber"] = data.flightInfo.flight_number;
+            data.aircraftInfo = null; // for now it is null gonna have to make a query in connection and imort and use it here
             if(staff["Id"] == -1){
                 data.staff.pilot = [];
                 data.staff.cabinCrew = [];
@@ -93,17 +97,16 @@ async function fetchFlightData(input) {
                 data.staff.cabinCrew = await getCabinCrewByFlightNumber(data.flightInfo.flight_number);
                 data.staff.chef = await getChefByFlightNumber(data.flightInfo.flight_number);
             }
-        }
-
-        const mainPassengerChildren = await getChildrenByGuardianTicketId(input);
+            const mainPassengerChildren = await getChildrenByGuardianTicketId(input);
         
-        // puts the main passenger first then adds the other passengers
-        if (mainPassenger) {
-            if(mainPassengerChildren.length > 0){
-                data.passengers = [mainPassenger, ...mainPassengerChildren];
-            }
-            else{
-                data.passengers = [mainPassenger];
+            // puts the main passenger first then adds the other passengers
+            if (mainPassenger) {
+                if(mainPassengerChildren.length > 0){
+                    data.passengers = [mainPassenger, ...mainPassengerChildren];
+                }
+                else{
+                    data.passengers = [mainPassenger];
+                }
             }
         }
     } 
@@ -113,20 +116,24 @@ async function fetchFlightData(input) {
         flight["flightNumber"]=input;
         passenger["ticketId"]=0;
         data.flightInfo = await getFlightInfoByFlightNumber(input);
-        if(staff["Id"]==-1){
-            data.passengers = [];
-        } else {
-            data.passengers = await getPassengersByFlightNumber(input);
-        }
         if(!data.flightInfo){
             data.staff.pilot = [];
             data.staff.cabinCrew = [];
             data.staff.chef = [];
         }
         else{
-            data.staff.pilot = await getPilotByFlightNumber(input);
-            data.staff.cabinCrew = await getCabinCrewByFlightNumber(input);
-            data.staff.chef = await getChefByFlightNumber(input);
+            if(staff["Id"]==-1){
+                data.passengers = [];
+                data.staff.pilot = [];
+                data.staff.cabinCrew = [];
+                data.staff.chef = [];
+            } 
+            else {
+                data.passengers = await getPassengersByFlightNumber(input);
+                data.staff.pilot = await getPilotByFlightNumber(input);
+                data.staff.cabinCrew = await getCabinCrewByFlightNumber(input);
+                data.staff.chef = await getChefByFlightNumber(input);
+            } 
         }
     }
     console.log(staff["Id"]);
