@@ -1,38 +1,32 @@
-INSERT INTO type_rating (type_rating_id, rating_name) VALUES 
-(1, 'B757/767 Common'),
-(2, 'A320 Family'),
-(3, 'B777'),
-(4, 'B777X');
+INSERT INTO type_rating (rating_name) VALUES 
+('A220 Family'),
+('A320 Family');
 
-INSERT INTO aircraft_family (family_id, family_name, manufacturer) VALUES 
-(1, '757', 'Boeing'),
-(2, '767', 'Boeing'),
-(3,  'A320', 'Airbus'),
-(4,  '777', 'Boeing');
+INSERT INTO aircraft_family (family_name, manufacturer) VALUES 
+('A220', 'Airbus'),
+('A320', 'Airbus');
 
-INSERT INTO aircraft_type (aircraft_type_id, variant_name, family_id, type_rating_id, max_range_km) VALUES 
-(1, '-200', 1, 1, 5500),
-(2, '-300', 1, 1, 6300),
-(3, '-400',  2, 1, 11070),
-(4, ' neo',  3, 2, 6500),
-(5, '-300ER',  4, 3, 13650),
-(6, '-8',  4, 4, 16190);
+INSERT INTO aircraft_type (variant_name, family_id, type_rating_id, max_range_km) VALUES 
+('-100', 1, 1, 6390),
+('-300', 1, 1, 6200),
+('A319', 2, 2, 6900),
+('A320', 2, 2, 6300);
 
-INSERT INTO aircraft (aircraft_id, aircraft_type_id, pilot_capacity, cabin_crew_capacity, passenger_capacity) VALUES 
-(1, 1, 4, 6, 239), 
-(2, 1, 4, 6, 215), 
-(3, 2, 4, 7, 295), 
-(4, 3, 4, 8, 290), 
-(5, 4, 3, 5, 195), 
-(6, 5, 4, 16, 550),
-(7, 6, 4, 14, 384);
+--Every aircraft even if its the same family and variant can have different amount of seats based on its seating configuration
+INSERT INTO aircraft (aircraft_type_id, pilot_capacity, cabin_crew_capacity, economy_passenger_capacity, economy_passenger_layout, business_passenger_capacity, business_passenger_layout) VALUES 
+(1, 2, 4, 80, '{2,3}', 20, '{2,2}'), 
+(1, 2, 4, 100, '{2,3}', 10, '{2,2}'), 
+(2, 2, 6, 100, '{2,3}', 20, '{2,2}'), 
+(2, 2, 6, 120, '{2,3}', 10, '{2,2}'),
+(3, 2, 4, 80, '{3,3}', 20, '{2,2}'),
+(4, 2, 5, 150, '{3,3}', 30, '{2,2}');
 
-INSERT INTO staff (staff_id, password_hash, first_name, last_name, birth_date, gender, nationality, role, rank) VALUES 
-(1, '$2b$10$9CvqUv.vOEhEYCiWJ3GfDe4A.NNMMhQDUwjxWs26ZkLZicZbs5d8i', 'James', 'Bond', '1949-12-01', 'Male', 'Turkish', 'Pilot', 'Junior'),
-(2, '$2b$10$XW9L.j4YgrBRkAoe.DKoUOBlhf3O4PyIpBiLpKq9JeDtShanPl8Cm', 'John', 'Doe', '1979-05-21', 'Female', 'Turkish', 'Cabin Crew', 'Senior'),
-(3, '$2b$10$FSUaBqZwmY0n17NLoJSJluoT2.g0ud7z3gey3I8N/Kw2EEIwP8daK', 'Jackie', 'Chan', '1999-01-02', 'Male', 'Turkish', 'Pilot', 'Senior'),
-(4, '$2b$10$LvgeT0To1I7cAj/Jum3SDeD9XG4cKdGl/h1p6s4w.MLbYqdR3fCZu', 'Johannes', 'Keplar', '2005-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Trainee'),
-(5, '$2b$10$yyucEh47HATd4mKFukVwtOe4iEY9RDcLcoDC2AQ027OBt1sFXo166', 'Isaac', 'Newton', '2006-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Junior');
+INSERT INTO staff (password_hash, first_name, last_name, birth_date, gender, nationality, role, rank) VALUES 
+('$2b$10$9CvqUv.vOEhEYCiWJ3GfDe4A.NNMMhQDUwjxWs26ZkLZicZbs5d8i', 'James', 'Bond', '1949-12-01', 'Male', 'Turkish', 'Pilot', 'Junior'),
+('$2b$10$XW9L.j4YgrBRkAoe.DKoUOBlhf3O4PyIpBiLpKq9JeDtShanPl8Cm', 'John', 'Doe', '1979-05-21', 'Female', 'Turkish', 'Cabin Crew', 'Senior'),
+('$2b$10$FSUaBqZwmY0n17NLoJSJluoT2.g0ud7z3gey3I8N/Kw2EEIwP8daK', 'Jackie', 'Chan', '1999-01-02', 'Male', 'Turkish', 'Pilot', 'Senior'),
+('$2b$10$LvgeT0To1I7cAj/Jum3SDeD9XG4cKdGl/h1p6s4w.MLbYqdR3fCZu', 'Johannes', 'Keplar', '2005-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Trainee'),
+('$2b$10$yyucEh47HATd4mKFukVwtOe4iEY9RDcLcoDC2AQ027OBt1sFXo166', 'Isaac', 'Newton', '2006-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Junior');
 
 INSERT INTO licensed_on(staff_id, type_rating_id) VALUES
 (1,1),
@@ -46,9 +40,9 @@ INSERT INTO speaks (staff_id,language) VALUES
 (2,'English'),
 (2,'Japanese');
 
-INSERT INTO dish(dish_id, dish_name) VALUES
-(1, 'Pizza'),
-(2, 'Beef burger');
+INSERT INTO dish(dish_name) VALUES
+('Pizza'),
+('Beef burger');
 
 INSERT INTO can_cook(staff_id,dish_id) VALUES
 (2,1),
@@ -56,13 +50,12 @@ INSERT INTO can_cook(staff_id,dish_id) VALUES
 (4,1),
 (4,2);
  
-
-INSERT INTO flight (flight_id, aircraft_id, date, dept_time, dept_airport,arrival_time,arrival_airport, gate, status,flight_number,boarding_time) VALUES
-(1,1,'2026-12-15','03:30','IST','05:30','LHR','12A','Enroute','AN251','03:10'),
-(2,1,'2026-12-15','15:45','LHR','17:45','IST','5P','Boarding','AN111','15:25'),
-(3,2,'2026-12-15','03:30','LHR','05:30','IST','5B','Landed','AN878','03:10'),
-(4,4,'2026-12-15','12:30','SAW','02:30','LHR','7C','Scheduled','AN123','12:10'),
-(5,5,'2026-12-15','11:00','SAW','01:00','LHR','9A','Deboarding','AN456','10:30');
+INSERT INTO flight (aircraft_id, date, dept_time, dept_airport,arrival_time,arrival_airport, gate, status,flight_number,boarding_time) VALUES
+(1,'2026-12-15','03:30','IST','05:30','LHR','12A','Enroute','AN251','03:10'),
+(1,'2026-12-15','15:45','LHR','17:45','IST','5P','Boarding','AN111','15:25'),
+(2,'2026-12-15','03:30','LHR','05:30','IST','5B','Landed','AN878','03:10'),
+(4,'2026-12-15','12:30','SAW','02:30','LHR','7C','Scheduled','AN123','12:10'),
+(5,'2026-12-15','11:00','SAW','01:00','LHR','9A','Deboarding','AN456','10:30');
 
 INSERT INTO operating_on(staff_id,flight_id) VALUES
 (1,1),

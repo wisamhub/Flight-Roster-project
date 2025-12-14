@@ -30,7 +30,10 @@ CREATE TABLE aircraft(
     aircraft_type_id INT NOT NULL REFERENCES aircraft_type(aircraft_type_id) ON DELETE RESTRICT,
     pilot_capacity SMALLINT NOT NULL CHECK (pilot_capacity >= 2),
     cabin_crew_capacity SMALLINT NOT NULL CHECK (cabin_crew_capacity >= 1),
-    passenger_capacity SMALLINT NOT NULL CHECK (passenger_capacity >= 0)
+    economy_passenger_capacity SMALLINT NOT NULL CHECK (economy_passenger_capacity >= 0),
+    economy_passenger_layout INT[] NOT NULL CHECK (cardinality(economy_passenger_layout) = 2),
+    business_passenger_capacity SMALLINT NOT NULL CHECK (business_passenger_capacity >= 0),
+    business_passenger_layout INT[] NOT NULL CHECK (cardinality(business_passenger_layout) = 2)
 );
 
 CREATE TABLE staff(
@@ -122,7 +125,7 @@ CREATE TABLE passenger (
 
 
 CREATE TABLE flight_ticket (
-    ticket_id SERIAL PRIMARY KEY,
+    ticket_id INTEGER PRIMARY KEY,
     passport_number TEXT NOT NULL REFERENCES passenger(passport_number),
     seat_number TEXT NOT NULL,
     class class_enum NOT NULL
