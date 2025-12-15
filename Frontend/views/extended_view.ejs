@@ -187,7 +187,7 @@
                     <div class="grid-cell data-cell"><%= aircraft.cabin_crew_capacity ? aircraft.cabin_crew_capacity : 'N/A' %></div>
                     <div class="grid-cell data-cell"><% if(aircraft.economy_passenger_capacity && aircraft.business_passenger_capacity){ %> <%= aircraft.economy_passenger_capacity + aircraft.business_passenger_capacity %> / <%= aircraft.economy_passenger_capacity %> / <%= aircraft.business_passenger_capacity %> <% } else{ %> N/A <% } %></div>
                     <div class="grid-cell data-cell"><% if(aircraft.economy_passenger_layout && aircraft.business_passenger_layout){ %> <%= aircraft.economy_passenger_layout %> / <%= aircraft.business_passenger_layout %> <% } else{ %> N/A / N/A<% } %></div>
-                    <div class="grid-cell data-cell"><%= aircraft.business_passenger_layout ? aircraft.max_range_km : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><%= aircraft.max_range_km ? aircraft.max_range_km : 'N/A' %></div>
                 </div>
             </section>
 
