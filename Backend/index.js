@@ -14,7 +14,8 @@ import {
   getPilotByFlightNumber,
   getCabinCrewByFlightNumber,
   getFlightsByStaffId,
-  getStaffInfoByStaffId
+  getStaffInfoByStaffId,
+  getAircraftInfoByFlightNumber
 } from "./Database/connection.js";
 
 //variables, constants, functions
@@ -85,7 +86,7 @@ async function fetchFlightData(input) {
         else{
             const mainPassenger = await getMainPassengerByTicketId(input);
             flight["flightNumber"] = data.flightInfo.flight_number;
-            data.aircraftInfo = null; // for now it is null gonna have to make a query in connection and import and use it here
+            data.aircraftInfo = await getAircraftInfoByFlightNumber(data.flightInfo.flight_number);
             if(staff["Id"] == -1){
                 data.staff.pilot = [];
                 data.staff.cabinCrew = [];
@@ -123,7 +124,7 @@ async function fetchFlightData(input) {
             data.staff.chef = [];
         }
         else{
-            data.aircraftInfo = null; // for now it is null gonna have to make a query in connection and import and use it here
+            data.aircraftInfo = await getAircraftInfoByFlightNumber(input);
             if(staff["Id"]==-1){
                 data.passengers = [];
                 data.staff.pilot = [];

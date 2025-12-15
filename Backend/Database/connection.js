@@ -294,4 +294,36 @@ export const getStaffInfoByStaffId = async (staffId) => {
     }
 };
 
+// Get the main passenger by using flight number
+export const getAircraftInfoByFlightNumber = async (ticketId) => {
+    try {
+        const query = `
+            SELECT 
+                af.manufacturer,
+                af.family_name,
+                at.variant_name,
+                tr.rating_name,
+                a.pilot_capacity, 
+                a.cabin_crew_capacity, 
+                a.economy_passenger_capacity,
+                a.business_passenger_capacity,
+                a.economy_passenger_layout,
+                a.business_passenger_layout
+            FROM flight f
+            JOIN aircraft a ON f.aircraft_id = a.aircraft_id
+            JOIN aircraft_type at ON a.aircraft_type_id = at.aircraft_type_id
+            JOIN aircraft_family af ON at.family_id = af.family_id
+            JOIN type_rating tr ON at.type_rating_id = tr.type_rating_id 
+            WHERE f.flight_number = $1
+        `;
+        const values = [ticketId];
+        
+        const result = await flight_roster_db.query(query, values);
+        return result.rows[0];
+    } catch (err) {
+        console.error("Error fetching aircraft info by flight number:", err);
+        throw err;
+    }
+};
+
 export default flight_roster_db;
