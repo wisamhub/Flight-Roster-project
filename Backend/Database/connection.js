@@ -302,6 +302,7 @@ export const getAircraftInfoByFlightNumber = async (ticketId) => {
                 af.manufacturer,
                 af.family_name,
                 at.variant_name,
+                at.max_range_km,
                 tr.rating_name,
                 a.pilot_capacity, 
                 a.cabin_crew_capacity, 

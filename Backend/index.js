@@ -229,7 +229,7 @@ app.post("/staff/tabular-view", async (req, res) => {
         return res.status(404).render("404");
     }
     else{
-        res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
+        res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, aircraft: globalFlightData.aircraftInfo, logIn: loggedIn, downloadJSON: true});
     }
 });
 
@@ -241,7 +241,7 @@ app.get("/staff/extended-view", async (req,res) => {
         return res.status(404).render("404");
     }
     else{
-        res.render("extended_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
+        res.render("extended_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, aircraft: globalFlightData.aircraftInfo, logIn: loggedIn, downloadJSON: true});
     }
 })
 

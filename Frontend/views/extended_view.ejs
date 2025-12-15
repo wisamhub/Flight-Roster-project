@@ -160,6 +160,37 @@
                 </div>
             </section>
 
+            <section class="info-section">
+                <div class="section-header">
+                    <h2>AIRCRAFT</h2>
+                </div>
+                <div class="responsive-grid grid-header-row">
+                    <div class="grid-cell header-cell">AIRCRAFT NAME</div>
+                    <div class="grid-cell header-cell">PILOT CAPACITY</div>
+                    <div class="grid-cell header-cell">CABIN CREW CAPACITY</div>
+                    <div class="grid-cell header-cell">PASSENGER CAPACITY (TOTAL/ECONOMY/BUSINESS)</div>
+                    <div class="grid-cell header-cell">ECONOMY/BUSINESS LAYOUT</div>
+                    <div class="grid-cell header-cell">MAX RANGE</div>
+                </div>
+                <div class="responsive-grid data-row">
+                    <% let aircraft_name;
+                        if(aircraft && aircraft.family_name && aircraft.variant_name){
+                            if(aircraft.variant_name.startsWith('-')){
+                                aircraft_name = aircraft.family_name + aircraft.variant_name;
+                            }
+                            else{
+                                aircraft_name = aircraft.variant_name;
+                            }
+                    } %>
+                    <div class="grid-cell data-cell"><%= aircraft_name ? aircraft_name : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><%= aircraft.pilot_capacity ? aircraft.pilot_capacity : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><%= aircraft.cabin_crew_capacity ? aircraft.cabin_crew_capacity : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><% if(aircraft.economy_passenger_capacity && aircraft.business_passenger_capacity){ %> <%= aircraft.economy_passenger_capacity + aircraft.business_passenger_capacity %> / <%= aircraft.economy_passenger_capacity %> / <%= aircraft.business_passenger_capacity %> <% } else{ %> N/A <% } %></div>
+                    <div class="grid-cell data-cell"><% if(aircraft.economy_passenger_layout && aircraft.business_passenger_layout){ %> <%= aircraft.economy_passenger_layout %> / <%= aircraft.business_passenger_layout %> <% } else{ %> N/A / N/A<% } %></div>
+                    <div class="grid-cell data-cell"><%= aircraft.business_passenger_layout ? aircraft.max_range_km : 'N/A' %></div>
+                </div>
+            </section>
+
         </main>
     </div>
 </body>
