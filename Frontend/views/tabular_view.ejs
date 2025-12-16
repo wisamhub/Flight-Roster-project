@@ -70,8 +70,8 @@
                             <div class="grid-cell header-cell">ROLE</div>
                             <div class="grid-cell header-cell">RANK</div>
 
-                        <% if (staff.pilot && staff.pilot.length > 0) { %>
-                            <% staff.pilot.forEach(function(p) { %>
+                        <% if (staffInfo.pilot && staffInfo.pilot.length > 0) { %>
+                            <% staffInfo.pilot.forEach(function(p) { %>
                                 <div class="grid-cell data-cell"><%= p.first_name || 'N/A' %> <%= p.last_name || 'N/A' %></div>
                                 <div class="grid-cell data-cell"><%= p.role || 'N/A' %></div>
                                 <div class="grid-cell data-cell"><%= p.rank || 'N/A' %></div>
@@ -79,8 +79,8 @@
                         <% } else { %>
                             <div class="grid-cell data-cell" style="grid-column: span 3;">No Pilots Assigned</div>
                         <% } %>
-                        <% if (staff.cabinCrew && staff.cabinCrew.length > 0) { %>
-                            <% staff.cabinCrew.forEach(function(c) { %>
+                        <% if (staffInfo.cabinCrew && staffInfo.cabinCrew.length > 0) { %>
+                            <% staffInfo.cabinCrew.forEach(function(c) { %>
                                 <div class="grid-cell data-cell"><%= c.first_name || 'N/A' %> <%= c.last_name || 'N/A' %></div>
                                 <div class="grid-cell data-cell"><%= c.role || 'N/A' %></div>
                                 <div class="grid-cell data-cell"><%= c.rank || 'N/A' %></div>

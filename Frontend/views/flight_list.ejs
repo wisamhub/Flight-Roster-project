@@ -11,10 +11,6 @@
 </head>
 <body>
     <%- include("partials/navbar.ejs") %>
-    <div class="employee-header">
-        <div class="field"><span class="label">Employee Name: <%= employee.first_name %> <%= employee.last_name%></span></div>
-        <div class="field"><span class="label">Employee ID: <%= employee.staff_id %></span></div>
-    </div>
     <div class="flight-list-container">
         <h2 class="section-title">Assigned Flights</h2>
         <% if (flights && flights.length > 0) { %>

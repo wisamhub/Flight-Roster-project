@@ -184,7 +184,7 @@ app.get("/login/flight-list", (req, res)=>{
         return res.redirect("/login");
     }
     else{
-        res.render("flight-list", {employee: staff.staffInfo, flights: staff.staffAssignedFlights});
+        res.render("flight-list", {staff: staff.staffInfo, flights: staff.staffAssignedFlights});
     }
 })
 
@@ -208,7 +208,7 @@ app.post("/login/flight-list", async (req, res) => {
     if(passwordIsCorrect){
         staff.staffAssignedFlights = await getFlightsByStaffId(staffId);
         loggedIn = true;
-        return res.render("flight_list", {employee: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn});
+        return res.render("flight_list", {staff: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn});
     }
     
     else{
@@ -229,7 +229,7 @@ app.post("/staff/tabular-view", async (req, res) => {
         return res.status(404).render("404");
     }
     else{
-        res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, aircraft: globalFlightData.aircraftInfo, logIn: loggedIn, downloadJSON: true});
+        res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staffInfo: globalFlightData.staff, passengers: globalFlightData.passengers, aircraft: globalFlightData.aircraftInfo, logIn: loggedIn, downloadJSON: true, staff: staff.staffInfo});
     }
 });
 
@@ -241,7 +241,7 @@ app.get("/staff/extended-view", async (req,res) => {
         return res.status(404).render("404");
     }
     else{
-        res.render("extended_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, aircraft: globalFlightData.aircraftInfo, logIn: loggedIn, downloadJSON: true});
+        res.render("extended_view",{flightInfo: globalFlightData.flightInfo, staffInfo: globalFlightData.staff, passengers: globalFlightData.passengers, aircraft: globalFlightData.aircraftInfo, logIn: loggedIn, downloadJSON: true, staff: staff.staffInfo});
     }
 })
 
@@ -253,7 +253,7 @@ app.get("/staff/tabular-view", async (req,res) => {
        return res.status(404).render("404");
     }
     else{
-        res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
+        res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staffInfo: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true, staff: staff.staffInfo});
     }
 })
 
@@ -265,7 +265,7 @@ app.get("/staff/flight-view", async (req,res) => {
         return res.status(404).render("404");
     }
     else{
-        res.render("flight_view",{flightInfo: globalFlightData.flightInfo, staff: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true});
+        res.render("flight_view",{flightInfo: globalFlightData.flightInfo, staffInfo: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true, staff: staff.staffInfo});
     }
 })
 
@@ -285,7 +285,7 @@ app.get("/guest", (req, res)=>{
     flight = { flightNumber: "none" };
     globalFlightData = { flightInfo: null, passengers: [], staff: [] };
 
-    res.render("flight_tracker", {guestError, logIn: loggedIn});
+    res.render("flight_tracker", {guestError, logIn: loggedIn, staff : staff.staffInfo});
     guestError = false;
 })
 
@@ -312,7 +312,7 @@ app.get("/guest/guest-view",(req, res)=>{
         return res.redirect("/guest");
     }
     else{
-        res.render("guest_view", globalFlightData);
+        res.render("guest_view", {flightInfo: globalFlightData.flightInfo, passengers: globalFlightData.passengers, staff : staff.staffInfo});
     }   
 })
 
@@ -343,7 +343,7 @@ app.get("/",(req, res)=>{
 })
 
 app.get("/about-us", (req, res)=>{
-    res.render("about_us", {logIn: loggedIn});
+    res.render("about_us", {logIn: loggedIn, staff : staff.staffInfo});
 });
 
 app.get("/test", (req, res)=>{

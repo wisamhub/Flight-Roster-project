@@ -77,8 +77,8 @@
                     } %>
                 </div>
                 <div class="responsive-grid data-row">
-                    <% if (staff.cabinCrew && staff.cabinCrew.length > 0) { %>
-                        <% staff.cabinCrew.forEach(function(c){ %>
+                    <% if (staffInfo.cabinCrew && staffInfo.cabinCrew.length > 0) { %>
+                        <% staffInfo.cabinCrew.forEach(function(c){ %>
                     <div class="grid-cell data-cell"><%= c.first_name || 'N/A' %> <%= c.last_name || 'N/A' %></div>
                      <div class="grid-cell data-cell"><%= c.gender || 'N/A' %></div>
                      <div class="grid-cell data-cell"><%= c.rank || 'N/A' %></div>
@@ -102,8 +102,8 @@
                     <div class="grid-cell header-cell">AGE</div>
                 </div>
                 <div class="responsive-grid data-row">
-                    <% if (staff.pilot && staff.pilot.length > 0) { %>
-                         <% staff.pilot.forEach(function(p) { %>
+                    <% if (staffInfo.pilot && staffInfo.pilot.length > 0) { %>
+                         <% staffInfo.pilot.forEach(function(p) { %>
                     <div class="grid-cell data-cell"><%= p.first_name || 'N/A' %> <%= p.last_name || 'N/A' %></div>
                      <div class="grid-cell data-cell"><%= p.gender || 'N/A' %></div>
                      <div class="grid-cell data-cell"><%= p.rank || 'N/A' %></div>
@@ -123,8 +123,8 @@
                     <div class="grid-cell header-cell" id="cook_title">CAN COOK</div>
                 </div>
                 <div class="responsive-grid-chef data-row">
-                    <% if (staff.chef && staff.chef.length > 0) { %>
-                        <% staff.chef.forEach(function(c){ %>
+                    <% if (staffInfo.chef && staffInfo.chef.length > 0) { %>
+                        <% staffInfo.chef.forEach(function(c){ %>
                     <div class="grid-cell data-cell"><%= c.first_name || 'N/A' %> <%= c.last_name || 'N/A' %></div>
                      <div class="grid-cell data-cell" id="cook_description"><%= c.dishes || 'N/A' %></div>
                     <% })} %>

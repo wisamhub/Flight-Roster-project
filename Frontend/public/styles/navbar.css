@@ -10,68 +10,57 @@ a{
 
 .navbar_container {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 70px;
-    overflow: hidden;
     z-index: 1000;
+    padding: 0 3%;
+    background-color: #02193f;
+    border-top: 2px solid #ff8a02;
+    border-bottom: 3px solid #ff8a02;
 }
 
-.navbar_bg {
-    position: absolute;
-    background-color: #02193f;
-    bottom: 2px;
-    left: 0;
-    right: 0;
-    top: 2px;
+#nav_left {
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }
 
 .logo_container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 91.04%;
-    top: 0;
+    width: 50px;
+    height: 50px;
 }
 
 .logo_img {
-    position: absolute;
-    inset: 0;
     width: 100%;
     height: 100%;
-    max-width: none;
     object-fit: contain;
-    object-position: 50% 50%;
-    pointer-events: none;
 }
 
 .company_name {
-    position: absolute;
-    font-family: "Libre Baskerville", serif;
+    font-family: "Times New Roman", serif;
     font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
     color: white;
     white-space: nowrap;
-    top: 21%;
-    left: 3%;
-    margin: 0;
+    margin-left: -55px;
+    position: relative;
+    z-index: 10;
+}
+
+.nav_links_group {
+    display: flex;
+    gap: 40px;
 }
 
 .nav_link {
-    position: absolute;
     font-family: "Libre Baskerville", serif;
     font-size: 20px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
     color: #ff8a02;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0;
     cursor: pointer;
     transition: opacity 0.3s ease;
     white-space: nowrap;
@@ -81,108 +70,69 @@ a{
     opacity: 0.8;
 }
 
-.nav_home {
-    left: 280px;
+#nav_profile_container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
-.nav_about {
-    left: 449px;
+.prof_link {
+    font-family: "Libre Baskerville", serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ff8a02;
+    white-space: nowrap;
 }
 
-.nav_tracker {
-    left: 658px;
+#profile_circle {
+    background-color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0; 
+    box-shadow: 0 0 9px 4px #FF8A02;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.nav_upper_bar {
-    position: absolute;
-    background-color: #02193f;
-    height: 2px;
-    left: 0;
-    right: 0;
-    top: 0;
-}
-
-.nav_lower_bar {
-    position: absolute;
-    background-color: #02193f;
-    height: 3px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-
-.nav_logOut{
-    position: absolute;
-    right:40px;
-}
-
-.nav_download{
-    position: absolute;
-    right:150px;
+#profile_circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 @media screen and (max-width: 1024px) {
-    .nav_link {
+    .navbar_container {
+        padding: 0 15px;
+    }
+
+    #nav_left {
+        gap: 15px;
+    }
+
+    .nav_links_group {
+        gap: 15px;
+    }
+
+    .nav_link, .prof_link, .company_name {
         font-size: 16px;
-    }
-
-    .company_name {
-        font-size: 18px;
-    }
-
-    .nav_home {
-        left: 250px;
-    }
-
-    .nav_about {
-        left: 405px;
-    }
-
-    .nav_tracker {
-        left: 590px;
     }
 }
 
 @media screen and (max-width: 768px) {
     .company_name {
+        display: none;
+    }
+    
+    .nav_link, .prof_link {
         font-size: 14px;
-    }
-
-    .nav_link {
-        font-size: 12px;
-    }
-
-    .nav_home {
-        left: 220px;
-    }
-
-    .nav_about {
-        left: 360px;
-    }
-
-    .nav_tracker {
-        left: 520px;
     }
 }
 
-@media screen and (max-width: 480px) {
-    .company_name {
-        font-size: 10px;
-    }
-
-    .nav_link {
-        font-size: 8px;
-    }
-
-    .nav_home {
-        left: 180px;
-    }
-
-    .nav_about {
-        left: 280px;
-    }
-
-    .nav_tracker {
-        left: 400px;
+@media screen and (max-width: 600px) {
+    .nav_links_group {
+        display: none;
     }
 }
