@@ -270,6 +270,8 @@ app.get("/staff/flight-view", async (req,res) => {
 })
 
 app.get("/staff/flightJSON", (req, res)=>{
+    res.setHeader('Content-disposition', 'attachment; filename=flight_data.json');
+    res.setHeader('Content-type', 'application/json');
     res.send(globalFlightData);
 })
 
