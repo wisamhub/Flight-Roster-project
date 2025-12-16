@@ -18,16 +18,18 @@ h1{
     color:#FF8A02;
     font-size: 40px;
     margin: 0 auto;
+    margin-top:50px;
 }
 
-h2{
+h2.intro{
     color:#FF8A02;
     font-size: 24px;
     width: 40%;
     margin: 0 auto;
+    margin-top:30px;
 }
 
-h3{
+h3.intro{
     color:#E4A064;
     font-size: 18px;
     width: 35%;
@@ -39,7 +41,7 @@ h3{
 }
 
 .section_list_row {
-    margin-top: 40px;
+    margin-top: 90px;
     display: flex;
     gap: 50px;
     justify-content: center;
@@ -48,7 +50,8 @@ h3{
 
 .about_us_section_item {
     text-align: center;
-    color:#FF8A02
+    color:#FF8A02;
+    position: relative;
 }
 
 .circular_section_display {
@@ -71,4 +74,18 @@ h3{
     margin-top: 10px;
     font-size: 18px;
     font-weight: 600;
+}
+
+.airplanes_grid {
+    display:grid;
+    align-items: center;
+}
+
+h2.airplanes {
+    color:#FF8A02;
+    font-size: 40px;
+    width: 40%;
+    margin: 0 auto;
+    margin-top:90px;
+    text-align: center;
 }
