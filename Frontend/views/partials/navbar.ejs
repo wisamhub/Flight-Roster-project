@@ -29,10 +29,18 @@
                 <% } %>
                 <% if(staff){ %>
                     <div id="profile_circle">
-                        <% if(staff.role == "Pilot"){ %>
-                            <img src="\assets\images\pilot_icon.png" alt="Picture of pilot Icon">
-                        <% } else{ %>
-                            <img src="\assets\images\cabin_crew_icon.png" alt="Picture of pilot Icon">
+                        <% if(staff.role == "Pilot"){ 
+                            if(staff.gender == "Male"){ %>
+                                <img src="\assets\images\male_pilot_icon.png" alt="Picture of a male pilot Icon">
+                            <% } else { %>
+                                <img src="\assets\images\female_pilot_icon.png" alt="Picture of a femalepilot Icon">
+                            <% } %>
+                        <% } else{ 
+                            if(staff.gender == "Male"){ %>
+                                <img src="\assets\images\male_cabin_crew_icon.png" alt="Picture of a male cabin_crew Icon">
+                            <% } else { %>
+                                <img src="\assets\images\female_cabin_crew_icon.png" alt="Picture of a female cabin_crew Icon">
+                            <% } %>
                         <% } %>
                     </div>
                     <a class="prof_link" href="/staff/profile"><%= staff.first_name %> <%= staff.last_name %></a>

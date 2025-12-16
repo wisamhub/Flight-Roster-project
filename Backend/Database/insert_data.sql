@@ -21,12 +21,13 @@ INSERT INTO aircraft (aircraft_type_id, pilot_capacity, cabin_crew_capacity, eco
 (3, 2, 4, 80, '{3,3}', 20, '{2,2}'),
 (4, 2, 5, 150, '{3,3}', 30, '{2,2}');
 
-INSERT INTO staff (password_hash, first_name, last_name, birth_date, gender, nationality, role, rank) VALUES 
-('$2b$10$9CvqUv.vOEhEYCiWJ3GfDe4A.NNMMhQDUwjxWs26ZkLZicZbs5d8i', 'James', 'Bond', '1949-12-01', 'Male', 'Turkish', 'Pilot', 'Junior'),
-('$2b$10$XW9L.j4YgrBRkAoe.DKoUOBlhf3O4PyIpBiLpKq9JeDtShanPl8Cm', 'John', 'Doe', '1979-05-21', 'Female', 'Turkish', 'Cabin Crew', 'Senior'),
-('$2b$10$FSUaBqZwmY0n17NLoJSJluoT2.g0ud7z3gey3I8N/Kw2EEIwP8daK', 'Jackie', 'Chan', '1999-01-02', 'Male', 'Turkish', 'Pilot', 'Senior'),
-('$2b$10$LvgeT0To1I7cAj/Jum3SDeD9XG4cKdGl/h1p6s4w.MLbYqdR3fCZu', 'Johannes', 'Keplar', '2005-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Trainee'),
-('$2b$10$yyucEh47HATd4mKFukVwtOe4iEY9RDcLcoDC2AQ027OBt1sFXo166', 'Isaac', 'Newton', '2006-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Junior');
+INSERT INTO staff (staff_id, password_hash, first_name, last_name, birth_date, gender, nationality, role, rank) VALUES 
+(1, '$2b$10$9CvqUv.vOEhEYCiWJ3GfDe4A.NNMMhQDUwjxWs26ZkLZicZbs5d8i', 'James', 'Bond', '1949-12-01', 'Male', 'Turkish', 'Pilot', 'Junior'),
+(2, '$2b$10$XW9L.j4YgrBRkAoe.DKoUOBlhf3O4PyIpBiLpKq9JeDtShanPl8Cm', 'Akane', 'Tsunemori', '1979-05-21', 'Female', 'Japanese', 'Pilot', 'Senior'),
+(3, '$2b$10$Rs4z9FZRTdLlyHbcyZ6uEO9nFkcRlzenAwMLgZk/M3EkWJMhLpxxO', 'Anya', 'Forger', '1950-06-01', 'Female', 'Ostania', 'Cabin Crew', 'Senior'),
+(4, '$2b$10$UbMSAB5U3CrVWJBTAvRu4exZiXGFyK8fqmoj48sZNhWJ0U5iJ2K8u', 'Jackie', 'Chan', '1999-01-02', 'Male', 'Turkish', 'Cabin Crew', 'Senior'),
+(5, '$2b$10$CEsw4TeevAD6P3XqdCEEQeY0GflzNdG4vFyBUscLw1rv8c/AT/A/C', 'Johannes', 'Keplar', '2005-07-14', 'Male', 'Turkish', 'Cabin Crew', 'Trainee'),
+(6, '$2b$10$FD/TU/9GmXOfRSoxfcxfc.YKzmVd4VrfZSu1H4eRG4fzg/w/tqYnK', 'Isaac', 'Newton', '2006-07-14', 'Male', 'Turkish', 'Pilot', 'Junior');
 
 INSERT INTO licensed_on(staff_id, type_rating_id) VALUES
 (1,1),
@@ -45,8 +46,8 @@ INSERT INTO dish(dish_name) VALUES
 ('Beef burger');
 
 INSERT INTO can_cook(staff_id,dish_id) VALUES
-(2,1),
-(2,2),
+(3,1),
+(3,2),
 (4,1),
 (4,2);
  
@@ -61,7 +62,9 @@ INSERT INTO operating_on(staff_id,flight_id) VALUES
 (1,1),
 (1,2),
 (2,1),
-(2,2);
+(2,2),
+(3,1),
+(4,2);
 
 INSERT INTO passenger(passport_number, first_name, last_name, birth_date, gender, has_allergy, disability_assistance, nationality) VALUES
 ('N1289','John','smith', '1949-12-01', 'Male', 'Peanuts', 'Wheelchair','Turkish'),
