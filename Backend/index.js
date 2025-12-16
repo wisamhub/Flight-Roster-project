@@ -265,7 +265,7 @@ app.get("/staff/flight-view", async (req,res) => {
         return res.status(404).render("404");
     }
     else{
-        res.render("flight_view",{flightInfo: globalFlightData.flightInfo, staffInfo: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true, staff: staff.staffInfo});
+        res.render("flight_view",{flightInfo: globalFlightData.flightInfo, aircraft: globalFlightData.aircraftInfo, staffInfo: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, downloadJSON: true, staff: staff.staffInfo});
     }
 })
 

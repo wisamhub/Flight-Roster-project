@@ -18,156 +18,74 @@
       <button class="nav-item" onclick="window.location.href='/staff/extended-view'">EXTENDED VIEW</button>
     </nav>
   <main class="content">
-    <h1>Flight View</h1>
+    <% let aircraft_name;
+      if(aircraft && aircraft.family_name && aircraft.variant_name){
+        if(aircraft.variant_name.startsWith('-')){
+          aircraft_name = aircraft.family_name + aircraft.variant_name;
+        }
+        else{
+          aircraft_name = aircraft.variant_name;
+        }
+      } %>
+    <h1><%= aircraft_name ? aircraft_name : 'Flight View' %></h1>
     
     <div class="cabin-wrapper">
       <!-- BUSINESS -->
       <section class="cabin cabin-business" aria-label="Business cabin">
         <h2 class="cabin-title">Business</h2>
-
         <div class="seat-grid">
-          <!-- Sol blok -->
-          <div class="seat-block">
-            <div class="seat-column">
-              <div class="seat seat-business" id="1A"></div>
-              <div class="seat seat-business" id="2A"></div>
-              <div class="seat seat-business" id="3A"></div>
-              <div class="seat seat-business" id="4A"></div>
-              <div class="seat seat-business" id="5A"></div>
-              <div class="seat seat-business" id="6A"></div>
-              <div class="seat seat-business" id="7A"></div>
-              <div class="seat seat-business" id="8A"></div>
-              <div class="seat seat-business" id="9A"></div>
-              <div class="seat seat-business" id="10A"></div>
+          <% const businessLayout = aircraft.business_passenger_layout; 
+          const businessCap = aircraft.business_passenger_capacity;
+          const businessRowLen = businessLayout.reduce((a, b) => a + b, 0);
+          const businessRows = Math.ceil(businessCap / businessRowLen);
+          let businessSeatsCreated = 0; %>
+          <% for(let r = 1; r <= businessRows; r++){ %>
+            <div class="seat-row">
+              <% let charCode = 65; %>
+              <% businessLayout.forEach(blockSize =>{ %>
+                <div class="seat-group">
+                  <% for(let s = 0; s < blockSize; s++){ 
+                    if (businessSeatsCreated < businessCap){
+                      let seatCode = r + String.fromCharCode(charCode); %>
+                      <div class="seat seat-business" id="<%= seatCode %>"><%= seatCode %></div>
+                      <% businessSeatsCreated++; }
+                      else { %>
+                        <div class="seat seat-placeholder" style="visibility:hidden"></div>
+                      <% } charCode++; } %>
+                </div>
+              <% }); %>
             </div>
-            <div class="seat-column">
-              <div class="seat seat-business" id="1B"></div>
-              <div class="seat seat-business" id="2B"></div>
-              <div class="seat seat-business" id="3B"></div>
-              <div class="seat seat-business" id="4B"></div>
-              <div class="seat seat-business" id="5B"></div>
-              <div class="seat seat-business" id="6B"></div>
-              <div class="seat seat-business" id="7B"></div>
-              <div class="seat seat-business" id="8B"></div>
-              <div class="seat seat-business" id="9B"></div>
-              <div class="seat seat-business" id="10B"></div>
-            </div>
-          </div>
-
-          <!-- Sağ blok -->
-          <div class="seat-block">
-            <div class="seat-column">
-              <div class="seat seat-business" id="1C"></div>
-              <div class="seat seat-business" id="2C"></div>
-              <div class="seat seat-business" id="3C"></div>
-              <div class="seat seat-business" id="4C"></div>
-              <div class="seat seat-business" id="5C"></div>
-              <div class="seat seat-business" id="6C"></div>
-              <div class="seat seat-business" id="7C"></div>
-              <div class="seat seat-business" id="8C"></div>
-              <div class="seat seat-business" id="9C"></div>
-              <div class="seat seat-business" id="10C"></div>
-            </div>
-            <div class="seat-column">
-              <div class="seat seat-business" id="1D"></div>
-              <div class="seat seat-business" id="2D"></div>
-              <div class="seat seat-business" id="3D"></div>
-              <div class="seat seat-business" id="4D"></div>
-              <div class="seat seat-business" id="5D"></div>
-              <div class="seat seat-business" id="6D"></div>
-              <div class="seat seat-business" id="7D"></div>
-              <div class="seat seat-business" id="8D"></div>
-              <div class="seat seat-business" id="9D"></div>
-              <div class="seat seat-business" id="10D"></div>
-            </div>
-          </div>
+          <% } %>
         </div>
       </section>
 
-      <!-- BASIC -->
-      <section class="cabin cabin-basic" aria-label="Basic cabin">
+      <section class="cabin cabin-basic">
         <h2 class="cabin-title">Basic</h2>
-
         <div class="seat-grid">
-          <!-- Sol blok -->
-          <div class="seat-block">
-            <div class="seat-column">
-              <div class="seat seat-basic" id="11A"></div>
-              <div class="seat seat-basic" id="12A"></div>
-              <div class="seat seat-basic" id="13A"></div>
-              <div class="seat seat-basic" id="14A"></div>
-              <div class="seat seat-basic" id="15A"></div>
-              <div class="seat seat-basic" id="16A"></div>
-              <div class="seat seat-basic" id="17A"></div>
-              <div class="seat seat-basic" id="18A"></div>
-              <div class="seat seat-basic" id="19A"></div>
-              <div class="seat seat-basic" id="20A"></div>
+          <%const economyLayout = aircraft.economy_passenger_layout;
+          const economyCap = aircraft.economy_passenger_capacity;
+          const economyRowLen = economyLayout.reduce((a, b) => a + b, 0);
+          const economyRows = Math.ceil(economyCap / economyRowLen);
+          const startRow = businessRows + 1;
+          let economySeatsCreated = 0; %>
+          <% for(let r = 0; r < economyRows; r++) { 
+            let currentRow = startRow + r; %>
+            <div class="seat-row">
+              <% let charCode = 65; %>
+              <% economyLayout.forEach(blockSize => { %>
+                <div class="seat-group">
+                  <% for(let s = 0; s < blockSize; s++) { 
+                    if (economySeatsCreated < economyCap) {
+                      let seatCode = currentRow + String.fromCharCode(charCode); %>
+                      <div class="seat seat-basic" id="<%= seatCode %>"><%= seatCode %></div>
+                  <% economySeatsCreated++; } 
+                  else { %>
+                    <div class="seat seat-placeholder" style="visibility:hidden"></div>
+                  <% } charCode++; } %>
+                </div>
+              <% }); %>
             </div>
-            <div class="seat-column">
-              <div class="seat seat-basic" id="11B"></div>
-              <div class="seat seat-basic" id="12B"></div>
-              <div class="seat seat-basic" id="13B"></div>
-              <div class="seat seat-basic" id="14B"></div>
-              <div class="seat seat-basic" id="15B"></div>
-              <div class="seat seat-basic" id="16B"></div>
-              <div class="seat seat-basic" id="17B"></div>
-              <div class="seat seat-basic" id="18B"></div>
-              <div class="seat seat-basic" id="19B"></div>
-              <div class="seat seat-basic" id="20B"></div>
-            </div>
-            <div class="seat-column">
-              <div class="seat seat-basic" id="11C"></div>
-              <div class="seat seat-basic" id="12C"></div>
-              <div class="seat seat-basic" id="13C"></div>
-              <div class="seat seat-basic" id="14C"></div>
-              <div class="seat seat-basic" id="15C"></div>
-              <div class="seat seat-basic" id="16C"></div>
-              <div class="seat seat-basic" id="17C"></div>
-              <div class="seat seat-basic" id="18C"></div>
-              <div class="seat seat-basic" id="19C"></div>
-              <div class="seat seat-basic" id="20C"></div>
-            </div>
-          </div>
-
-          <!-- Sağ blok -->
-          <div class="seat-block">
-            <div class="seat-column">
-              <div class="seat seat-basic" id="11D"></div>
-              <div class="seat seat-basic" id="12D"></div>
-              <div class="seat seat-basic" id="13D"></div>
-              <div class="seat seat-basic" id="14D"></div>
-              <div class="seat seat-basic" id="15D"></div>
-              <div class="seat seat-basic" id="16D"></div>
-              <div class="seat seat-basic" id="17D"></div>
-              <div class="seat seat-basic" id="18D"></div>
-              <div class="seat seat-basic" id="19D"></div>
-              <div class="seat seat-basic" id="20D"></div>
-            </div>
-            <div class="seat-column">
-              <div class="seat seat-basic" id="11E"></div>
-              <div class="seat seat-basic" id="12E"></div>
-              <div class="seat seat-basic" id="13E"></div>
-              <div class="seat seat-basic" id="14E"></div>
-              <div class="seat seat-basic" id="15E"></div>
-              <div class="seat seat-basic" id="16E"></div>
-              <div class="seat seat-basic" id="17E"></div>
-              <div class="seat seat-basic" id="18E"></div>
-              <div class="seat seat-basic" id="19E"></div>
-              <div class="seat seat-basic" id="20E"></div>
-            </div>
-            <div class="seat-column">
-              <div class="seat seat-basic" id="11F"></div>
-              <div class="seat seat-basic" id="12F"></div>
-              <div class="seat seat-basic" id="13F"></div>
-              <div class="seat seat-basic" id="14F"></div>
-              <div class="seat seat-basic" id="15F"></div>
-              <div class="seat seat-basic" id="16F"></div>
-              <div class="seat seat-basic" id="17F"></div>
-              <div class="seat seat-basic" id="18F"></div>
-              <div class="seat seat-basic" id="19F"></div>
-              <div class="seat seat-basic" id="20F"></div>
-            </div>
-          </div>
+          <% } %>
         </div>
       </section>
     </div>
@@ -211,28 +129,6 @@
     const tooltipAge = document.getElementById("tooltip-age");
     const container = document.querySelector(".content");
 
-    // seatCode üretici: columns = kolon sayısı, startRow = hangi satırdan başlasın
-    function setupSeatCodes(selector, columns, startRow) {
-      const seats = document.querySelectorAll(selector);
-      const rows = 10;
-      seats.forEach((seat, index) => {
-        const colIndex = Math.floor(index / rows); // 0..columns-1
-        const rowIndex = index % rows;            // 0..9
-        const letter = String.fromCharCode(65 + colIndex); // A,B,C...
-        const code = (startRow + rowIndex) + letter;       // 1A, 11C, vb.
-        seat.textContent = code;
-        seat.dataset.seat = code;
-      });
-    }
-
-    // Business: 4 kolon, 1–10
-    setupSeatCodes(".seat-business", 4, 1);
-    // Basic: 6 kolon, 11–20 (Business’ın devamı)
-    setupSeatCodes(".seat-basic", 6, 11);
-
-    // DB'den veri bağlamak için örnek (gerçek veriyi siz dolduracaksınız):
-
-    // this will add details and make the hover functional
     function addDetails(seatID, name, gender, nationality, age) {
        const sID = document.getElementById(seatID);
       sID.dataset.name = name;
@@ -247,8 +143,8 @@
       sID.addEventListener("blur", hideTooltip);
    
     }
-    //addDetails("6C","wissam the gigachad","Male","Turkish","34");
-    //addDetails("20F","abdelrahman","Male","Turkish","34");
+    //addDetails("6C","wissam","Male","Turkish","34");
+    //addDetails("20F","abdulrahman the gigachad","Male","Turkish","34");
     //addDetails("12A","mustafa","Male","Turkish","34");
     
 
