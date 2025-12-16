@@ -344,9 +344,26 @@ app.get("/",(req, res)=>{
     res.render("home");
 })
 
+//about us pages
 app.get("/about-us", (req, res)=>{
     res.render("about_us", {logIn: loggedIn, staff : staff.staffInfo});
 });
+
+app.get("/about-us/airplanes", (req, res)=>{
+    res.render("airplanes");
+})
+
+app.get("/about-us/destinations", (req, res)=>{
+    res.render("destinations");
+})
+
+app.get("/about-us/founders", (req, res)=>{
+    res.render("founders");
+})
+
+app.get("/about-us/crew", (req, res)=>{
+    res.render("crew");
+})
 
 app.get("/test", (req, res)=>{
     res.render("404");
