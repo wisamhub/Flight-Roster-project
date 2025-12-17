@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/png"href="/assets/images/logo.png">
   <title>Anuti Airlines · Flight View</title>
   <link rel="stylesheet" href="/styles/flight_view.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,38 +18,35 @@
       <button class="nav-item" onclick="window.location.href='/staff/extended-view'">EXTENDED VIEW</button>
     </nav>
   <main class="content">
-    <% let aircraft_name;
-      if(aircraft && aircraft.family_name && aircraft.variant_name){
-        if(aircraft.variant_name.startsWith('-')){
-          aircraft_name = aircraft.family_name + aircraft.variant_name;
-        }
-        else{
-          aircraft_name = aircraft.variant_name;
-        }
-      } %>
-    <h1><%= aircraft_name ? aircraft_name : 'Flight View' %></h1>
-    
+    <% let aircraft_name; %>
+    <% if (aircraft && aircraft.family_name && aircraft.variant_name) { %>
+      <% if (aircraft.variant_name.startsWith('-')) { %>
+        <% aircraft_name = aircraft.family_name + aircraft.variant_name; %>
+      <% } else { %>
+        <% aircraft_name = aircraft.variant_name; %>
+      <% } %>
+    <% } %>
+    <h1><%= aircraft_name ? aircraft_name : 'Flight View' %></h1>  
     <div class="cabin-wrapper">
       <!-- BUSINESS -->
       <section class="cabin cabin-business" aria-label="Business cabin">
         <h2 class="cabin-title">Business</h2>
         <div class="seat-grid">
-          <% const businessLayout = aircraft.business_passenger_layout; 
-          const businessCap = aircraft.business_passenger_capacity;
-          const businessRowLen = businessLayout.reduce((a, b) => a + b, 0);
-          const businessRows = Math.ceil(businessCap / businessRowLen);
-          let businessSeatsCreated = 0; %>
+          <% const businessLayout = aircraft.business_passenger_layout; %>
+          <% const businessCap = aircraft.business_passenger_capacity; %>
+          <% const businessRowLen = businessLayout.reduce((a, b) => a + b, 0); %>
+          <% const businessRows = Math.ceil(businessCap / businessRowLen); %>
+          <% let businessSeatsCreated = 0; %> 
           <% for(let r = 1; r <= businessRows; r++){ %>
             <div class="seat-row">
               <% let charCode = 65; %>
               <% businessLayout.forEach(blockSize =>{ %>
                 <div class="seat-group">
-                  <% for(let s = 0; s < blockSize; s++){ 
-                    if (businessSeatsCreated < businessCap){
-                      let seatCode = r + String.fromCharCode(charCode); %>
+                  <% for(let s = 0; s < blockSize; s++){ %>
+                    <% if (businessSeatsCreated < businessCap){ %>
+                      <% let seatCode = r + String.fromCharCode(charCode); %>
                       <div class="seat seat-business" id="<%= seatCode %>"><%= seatCode %></div>
-                      <% businessSeatsCreated++; }
-                      else { %>
+                      <% businessSeatsCreated++; } else { %>
                         <div class="seat seat-placeholder" style="visibility:hidden"></div>
                       <% } charCode++; } %>
                 </div>
@@ -59,28 +55,26 @@
           <% } %>
         </div>
       </section>
-
       <section class="cabin cabin-basic">
         <h2 class="cabin-title">Basic</h2>
         <div class="seat-grid">
-          <%const economyLayout = aircraft.economy_passenger_layout;
-          const economyCap = aircraft.economy_passenger_capacity;
-          const economyRowLen = economyLayout.reduce((a, b) => a + b, 0);
-          const economyRows = Math.ceil(economyCap / economyRowLen);
-          const startRow = businessRows + 1;
-          let economySeatsCreated = 0; %>
-          <% for(let r = 0; r < economyRows; r++) { 
-            let currentRow = startRow + r; %>
+          <% const economyLayout = aircraft.economy_passenger_layout; %>
+          <% const economyCap = aircraft.economy_passenger_capacity; %> 
+          <% const economyRowLen = economyLayout.reduce((a, b) => a + b, 0); %>
+          <% const economyRows = Math.ceil(economyCap / economyRowLen); %>
+          <% const startRow = businessRows + 1; %>
+          <% let economySeatsCreated = 0; %>
+          <% for(let r = 0; r < economyRows; r++) { %>
+            <% let currentRow = startRow + r; %> 
             <div class="seat-row">
               <% let charCode = 65; %>
               <% economyLayout.forEach(blockSize => { %>
                 <div class="seat-group">
-                  <% for(let s = 0; s < blockSize; s++) { 
-                    if (economySeatsCreated < economyCap) {
-                      let seatCode = currentRow + String.fromCharCode(charCode); %>
+                  <% for(let s = 0; s < blockSize; s++) { %>
+                    <% if (economySeatsCreated < economyCap) { %>
+                     <% let seatCode = currentRow + String.fromCharCode(charCode); %>
                       <div class="seat seat-basic" id="<%= seatCode %>"><%= seatCode %></div>
-                  <% economySeatsCreated++; } 
-                  else { %>
+                  <% economySeatsCreated++; } else { %>
                     <div class="seat seat-placeholder" style="visibility:hidden"></div>
                   <% } charCode++; } %>
                 </div>
@@ -200,7 +194,7 @@
     const pAge = calculateAge(p.birth_date);
 
 
-    addDetails(pSeatID, pName, pGender, pNationality, pAge);
+    console.log(addDetails(pSeatID, pName, pGender, pNationality, pAge));
     });
   </script>
 
