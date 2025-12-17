@@ -94,7 +94,6 @@ async function fetchFlightData(input) {
             }
             else{
                 data.staff.pilot = await getPilotByFlightNumber(data.flightInfo.flight_number);
-                console.log("FligjtnI<BER: ", data.staff.pilot)
                 data.staff.cabinCrew = await getCabinCrewByFlightNumber(data.flightInfo.flight_number);
                 data.staff.chef = await getChefByFlightNumber(data.flightInfo.flight_number);
             }
@@ -139,7 +138,6 @@ async function fetchFlightData(input) {
             } 
         }
     }
-    console.log(staff["Id"]);
     return data;
 }
 
@@ -294,7 +292,6 @@ app.get("/guest", (req, res)=>{
 //after the passenger inputs one of the two inputs the guest-view page will be presented
 app.post("/guest", async (req, res)=>{
     const guestInput = req.body.flightInput.trim();
-    console.log(guestInput);
     globalFlightData = await fetchFlightData(guestInput);
 
     if(!globalFlightData || !globalFlightData.flightInfo){
@@ -314,7 +311,7 @@ app.get("/guest/guest-view",(req, res)=>{
         return res.redirect("/guest");
     }
     else{
-        res.render("guest_view", {flightInfo: globalFlightData.flightInfo, passengers: globalFlightData.passengers, staff : staff.staffInfo});
+        res.render("guest_view", {flightInfo: globalFlightData.flightInfo, aircraft: globalFlightData.aircraftInfo, passengers: globalFlightData.passengers, staff : staff.staffInfo});
     }   
 })
 

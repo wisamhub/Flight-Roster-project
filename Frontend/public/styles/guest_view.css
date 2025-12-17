@@ -4,7 +4,7 @@
     --divider-blue: #02193f;
     --bg-gray: #f3f4f6;
     --text-gray: #6b7280;
-    --border-gray: #e5e7eb;
+    --ticket-bg: #ffffff;
 }
 
 * {
@@ -16,136 +16,306 @@
 body {
     margin-top:70px;
     font-family: "Corben", serif;
-    font-weight: 400;
-    background-color: var(--bg-gray);
+    background: linear-gradient(220deg, var(--accent-orange), #032089);
     min-height: 100vh;
     padding: 1rem;
-    transition: background-color 0.3s ease;
-}
-
-@media (min-width: 768px) {
-    body {
-        padding: 2rem;
-    }
+    background-attachment: fixed; 
 }
 
 .main-app-container {
-    max-width: 1920px;
-    min-height: 800px;
+    max-width: 1200px; 
     margin: 0 auto;
-    background-color: white;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    border-radius: 0.5rem;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: background-color 0.3s ease;
-}
-
-.nav-container {
-    display: flex;
-    flex-wrap: wrap;
-    border-bottom: 1px solid var(--border-gray);
-    background-color: #f9fafb;
-    flex-shrink: 0;
-    z-index: 10;
-}
-
-.nav-item {
-    flex: 1;
-    padding: 1rem 1.5rem;
-    text-align: center;
-    color: var(--text-gray);
-    background: transparent;
-    border: none;
-    font-family: "Corben", serif;
-    font-weight: 400;
-    font-weight: 500;
-    font-size: 1.125rem;
-    cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
-    min-width: 150px;
-}
-
-.nav-item:hover {
-    background-color: var(--bg-gray);
-}
-
-.nav-item.active {
-    background-color: var(--accent-orange);
-    color: var(--deep-blue);
-    font-weight: 700;
-    box-shadow: inset 0 -4px 0 0 rgba(0,0,0,0.1);
 }
 
 .content-area {
-    padding: 1rem;
-    flex-grow: 1;
-    overflow-y: auto;
+    padding: 2rem 1rem;
 }
 
-@media (min-width: 768px) {
-    .content-area {
-        padding: 2rem;
-    }
-}
-
-.info-section {
-    background-color: white;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border-radius: 0.375rem;
-    overflow: hidden;
-    border: 1px solid var(--border-gray);
-    border-bottom: 3px solid var(--deep-blue);
+.page-title {
+    color: var(--deep-blue);
+    text-align: center;
     margin-bottom: 2rem;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.section-header {
+.ticket-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+.boarding-pass {
+    display: flex;
+    width: 100%;
+    max-width: 850px;
+    background-color: var(--ticket-bg);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(2, 18, 78, 0.15);
+    overflow: hidden;
+    position: relative;
+    min-height: 280px;
+}
+
+.pass-main {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+}
+
+.pass-header {
     background-color: var(--deep-blue);
-    padding: 1rem 0;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 4px solid var(--accent-orange);
+}
+
+.airline-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    letter-spacing: 2px;
+}
+
+.flight-no {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--accent-orange);
+}
+
+.pass-body {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.route-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.airport-group {
+    display: flex;
+    flex-direction: column;
     text-align: center;
 }
 
-.section-header h2, .section-title {
-    color: white;
-    font-weight: 400;
+.airport-code {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--deep-blue);
+    line-height: 1;
+}
+
+.airport-label {
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    margin-top: 5px;
+    font-family: sans-serif;
+}
+
+.route-icon {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    color: var(--accent-orange);
+}
+
+.route-icon i {
     font-size: 1.5rem;
-    margin: 0;
+    transform: rotate(0deg); 
 }
 
-.responsive-grid {
+.dotted-line {
+    width: 100%;
+    border-bottom: 2px dashed var(--border-gray, #ccc);
+    margin-top: 5px;
+}
+
+.pass-details-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-item .label {
+    font-size: 0.7rem;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    font-family: sans-serif;
+    margin-bottom: 4px;
+}
+
+.detail-item .value {
+    color: var(--deep-blue);
+    font-weight: 700;
+    font-size: 1rem;
+    white-space: nowrap
+}
+
+.detail-item .value.highlight {
+    color: var(--accent-orange);
+    font-size: 1.2rem;
+}
+
+.pass-divider {
+    width: 0;
+    position: relative;
+    border-right: 2px dashed #ccc;
+    background: var(--bg-gray); 
+}
+
+.notch-top, .notch-bottom {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-color: var(--bg-gray); 
+    border-radius: 50%;
+    left: -11px; 
+    z-index: 10;
+}
+
+.notch-top { top: -12px; }
+.notch-bottom { bottom: -12px; }
+
+.pass-stub {
+    width: 220px;
+    background-color: #fcfcfc;
+    display: flex;
+    flex-direction: column;
+}
+
+.stub-header {
     background-color: var(--deep-blue);
-}
-
-@media (min-width: 768px) { .responsive-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 1024px) { 
-    .responsive-grid { grid-template-columns: repeat(6, 1fr); }
-    .responsive-grid.col-4 { grid-template-columns: repeat(4, 1fr); }
-    .responsive-grid.col-3 { grid-template-columns: repeat(3, 1fr); }
-}
-
-.grid-cell {
+    color: white;
     padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    border-bottom: 4px solid var(--accent-orange);
+    opacity: 0.95;
+}
+
+.stub-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    text-align: center;
+}
+
+.stub-passenger {
+    font-size: 1rem;
+    color: var(--deep-blue);
+    margin-bottom: 1rem;
+}
+
+.seat-display {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-gray);
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.seat-display .label {
+    font-size: 0.7rem;
+    color: var(--text-gray);
+    font-family: sans-serif;
+}
+
+.seat-display .seat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--deep-blue);
+}
+
+.stub-flight {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+.barcode {
+    height: 35px;
+    width: 100%;
+    background: repeating-linear-gradient(
+        90deg,
+        #333 1px,
+        #333 3px,
+        transparent 3px,
+        transparent 6px,
+        #333 6px,
+        #333 9px,
+        transparent 9px,
+        transparent 11px
+    );
+    opacity: 0.7;
+}
+
+.ticket-note {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    background-color: #fff8f0; 
+    border: 1px dashed var(--accent-orange);
+    border-radius: 8px;
+    color: var(--deep-blue);
+    font-size: 0.9rem;
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    min-height: 65px;
-    word-break: break-word;
-    background-color: white;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    gap: 0.75rem;
+    font-family: sans-serif;
 }
 
-.header-cell { background-color: var(--deep-blue); color: white; font-weight: 500; }
-.data-cell { color: var(--deep-blue); font-weight: 500; }
-.placeholder-content { background-color: white; height: 150px; transition: background-color 0.3s ease; }
+.ticket-note strong {
+    color: var(--accent-orange);
+    font-weight: 700;
+}
 
+@media (max-width: 768px) {
+    .boarding-pass {
+        flex-direction: column;
+        max-width: 400px;
+    }
+    
+    .pass-divider {
+        width: 100%;
+        height: 0;
+        border-right: none;
+        border-bottom: 2px dashed #ccc;
+    }
 
+    .notch-top { top: -12px; left: -12px; display:none; } 
+    .notch-bottom { display:none;}
+    
+    .pass-stub {
+        width: 100%;
+        border-top: 2px dashed #ccc;
+    }
 
-
-
+    .pass-details-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

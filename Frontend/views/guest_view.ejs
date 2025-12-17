@@ -3,53 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabular View - Responsive</title>
+    <title>Guest View </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Corben:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Corben:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/styles/guest_view.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <%- include("partials/navbar.ejs") %>
     <div class="main-app-container">
         <main class="content-area">
-            <div class="tabular-view">
-                
-                <section class="info-section">
-                    <div class="section-header">
-                        <h2 class="section-title">FLIGHT INFORMATION</h2>
-                    </div>
-                    <div class="responsive-grid col-4">
-                        <div class="grid-cell header-cell">FLIGHT NUMBER</div>
-                        <div class="grid-cell header-cell">DATE</div>
-                        <div class="grid-cell header-cell">DEPARTURE AIRPORT</div>
-                        <div class="grid-cell header-cell">GATE</div>
-                       
-                        <div class="grid-cell data-cell"><%= flightInfo.flight_number ? flightInfo.flight_number : 'N/A' %></div>
-                        <div class="grid-cell data-cell"><%= flightInfo.date ? flightInfo.date.toISOString().split('T')[0] : 'N/A'%></div>
-                        <div class="grid-cell data-cell"><%= flightInfo.dept_airport ? flightInfo.dept_airport : 'N/A'%></div>
-                        <div class="grid-cell data-cell"><%= flightInfo.gate ? flightInfo.gate : 'TBD'%></div>
-                    </div>
-                </section>
-
-                <% if (passengers && passengers.length > 0) {  %>    
-                <div class="split-section-container">  
-                    <section class="info-section">
-                        <div class="section-header">
-                            <h2 class="section-title">PASSENGER</h2>
+            <h2 class="page-title">
+                <%= (passengers && passengers.length > 0) ? 'YOUR BOARDING PASSES' : 'FLIGHT OVERVIEW' %>
+            </h2>
+            <div class="ticket-container">
+                <% if (passengers && passengers.length > 0) { %>
+                    <% passengers.forEach(function(p) { %>
+                        <div class="boarding-pass">
+                            <div class="pass-main">
+                                <div class="pass-header">
+                                    <span class="airline-label">FLIGHT TICKET</span>
+                                    <span class="flight-no">FLIGHT <%= flightInfo.flight_number || 'N/A' %></span>
+                                </div>
+                                <div class="pass-body">
+                                    <div class="route-display">
+                                        <div class="airport-group">
+                                            <span class="airport-code"><%= flightInfo.dept_airport || 'N/A' %></span>
+                                            <span class="airport-label">DEPARTURE</span>
+                                        </div>
+                                        <div class="route-icon">
+                                            <i class="fa-solid fa-plane"></i>
+                                            <div class="dotted-line"></div>
+                                        </div>
+                                        <div class="airport-group">
+                                            <span class="airport-code"><%= flightInfo.arrival_airport || 'N/A' %></span>
+                                            <span class="airport-label">ARRIVAL</span>
+                                        </div>
+                                    </div>
+                                    <div class="pass-details-grid">
+                                        <div class="detail-item">
+                                            <span class="label">PASSENGER</span>
+                                            <span class="value"><%= p.first_name || 'N/A' %> <%= p.last_name || 'N/A' %></span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="label">DATE</span>
+                                            <span class="value"><%= flightInfo.date ? flightInfo.date.toISOString().split('T')[0] : 'N/A' %></span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="label">DEPARTURE TIME</span>
+                                            <span class="value"><%= flightInfo.dept_time || 'N/A' %></span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="label">GATE</span>
+                                            <span class="value highlight"><%= flightInfo.gate || 'TBD' %></span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="label">CLASS</span>
+                                            <span class="value"><%= p.class || 'N/A' %></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pass-divider">
+                                <div class="notch-top"></div>
+                                <div class="line"></div>
+                                <div class="notch-bottom"></div>
+                            </div>
+                            <div class="pass-stub">
+                                <div class="stub-header">
+                                    BOARDING PASS
+                                </div>
+                                <div class="stub-body">
+                                    <div class="detail-item">
+                                            <span class="label">STATUS</span>
+                                            <span class="value"><%= flightInfo.status || 'N/A' %></span>
+                                        </div>
+                                    <div class="seat-display">
+                                        <span class="label">SEAT</span>
+                                        <span class="seat-number"><%= p.seat_number || 'TBD' %></span>
+                                    </div>
+                                    <div class="stub-flight">
+                                        <span class="label">FLIGHT</span>
+                                        <span><%= flightInfo.flight_number || 'N/A' %></span>
+                                    </div>
+                                    <div class="barcode"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="responsive-grid col-3">
-                            <div class="grid-cell header-cell">NAME</div>
-                            <div class="grid-cell header-cell">SEAT</div>
-                            <div class="grid-cell header-cell">CLASS</div>
-                            <% passengers.forEach(function(p) { %>  
-                                <div class="grid-cell data-cell"><%=  p.first_name || 'N/A' %>  <%= p.last_name || 'N/A'%></div>
-                                <div class="grid-cell data-cell"><%=   p.seat_number || 'N/A' %></div>
-                                <div class="grid-cell data-cell"><%=  p.class || 'N/A'%> </div>
-                            <% })} %>
+                    <% }); %>
+                <% } else { %>
+                    <div class="boarding-pass">
+                        <div class="pass-main">
+                            <div class="pass-header">
+                                <span class="airline-label">FLIGHT INFO</span>
+                                <span class="flight-no">FLIGHT <%= flightInfo.flight_number || 'N/A' %></span>
+                            </div>
+                            <div class="pass-body">
+                                <div class="route-display">
+                                    <div class="airport-group">
+                                        <span class="airport-code"><%= flightInfo.dept_airport || 'N/A' %></span>
+                                        <span class="airport-label">DEPARTURE</span>
+                                    </div>
+                                    <div class="route-icon">
+                                        <i class="fa-solid fa-plane"></i>
+                                        <div class="dotted-line"></div>
+                                    </div>
+                                    <div class="airport-group">
+                                        <span class="airport-code"><%= flightInfo.arrival_airport || 'N/A' %></span>
+                                        <span class="airport-label">ARRIVAL</span>
+                                    </div>
+                                </div>
+                                <div class="pass-details-grid">
+                                    <div class="detail-item">
+                                        <span class="label">STATUS</span>
+                                        <span class="value"><%= flightInfo.status || 'N/A' %></span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="label">DATE</span>
+                                        <span class="value"><%= flightInfo.date ? flightInfo.date.toISOString().split('T')[0] : 'N/A' %></span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="label">DEPARTURE TIME</span>
+                                        <span class="value"><%= flightInfo.dept_time || 'N/A' %></span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="label">GATE</span>
+                                        <span class="value highlight"><%= flightInfo.gate || 'TBD' %></span>
+                                    </div>
+                                    <% let aircraft_name;
+                                    if(aircraft && aircraft.family_name && aircraft.variant_name){
+                                        if(aircraft.variant_name.startsWith('-')){
+                                        aircraft_name = aircraft.family_name + aircraft.variant_name;
+                                        }
+                                        else{
+                                        aircraft_name = aircraft.variant_name;
+                                        }
+                                    } %>
+                                    <div class="detail-item">
+                                        <span class="label">AIRCRAFT</span>
+                                        <span class="value"><%= aircraft_name ? aircraft_name : 'N/A' %></span>
+                                    </div>
+                                </div>
+                                <div class="ticket-note">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <span>Search with <strong>Ticket ID</strong> to view specific seat assignments.</span>
+                                </div>
+                            </div>
                         </div>
-                    </section>
-                </div>
+                        <div class="pass-divider">
+                            <div class="notch-top"></div>
+                            <div class="line"></div>
+                            <div class="notch-bottom"></div>
+                        </div>
+                        <div class="pass-stub">
+                            <div class="stub-header">
+                                FLIGHT INFO
+                            </div>
+                            <div class="stub-body">
+                                <div class="stub-passenger">
+                                    Have a safe flight!
+                                </div>
+                                <div class="seat-display">
+                                    <span class="label">SEAT</span>
+                                    <span class="seat-number" style="font-size: 1.5rem; color: #ccc;">---</span>
+                                </div>
+                                <div class="stub-flight">
+                                    <span class="label">FLIGHT</span>
+                                    <span><%= flightInfo.flight_number || 'N/A' %></span>
+                                </div>
+                                <div class="barcode"></div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
             </div>
         </main>
     </div>
