@@ -77,7 +77,7 @@
                                 <div class="grid-cell data-cell"><%= p.rank || 'N/A' %></div>
                             <% }); %>
                         <% } else { %>
-                            <div class="grid-cell data-cell" style="grid-column: span 3;">No Pilots Assigned</div>
+                            <div class="grid-cell data-cell" style="grid-column: span 3;">Long distance piloting</div>
                         <% } %>
                         <% if (staffInfo.cabinCrew && staffInfo.cabinCrew.length > 0) { %>
                             <% staffInfo.cabinCrew.forEach(function(c) { %>
@@ -86,7 +86,7 @@
                                 <div class="grid-cell data-cell"><%= c.rank || 'N/A' %></div>
                             <% }); %>
                         <% } else { %>
-                            <div class="grid-cell data-cell" style="grid-column: span 3;">No Cabin Crew Assigned</div>
+                            <div class="grid-cell data-cell" style="grid-column: span 3;">Automated Cabin crew</div>
                         <% } %>
                         </div>
                     </section>

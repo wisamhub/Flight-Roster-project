@@ -141,7 +141,6 @@ async function fetchFlightData(input) {
     return data;
 }
 
-const password = "staff5";
 //use this to get the hashing
 async function getHash(password) {
   const hash = await bcrypt.hash(password , saltRounds);
@@ -190,7 +189,7 @@ app.post("/login/flight-list", async (req, res) => {
     const staffId = req.body.staffId;
     const inputPassword = req.body.password;
 
-    if (!/^[1-9]$/.test(staffId)) {
+    if (!/^\d+$/.test(staffId)) {
         loginError = true;
         return res.redirect("/login");
     }
@@ -375,5 +374,5 @@ app.use((req, res) => {
 //server listener
 app.listen(3000, async ()=>{
     console.log("server started at port:"+ port);
-    const hash = await getHash(password); 
+    console.log(await compare('staff10','$2b$10$EUhikRrToV1YfKISPyqv..JwD587vA93fu5yrcd9LSE/4L8wAr1Qi'));
 })
