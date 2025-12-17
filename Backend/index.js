@@ -195,7 +195,7 @@ app.post("/login/flight-list", async (req, res) => {
     }
 
     staff.staffInfo = await getStaffInfoByStaffId(staffId);
-    
+
     if(!staff.staffInfo){
         loginError = true;
         return res.redirect("/login");
@@ -203,10 +203,17 @@ app.post("/login/flight-list", async (req, res) => {
     staff["Id"] = staffId;
     let passwordIsCorrect = await compare(inputPassword, staff.staffInfo.password_hash);
     if(passwordIsCorrect){
-        staff.staffAssignedFlights = await getFlightsByStaffId(staffId);
         loggedIn = true;
+        if(staff.staffInfo["role"]=="Admin"){
+            res.send("admin login");
+        }
+        else{
+        staff.staffAssignedFlights = await getFlightsByStaffId(staffId);
         return res.render("flight_list", {staff: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn});
+        }
     }
+
+
     
     else{
         loginError = true;
@@ -374,5 +381,4 @@ app.use((req, res) => {
 //server listener
 app.listen(3000, async ()=>{
     console.log("server started at port:"+ port);
-    console.log(await compare('staff10','$2b$10$EUhikRrToV1YfKISPyqv..JwD587vA93fu5yrcd9LSE/4L8wAr1Qi'));
 })

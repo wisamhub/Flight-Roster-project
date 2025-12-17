@@ -41,7 +41,9 @@ INSERT INTO staff (staff_id, password_hash, first_name, last_name, birth_date, g
 (17, '$2b$10$gmWKJw.jjh/2FE3B.dmPYuN4GJeuXX2OyGg4x8nXCfCisKtiNGtTK', 'Priya', 'Sharma',   '1984-10-17', 'Female', 'Indian',  'Pilot',      'Senior'),
 (18, '$2b$10$kmbZa5j8iCmZHWuZ4gkube9fwGhRDcsKSi.INO18Pj6qCtpQ.5r2S', 'Jonas', 'Lindstrom','1996-07-01', 'Male',   'Swedish', 'Cabin Crew', 'Junior'),
 (19, '$2b$10$7lThKZ7aphymvcY4NvSJf.Xw60bmihw/m/Uxyx7sS5Lg4/eJjHFVq', 'Fatma', 'Yilmaz',   '2002-09-26', 'Female', 'Turkish', 'Cabin Crew', 'Trainee'),
-(20, '$2b$10$V.TwahwBjT08JtKVzEYOKO8qlca.G0R07LGxXwgeMwqESIGIPau/q', 'Miguel','Ortega',   '1989-02-11', 'Male',   'Mexican', 'Pilot',      'Junior');
+(20, '$2b$10$V.TwahwBjT08JtKVzEYOKO8qlca.G0R07LGxXwgeMwqESIGIPau/q', 'Miguel','Ortega',   '1989-02-11', 'Male',   'Mexican', 'Pilot',      'Junior'),
+(21, '$2b$10$b.0N8t/KtAzJPekmZggyBO/zvNX0ZnrSEjh8FkWVdR1Aa78/VljTG','Wisam','Fakih','2005-04-08','Male', 'Venezuelano', 'Admin', 'Senior');
+--every staff from 1 to 20 has their password as staff + ID so staff1 to staff20, but staff 21's password is Gigachad
 
 
 INSERT INTO licensed_on(staff_id, type_rating_id) VALUES

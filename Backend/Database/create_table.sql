@@ -1,5 +1,5 @@
 CREATE TYPE gender_enum AS ENUM ('Male', 'Female', 'Other');
-CREATE TYPE role_enum AS ENUM ('Pilot', 'Cabin Crew');
+CREATE TYPE role_enum AS ENUM ('Pilot', 'Cabin Crew', 'Admin');
 CREATE TYPE rank_enum AS ENUM ('Senior', 'Junior', 'Trainee');
 CREATE TYPE flight_status_enum AS ENUM ('Scheduled', 'Enroute', 'Boarding','Departed','Delayed','Cancelled','Diverted','Landed','Deboarding');
 CREATE TYPE class_enum AS ENUM ('Economy', 'Business');
