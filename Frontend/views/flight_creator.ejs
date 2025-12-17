@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Creator</title>
+    <style>
+        body {
+            background-color: #02124e;
+            font-family: 'Times New Roman', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 850px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #FF8A02;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .form-card {
+            background-color: #011663;
+            border: 2px solid #ffffff66;
+            border-radius: 25px;
+            padding: 50px 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 30px;
+            row-gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        /* Label style from the original image (Orange/Gold and small) */
+        .column-label {
+            color: #FF8A02;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: left;
+            margin-bottom: 8px;
+            font-family: Arial, sans-serif;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 6px;
+            border: none;
+            background-color: #ffffff;
+            font-size: 15px;
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        /* Create the specific "drop-down" arrow from the image */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 14px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .btn {
+            padding: 12px 40px;
+            border-radius: 5px;
+            border: none;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+        }
+
+        .btn-cancel {
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        .btn-create {
+            background-color: #FF8A02; /* Original button color */
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <%- include("partials/navbar.ejs") %>
+    <div class="container">
+        <h2>Create New Flight Record</h2>
+        
+        <div class="form-card">
+            <form>
+                <div class="form-grid">
+                    
+                    <div class="input-item">
+                        <div class="column-label"> </div>
+                        <input type="text" placeholder="Flight Number">
+                    </div>
+                    <div class="input-item">
+                        <div class="column-label"> </div>
+                        <input type="text" placeholder="Aircraft ID">
+                    </div>
+
+                    <input type="text" placeholder="Departure Airport">
+                    <input type="text" placeholder="Arrival Airport">
+
+                    <input type="text" placeholder="Date">
+                    <input type="text" placeholder="Gate">
+
+                    <input type="text" placeholder="Boarding Time">
+                    <input type="text" placeholder="Departure Time">
+                    
+                    <input type="text" placeholder="Arrival Time">
+                    <select>
+                        <option>Flight Status</option>
+                        <option>Boarding</option>
+                        
+                      <option>Active</option>
+                      <option>Landing</option>
+                      <option>Delayed</option>
+                    </select>
+
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-create">Create Flight</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
