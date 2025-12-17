@@ -205,16 +205,13 @@ app.post("/login/flight-list", async (req, res) => {
     if(passwordIsCorrect){
         loggedIn = true;
         if(staff.staffInfo["role"]=="Admin"){
-            res.send("admin login");
+            res.redirect("/admin")
         }
         else{
         staff.staffAssignedFlights = await getFlightsByStaffId(staffId);
         return res.render("flight_list", {staff: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn});
         }
     }
-
-
-    
     else{
         loginError = true;
         loggedIn = false;
@@ -222,6 +219,21 @@ app.post("/login/flight-list", async (req, res) => {
     }
 });
 
+app.get("/admin",(req, res)=>{
+    if(loggedIn && staff.staffInfo["role"]=="Admin"){
+        res.render("selection", {staff: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn});
+    } else {
+        res.redirect("/login");
+    }
+})
+
+app.get("/admin/create-flight", (req,res) => {
+    if(loggedIn && staff.staffInfo["role"]=="Admin"){
+        res.render("flight_creator", {staff: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn});
+    } else {
+        res.redirect("/login");
+    }
+})
 
 app.post("/staff/tabular-view", async (req, res) => {
     if(staff["Id"] == -1){
