@@ -147,11 +147,14 @@ export const getPilotByFlightNumber = async (flightNumber) => {
                 s.role, 
                 s.rank,
                 s.nationality,
-                STRING_AGG(sp.language, ', ') as speaks
+                STRING_AGG(DISTINCT sp.language, ', ') as speaks,
+                STRING_AGG(DISTINCT tr.rating_name, ', ') as licenses
             FROM staff s
             JOIN operating_on op ON s.staff_id = op.staff_id
             JOIN flight f ON op.flight_id = f.flight_id
             LEFT JOIN speaks sp ON s.staff_id = sp.staff_id
+            LEFT JOIN licensed_on lo ON s.staff_id = lo.staff_id
+            LEFT JOIN type_rating tr ON lo.type_rating_id = tr.type_rating_id
             WHERE f.flight_number = $1 AND s.role = 'Pilot'
             GROUP BY s.staff_id
         `;
@@ -177,11 +180,14 @@ export const getCabinCrewByFlightNumber = async (flightNumber) => {
                 s.role, 
                 s.rank,
                 s.nationality,
-                STRING_AGG(sp.language, ', ') as speaks
+                STRING_AGG(DISTINCT sp.language, ', ') as speaks,
+                STRING_AGG(DISTINCT tr.rating_name, ', ') as licenses
             FROM staff s 
             JOIN operating_on op ON s.staff_id = op.staff_id
             JOIN flight f ON op.flight_id = f.flight_id
             LEFT JOIN speaks sp ON s.staff_id = sp.staff_id
+            LEFT JOIN licensed_on lo ON s.staff_id = lo.staff_id
+            LEFT JOIN type_rating tr ON lo.type_rating_id = tr.type_rating_id
             WHERE f.flight_number = $1 AND s.role = 'Cabin Crew'
             GROUP BY s.staff_id
         `;

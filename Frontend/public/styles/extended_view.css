@@ -151,6 +151,15 @@ body {
     .responsive-grid {
         grid-template-columns: repeat(6, 1fr);
     }
+    .responsive-grid.flight-info{
+        grid-template-columns: repeat(8, 1fr);
+    }
+    .responsive-grid.cabin-crew{
+        grid-template-columns: repeat(7, 1fr);
+    }
+    .responsive-grid.pilot{
+        grid-template-columns: repeat(7, 1fr);
+    }
 }
 
 /* Grid Cells */

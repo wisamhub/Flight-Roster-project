@@ -31,21 +31,25 @@
                 <div class="section-header">
                     <h2>FLIGHT INFORMATION</h2>
                 </div>
-                <div class="responsive-grid grid-header-row">
+                <div class="responsive-grid grid-header-row flight-info">
                     <div class="grid-cell header-cell">FLIGHT NUMBER</div>
                     <div class="grid-cell header-cell">GATE</div>
+                    <div class="grid-cell header-cell">DATE</div>
                     <div class="grid-cell header-cell">DEPARTURE AIRPORT</div>
                     <div class="grid-cell header-cell">DEPARTURE TIME</div>
                     <div class="grid-cell header-cell">ARRIVAL AIRPORT</div>
                     <div class="grid-cell header-cell">ARRIVAL TIME</div>
+                    <div class="grid-cell header-cell">STATUS</div>
                 </div>
-                <div class="responsive-grid data-row">
+                <div class="responsive-grid data-row flight-info">
                     <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.flight_number : 'N/A' %></div>
                     <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.gate : 'TBD' %></div>
+                    <div class="grid-cell data-cell"><%= flightInfo.date ? flightInfo.date.toISOString().split('T')[0] : 'N/A' %></div>
                     <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.dept_airport : 'N/A' %></div>
                     <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.dept_time : 'N/A' %></div>
                     <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.arrival_airport : 'N/A' %></div> 
                     <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.arrival_time : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.status : 'Scheduled' %></div>
                 </div>
                 
             </section>
@@ -54,13 +58,14 @@
                 <div class="section-header">
                     <h2>CABIN CREW</h2>
                 </div>
-                <div class="responsive-grid grid-header-row">
+                <div class="responsive-grid grid-header-row cabin-crew">
                     <div class="grid-cell header-cell">NAME</div>
                     <div class="grid-cell header-cell">GENDER</div>
                     <div class="grid-cell header-cell">RANK</div>
                     <div class="grid-cell header-cell">NATIONALITY</div>
-                    <div class="grid-cell header-cell">LANGUAGE</div>
+                    <div class="grid-cell header-cell">SPEAKS</div>
                     <div class="grid-cell header-cell">AGE</div>
+                    <div class="grid-cell header-cell">LICENSES</div>
                     <%function calculateAge(dateString) {
                         const today = new Date();
                         const birthDate = new Date(dateString);
@@ -76,7 +81,7 @@
                         return age; 
                     } %>
                 </div>
-                <div class="responsive-grid data-row">
+                <div class="responsive-grid data-row cabin-crew">
                     <% if (staffInfo.cabinCrew && staffInfo.cabinCrew.length > 0) { %>
                         <% staffInfo.cabinCrew.forEach(function(c){ %>
                     <div class="grid-cell data-cell"><%= c.first_name || 'N/A' %> <%= c.last_name || 'N/A' %></div>
@@ -85,6 +90,7 @@
                      <div class="grid-cell data-cell"><%= c.nationality || 'N/A' %></div>
                      <div class="grid-cell data-cell"><%= c.speaks || 'N/A' %></div>
                      <div class="grid-cell data-cell"><%= c.birth_date ? calculateAge(c.birth_date) : 'N/A' %></div>
+                     <div class="grid-cell data-cell"><%= c.licenses || 'N/A' %></div>
                      <% })} %>
                 </div>
             </section>
@@ -93,15 +99,16 @@
                 <div class="section-header">
                     <h2>PILOTS</h2>
                 </div>
-                <div class="responsive-grid grid-header-row compact-text">
+                <div class="responsive-grid grid-header-row compact-text pilot">
                     <div class="grid-cell header-cell">NAME</div>
                     <div class="grid-cell header-cell">GENDER</div>
                     <div class="grid-cell header-cell">RANK</div>
                     <div class="grid-cell header-cell">NATIONALITY</div>
-                    <div class="grid-cell header-cell">LANG</div>
+                    <div class="grid-cell header-cell">SPEAKS</div>
                     <div class="grid-cell header-cell">AGE</div>
+                    <div class="grid-cell header-cell">LICENSES</div>
                 </div>
-                <div class="responsive-grid data-row">
+                <div class="responsive-grid data-row pilot">
                     <% if (staffInfo.pilot && staffInfo.pilot.length > 0) { %>
                          <% staffInfo.pilot.forEach(function(p) { %>
                     <div class="grid-cell data-cell"><%= p.first_name || 'N/A' %> <%= p.last_name || 'N/A' %></div>
@@ -110,6 +117,7 @@
                      <div class="grid-cell data-cell"><%= p.nationality || 'N/A' %></div>
                      <div class="grid-cell data-cell"><%= p.speaks || 'N/A' %></div>
                      <div class="grid-cell data-cell"><%= p.birth_date ? calculateAge(p.birth_date) : 'N/A' %></div>
+                     <div class="grid-cell data-cell"><%= p.licenses || 'N/A' %></div>
                      <% })} %>
                 </div>
             </section>
