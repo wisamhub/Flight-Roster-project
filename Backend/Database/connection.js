@@ -568,4 +568,45 @@ export const updatePassengerSeat = async (ticketId, newSeat) => {
     }
 };
 
+// Gets all available staff for a flight using flight number
+export const getAvailableStaffForFlight = async (flightNumber) => {
+    try {
+        const query = `
+            SELECT
+                s.staff_id,
+                s.first_name, 
+                s.last_name, 
+                s.role, 
+                s.rank,
+                tr.rating_name as licensed_for
+            FROM staff s
+            JOIN licensed_on lo ON s.staff_id = lo.staff_id
+            JOIN type_rating tr ON lo.type_rating_id = tr.type_rating_id
+            WHERE
+                lo.type_rating_id = (
+                    SELECT at.type_rating_id
+                    FROM flight f
+                    JOIN aircraft a ON f.aircraft_id = a.aircraft_id
+                    JOIN aircraft_type at ON a.aircraft_type_id = at.aircraft_type_id
+                    WHERE f.flight_number = $1
+                )
+            AND
+                s.staff_id NOT IN (
+                    SELECT op.staff_id
+                    FROM operating_on op
+                    JOIN flight f2 ON op.flight_id = f2.flight_id
+                    WHERE f2.flight_number = $1
+                );
+        `;
+        
+        const values = [flightNumber];
+
+        const result = await flight_roster_db.query(query, values);
+        return result.rows;
+    } catch (err) {
+        console.error(`Error fetching available staff for flight ${flightNumber}:`, err);
+        throw err;
+    }
+};
+
 export default flight_roster_db;

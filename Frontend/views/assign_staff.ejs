@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
+    <title>Assign Staff</title>
+    <link rel="stylesheet" href="/styles/flight_dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Corben:wght@400&display=swap" rel="stylesheet">
+    <style>
+        #assign_btn {
+            background-color: #00FF11;
+            border: none;
+            min-height: 25px;
+            min-width: 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: "Corben", serif;
+            color: #02193f;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        #assign_btn:hover {
+            background-color: #00cc0e;
+        }
+        .back_link {
+            color: #FF8A02;
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <%- include("partials/navbar.ejs") %>
+    <div id="dashboard_wrapper">
+        <div id="dashboard">
+            <a href="/admin/flight-list/flight-dashboard" class="back_link"> &larr; Back to Dashboard</a>
+            <h1>Assign to Flight <%= flightNumber %></h1>
+            <div class="flex_column">
+                <section id="staff_selection">
+                    <div class="flex_row">
+                        <h2>Available Staff</h2>
+                        <input type="text" placeholder="Search..." id="assign_search_input" class="input">
+                    </div>
+                    <% if (locals.availableStaff && availableStaff.length > 0) { %>
+                        <% availableStaff.forEach(function(s) { %>
+                            <div class="card_row assign_row">
+                                <form action="/admin/confirm-assignment" method="POST">
+                                    <input type="hidden" name="selectedStaffId" value="<%= s.staff_id %>">
+                                    <input type="hidden" name="flightNumber" value="<%= flightNumber %>">
+                                    <button id="assign_btn">Add</button>
+                                </form>
+                                <div class="flight-card">
+                                    <div class="flex_column">
+                                        <p class="attribute">Name</p>
+                                        <p class="value staff_name_value"><%= s.first_name %> <%= s.last_name %></p>
+                                    </div>
+                                    <div class="flex_column">
+                                        <p class="attribute">Role</p>
+                                        <p class="value"><%= s.role %></p>
+                                    </div>
+                                    <div class="flex_column">
+                                        <p class="attribute">Rank</p>
+                                        <p class="value"><%= s.rank %></p>
+                                    </div>
+                                </div>
+                                
+                                <div></div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div style="text-align:center; color:white; padding:20px;">
+                            No available staff found.
+                        </div>
+                    <% } %>
+                    <div id="no_results_msg" class="search_error">No staff found!</div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('assign_search_input').addEventListener('keyup', function() {
+            const searchValue = this.value.toLowerCase();
+            const rows = document.querySelectorAll('.assign_row');
+            let hasResults = false;
+
+            rows.forEach(row => {
+                const nameText = row.querySelector('.staff_name_value').textContent.toLowerCase();
+                if (nameText.includes(searchValue)) {
+                    row.style.display = 'grid';
+                    hasResults = true;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            const noResultsMsg = document.getElementById('no_results_msg');
+            if (noResultsMsg) {
+                noResultsMsg.style.display = hasResults ? 'none' : 'block';
+            }
+        });
+    </script>
+</body>
+</html>

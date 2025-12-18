@@ -22,7 +22,8 @@ import {
   getAllFlights,
   removeStaffFromFlight,
   assignStaffToFlight,
-  updatePassengerSeat
+  updatePassengerSeat,
+  getAvailableStaffForFlight
 } from "./Database/connection.js";
 
 //variables, constants, functions
@@ -264,8 +265,8 @@ app.post("/staff/flight-list", async (req, res) => {
     if(staff["Id"] == -1){
         return res.redirect("/login");
     }
-    const flight_number = req.body.flight_number;
-    globalFlightData = await fetchFlightData(flight_number);
+    const flightNumber = req.body.flight_number;
+    globalFlightData = await fetchFlightData(flightNumber);
     if(!globalFlightData || !globalFlightData.flightInfo){
         return res.status(404).render("404");
     }
@@ -305,9 +306,19 @@ app.get("/admin/flight-list/flight-dashboard", async (req, res) => {
         res.redirect("/login"); 
     }
 });
-//WORK IN PROGRESS
+
 app.post("/admin/assign-staff", async (req, res) => {
-   res.send("Work in Progress!!!!");
+    const flightNumber = req.body.flightNumber;
+    const availableStaff = await getAvailableStaffForFlight(flightNumber);
+    res.render("assign_staff", {flightNumber, availableStaff});
+});
+
+app.post("/admin/confirm-assignment", async (req, res) => {
+    const selectedStaffId = req.body.selectedStaffId;
+    const flightNumber = req.body.flightNumber;
+    await assignStaffToFlight(selectedStaffId, flightNumber);
+    globalFlightData = await fetchFlightData(flightNumber);
+    res.redirect('/admin/flight-list/flight-dashboard');
 });
 
 app.post("/admin/delete-staff", async (req, res) => {

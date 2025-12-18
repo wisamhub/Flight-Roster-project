@@ -62,6 +62,7 @@
                         <h2>Assigned Staff</h2>
                         <form action="/admin/assign-staff" method="POST">
                             <button id="add_staff_button"><span>&#43;</span></button>
+                            <input type="hidden" name="flightNumber" value="<%= flightInfo?.flight_number || null %>">
                         </form>
                         <input type="text" placeholder="Name" id="staff_search_input" class="input">
                     </div>
