@@ -333,4 +333,159 @@ export const getAircraftInfoByFlightNumber = async (ticketId) => {
     }
 };
 
+export const flightExists = async (flight_number) => {
+    try {
+        const query = `
+            SELECT 1
+            FROM flight
+            WHERE flight_number = $1
+            LIMIT 1
+        `;
+        const values = [flight_number];
+        const result = await flight_roster_db.query(query, values);
+
+        return result.rowCount > 0;
+    } catch (err) {
+        console.error(
+            `Error checking existence of flight_number=${flight_number}`,
+            err
+        );
+        throw err;
+    }
+};
+
+
+export const validateFlightData = (flight) => {
+    const errors = [];
+
+    const {
+        flight_number,
+        aircraft_id,
+        departure_airport,
+        arrival_airport,
+        date,
+        gate,
+        boarding_time,
+        departure_time,
+        arrival_time,
+        status
+    } = flight;
+
+    // flight_number: e.g. AN251
+    if (!/^[A-Z]{2}\d{3}$/.test(flight_number)) {
+        errors.push("Invalid flight number format (expected e.g. AN251)");
+    }
+
+    // aircraft_id
+    if (!Number.isInteger(Number(aircraft_id)) || aircraft_id <= 0) {
+        errors.push("Aircraft ID must be a positive integer");
+    }
+
+    // date: YYYY-MM-DD
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        errors.push("Invalid date format (expected YYYY-MM-DD)");
+    }
+
+    // time fields: HH:MM
+    const timeRegex = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+    if (!timeRegex.test(boarding_time)) {
+        errors.push("Invalid boarding time (expected HH:MM)");
+    }
+
+    if (!timeRegex.test(departure_time)) {
+        errors.push("Invalid departure time (expected HH:MM)");
+    }
+
+    if (!timeRegex.test(arrival_time)) {
+        errors.push("Invalid arrival time (expected HH:MM)");
+    }
+
+    // airports: IATA codes
+    if (!/^[A-Z]{3}$/.test(departure_airport)) {
+        errors.push("Invalid departure airport code (expected 3 uppercase letters)");
+    }
+
+    if (!/^[A-Z]{3}$/.test(arrival_airport)) {
+        errors.push("Invalid arrival airport code (expected 3 uppercase letters)");
+    }
+
+    if (departure_airport === arrival_airport) {
+        errors.push("Departure and arrival airports cannot be the same");
+    }
+
+    // gate: number + letter
+    if (!/^\d+[A-Z]$/.test(gate)) {
+        errors.push("Invalid gate format (expected e.g. 12A, 5P)");
+    }
+
+    // status
+    const validStatuses = [
+        "Scheduled",
+        "Boarding",
+        "Enroute",
+        "Landed",
+        "Deboarding"
+    ];
+
+    if (!validStatuses.includes(status)) {
+        errors.push(`Invalid flight status (allowed: ${validStatuses.join(", ")})`);
+    }
+
+    return errors;
+};
+
+
+export const createFlight = async ({
+    aircraft_id,
+    date,
+    boarding_time,
+    departure_airport,
+    arrival_time,
+    arrival_airport,
+    gate,
+    status,
+    flight_number,
+    departure_time
+}) => {
+    try {
+        const query = `
+            INSERT INTO flight (
+                aircraft_id,
+                date,
+                boarding_time,
+                departure_airport,
+                arrival_time,
+                arrival_airport,
+                gate,
+                status,
+                flight_number,
+                departure_time
+            )
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            RETURNING *
+        `;
+
+        const values = [
+            aircraft_id,
+            date,
+            boarding_time,
+            departure_airport,
+            arrival_time,
+            arrival_airport,
+            gate,
+            status,
+            flight_number,
+            departure_time
+        ];
+
+        const result = await flight_roster_db.query(query, values);
+        return result.rows[0]; // newly created flight
+    } catch (err) {
+        console.error("Error creating flight:", err);
+        throw err;
+    }
+};
+
+
 export default flight_roster_db;

@@ -15,7 +15,10 @@ import {
   getCabinCrewByFlightNumber,
   getFlightsByStaffId,
   getStaffInfoByStaffId,
-  getAircraftInfoByFlightNumber
+  getAircraftInfoByFlightNumber,
+  flightExists,
+  validateFlightData,
+  createFlight
 } from "./Database/connection.js";
 
 //variables, constants, functions
@@ -225,7 +228,7 @@ app.get("/admin",(req, res)=>{
     } else {
         res.redirect("/login");
     }
-})
+});
 
 app.get("/admin/create-flight", (req,res) => {
     if(loggedIn && staff.staffInfo["role"]=="Admin"){
@@ -233,7 +236,25 @@ app.get("/admin/create-flight", (req,res) => {
     } else {
         res.redirect("/login");
     }
-})
+});
+
+app.post("/admin/create-flight", async (req, res)=>{
+    const errors = validateFlightData(req.body);
+
+    if (errors.length > 0) {
+        console.log(errors);
+        return res.render("flight_creator", {
+            staff: staff.staffInfo,
+            flights: staff.staffAssignedFlights,
+            logIn: loggedIn,
+            errors
+        });
+    }
+    if(flightExists(flight_number)){
+        res.render("flight_creator", {staff: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn, errors:["Flight number already exists"]});
+    }
+    await createFlight(req.body);
+});
 
 app.post("/staff/tabular-view", async (req, res) => {
     if(staff["Id"] == -1){
