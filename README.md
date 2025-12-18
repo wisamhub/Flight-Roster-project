@@ -115,3 +115,16 @@ nodemon index.js
 Instead of:
 
 node index.js
+
+# part4 : passwords and others
+here is a list of all the data to input and try out our webpage
+for staff:
+the ID goes from 1 to 21
+all ID from 1 to 20 have a  password : staff+ID 
+so staff 1 has staff1 etc
+staff 21 though is an admin and their password is Gigachad
+
+for passengers you can get the flight numbers from the admin flight list but for tickets:
+111111111,222222222,333333333,444444444,555555555,601234567,601234568,601234569,601234570,601234571,601234572,601234573,601234574,601234575,601234576,601234577,601234578,601234579,601234580,601234581,601234582,601234583,601234584,601234585,601234586,601234587,601234588,601234589,601234590,601234592,601234593,601234594,601234597,601234598,601234599,601234591,601234595,601234596,601234600,601234601.
+
+enjoy :D
