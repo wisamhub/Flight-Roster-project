@@ -18,15 +18,20 @@
       <button class="nav-item" onclick="window.location.href='/staff/extended-view'">EXTENDED VIEW</button>
     </nav>
   <main class="content">
-    <% let aircraft_name; %>
-    <% if (aircraft && aircraft.family_name && aircraft.variant_name) { %>
-      <% if (aircraft.variant_name.startsWith('-')) { %>
-        <% aircraft_name = aircraft.family_name + aircraft.variant_name; %>
-      <% } else { %>
-        <% aircraft_name = aircraft.variant_name; %>
-      <% } %>
-    <% } %>
-    <h1><%= aircraft_name ? aircraft_name : 'Flight View' %></h1>  
+    <% function getAircraftName(aircraft) {
+      let aircraft_name; 
+      if (aircraft && aircraft.family_name && aircraft.variant_name) {
+        if (aircraft.variant_name.startsWith('-')) {
+          return aircraft_name = aircraft.family_name + aircraft.variant_name;
+        } else {
+          return aircraft_name = aircraft.variant_name;
+        }
+      }
+      else{
+        return 'Flight View';
+      }
+    } %>
+    <h1><%= getAircraftName(aircraft); %></h1>  
     <div class="cabin-wrapper">
       <!-- BUSINESS -->
       <section class="cabin cabin-business" aria-label="Business cabin">

@@ -117,6 +117,7 @@ export const getPassengersByFlightNumber = async (flightNumber) => {
                 p.nationality,
                 p.has_allergy,
                 p.disability_assistance,
+                ft.ticket_id,
                 ft.seat_number, 
                 ft.class
             FROM passenger p
@@ -140,6 +141,7 @@ export const getPilotByFlightNumber = async (flightNumber) => {
     try {
         const query = `
             SELECT 
+                s.staff_id,
                 s.first_name, 
                 s.last_name, 
                 s.gender,
@@ -173,6 +175,7 @@ export const getCabinCrewByFlightNumber = async (flightNumber) => {
     try {
         const query = `
             SELECT 
+                s.staff_id,
                 s.first_name, 
                 s.last_name, 
                 s.gender,
@@ -275,6 +278,31 @@ export const getFlightsByStaffId = async (staffId) => {
         return result.rows;
     } catch (err) {
         console.error("Error fetching flights for staff by staff id:", err);
+        throw err;
+    }
+};
+
+// Get all of the flights for admin
+export const getAllFlights = async (staffId) => {
+    try {
+        const query = `
+            SELECT 
+                flight_id,
+                flight_number,
+                date,
+                dept_time,
+                dept_airport,
+                arrival_time,
+                arrival_airport,
+                status,
+                gate
+            FROM flight
+            ORDER BY date DESC, dept_time ASC
+        `;
+        const result = await flight_roster_db.query(query);
+        return result.rows;
+    } catch (err) {
+        console.error("Error fetching all flights:", err);
         throw err;
     }
 };

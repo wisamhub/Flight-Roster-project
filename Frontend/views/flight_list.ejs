@@ -13,10 +13,14 @@
 <body>
     <%- include("partials/navbar.ejs") %>
     <div class="flight-list-container">
-        <h2 class="section-title">Assigned Flights</h2>
+        <% if(staff && staff.role == "Admin"){ %>
+            <h2 class="section-title">All Flights</h2>
+        <% } else { %> 
+            <h2 class="section-title">Assigned Flights</h2>
+        <% } %>
         <% if (flights && flights.length > 0) { %>
             <% flights.forEach(function(flight) { %>
-        <form action="/staff/tabular-view" method="POST">
+        <form action="/staff/flight-list" method="POST">
             <input type="hidden" name="flight_number" value="<%= flight.flight_number %>">
             <button type="submit">
                 <div class="flight-card" >

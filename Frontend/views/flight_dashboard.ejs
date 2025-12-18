@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" type="image/png"href="/assets/images/logo.png">
+    <title>Flight Dashboard</title>
+    <link rel="stylesheet" href="/styles/flight_dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Corben:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <%- include("partials/navbar.ejs") %>
+    <div id="dashboard_wrapper">
+        <div id="dashboard">
+            <h1>Flight <%= flightInfo?.flight_number || 'N/A' %></h1>
+            <div class="flex_column">
+                <section id="flight_info">
+                    <% function getAircraftName(aircraft) {
+                        let aircraft_name; 
+                        if (aircraft && aircraft.family_name && aircraft.variant_name) {
+                            if (aircraft.variant_name.startsWith('-')) {
+                                return aircraft_name = aircraft.family_name + aircraft.variant_name;
+                            } else {
+                                return aircraft_name = aircraft.variant_name;
+                            }
+                        }
+                        else{
+                            return 'N/A';
+                        }
+                    } %>
+                    <h2>Flight Overview</h2>
+                    <div class="card_row">
+                        <div></div>
+                        <div class="flight-card">
+                            <div class="flex_column">
+                                <p class="attribute">Date</p>
+                                <p class="value"><%= flightInfo?.date.toISOString().split('T')[0] || 'N/A' %></p>
+                            </div>
+                            <div class="flex_column">
+                                <p class="attribute">Aircraft</p>
+                                <p class="value"><%= getAircraftName(aircraft) %></p>
+                            </div>
+                            <div class="flex_column">
+                                <p class="attribute">Dept Airport</p>
+                                <p class="value"><%= flightInfo?.dept_airport || 'N/A' %></p>
+                            </div>
+                            <div class="flex_column">
+                                <p class="attribute">Dept Time</p>
+                                <p class="value"><%= flightInfo?.dept_time || 'N/A' %></p>
+                            </div>
+                            <div class="flex_column">
+                                <p class="attribute">Arr Airport</p>
+                                <p class="value"><%= flightInfo?.arrival_airport || 'N/A' %></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="assigned_staff">
+                    <div class="flex_row">
+                        <h2>Assigned Staff</h2>
+                        <form action="/admin/assign-staff" method="POST">
+                            <button id="add_staff_button"><span>&#43;</span></button>
+                        </form>
+                        <input type="text" placeholder="Name" id="staff_search_input" class="input">
+                    </div>
+                    <% console.log(staffInfo); %>
+                    <% if (staffInfo.pilot && staffInfo.pilot.length > 0) { %>
+                        <% staffInfo.pilot.forEach(function(p) { %>
+                            <div class="card_row staff_row">
+                                <form action="/admin/delete-staff" method="POST">
+                                    <input type="hidden" name="deleteStaffId" value="<%= p.staff_id %>">
+                                    <input type="hidden" name="flightNumber" value="<%= flightInfo?.flight_number || null %>">
+                                    <button id="delete_staff_button"></button>
+                                </form>
+                                <div class="flight-card">
+                                    <div class="flex_column">
+                                        <p class="attribute">Name</p>
+                                        <p class="value staff_name_value"><%= p.first_name || 'N/A' %> <%= p.last_name || 'N/A' %></p>
+                                    </div>
+                                    <div class="flex_column">
+                                        <p class="attribute">Role</p>
+                                        <p class="value"><%= p.role || 'N/A' %></p>
+                                    </div>
+                                    <div class="flex_column">
+                                        <p class="attribute">Rank</p>
+                                        <p class="value"><%= p.rank || 'N/A' %></p>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else{%>
+                        <div> No Pilots Assigned!</div>
+                    <% } %>
+                    <% if (staffInfo.cabinCrew && staffInfo.cabinCrew.length > 0) { %>
+                        <% staffInfo.cabinCrew.forEach(function(c) { %>
+                            <div class="card_row staff_row">
+                                <form action="/admin/delete-staff" method="POST">
+                                    <input type="hidden" name="deleteStaffId" value="<%= c.staff_id %>">
+                                    <input type="hidden" name="flightNumber" value="<%= flightInfo?.flight_number || null %>">
+                                    <button id="delete_staff_button"></button>
+                                </form>
+                                <div class="flight-card">
+                                    <div class="flex_column">
+                                        <p class="attribute">Name</p>
+                                        <p class="value staff_name_value"><%= c.first_name || 'N/A' %> <%= c.last_name || 'N/A' %></p>
+                                    </div>
+                                    <div class="flex_column">
+                                        <p class="attribute">Role</p>
+                                        <p class="value"><%= c.role || 'N/A' %></p>
+                                    </div>
+                                    <div class="flex_column">
+                                        <p class="attribute">Rank</p>
+                                        <p class="value"><%= c.rank || 'N/A' %></p>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else{%>
+                        <div> No Cabin Crew Assigned!</div>
+                    <% } %>
+                    <div id="no_staff_msg" class="search_error">Staff Member Not Found.</div>
+                </section>
+                <section id="passengers">
+                    <div class="flex_row">
+                        <h2>Passengers</h2>
+                        <input type="text" placeholder="Name" id="passenger_search_input" class="input">
+                    </div>
+                    <% if (passengers && passengers.length > 0) { %>
+                        <% passengers.forEach(function(p) { %>
+                            <div class="card_row passenger_row">
+                                <div></div>
+                                <div class="flight-card passengers">
+                                    <div class="flex_column">
+                                        <p class="attribute">Name</p>
+                                        <p class="value passenger_name_value"><%= p.first_name || 'N/A' %> <%= p.last_name || 'N/A' %></p>
+                                    </div>
+                                    <div class="flex_column">
+                                        <p class="attribute">Seat</p>
+                                        <form action="/admin/update-passenger-seat" method="POST">
+                                            <input type="hidden" name="ticketId" value="<%= p.ticket_id || p.id %>">
+                                            <input type="hidden" name="flightNumber" value="<%= flightInfo?.flight_number || null %>">
+                                            <input type="text" name="newSeat" value="<%= p.seat_number || 'N/A' %>" class="input">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div> No Passengers On Flight!</div>
+                    <% } %>
+                    <div id="no_results_msg" class="search_error">Passenger Not Found.</div>
+                </section>
+            </div>
+        </div>
+    </div>
+<script>
+    document.getElementById('passenger_search_input').addEventListener('keyup', function() {
+        const searchValue = this.value.toLowerCase();
+        const rows = document.querySelectorAll('.passenger_row');
+        let hasResults = false;
+
+        rows.forEach(row => {
+            const nameText = row.querySelector('.passenger_name_value').textContent.toLowerCase();
+            if (nameText.includes(searchValue)) {
+                row.style.display = 'grid';
+                hasResults = true;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        const noResultsMsg = document.getElementById('no_results_msg');
+        if (noResultsMsg) {
+            noResultsMsg.style.display = hasResults ? 'none' : 'block';
+        }
+    });
+    
+    document.getElementById('staff_search_input').addEventListener('keyup', function() {
+        const searchValue = this.value.toLowerCase();
+        const rows = document.querySelectorAll('.staff_row'); 
+        let hasResults = false;
+
+        rows.forEach(row => {
+            const nameText = row.querySelector('.staff_name_value').textContent.toLowerCase();
+            
+            if (nameText.includes(searchValue)) {
+                row.style.display = 'grid';
+                hasResults = true;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        const noResultsMsg = document.getElementById('no_staff_msg');
+        if (noResultsMsg) {
+            noResultsMsg.style.display = hasResults ? 'none' : 'block';
+        }
+    });
+</script>
+</body>
+</html>

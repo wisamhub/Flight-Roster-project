@@ -18,7 +18,8 @@ import {
   getAircraftInfoByFlightNumber,
   flightExists,
   validateFlightData,
-  createFlight
+  createFlight,
+  getAllFlights
 } from "./Database/connection.js";
 
 //variables, constants, functions
@@ -184,7 +185,7 @@ app.get("/login/flight-list", (req, res)=>{
         return res.redirect("/login");
     }
     else{
-        res.render("flight-list", {staff: staff.staffInfo, flights: staff.staffAssignedFlights});
+        res.render("flight_list", {staff: staff.staffInfo, flights: staff.staffAssignedFlights});
     }
 })
 
@@ -211,8 +212,8 @@ app.post("/login/flight-list", async (req, res) => {
             res.redirect("/admin")
         }
         else{
-        staff.staffAssignedFlights = await getFlightsByStaffId(staffId);
-        return res.render("flight_list", {staff: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn});
+            staff.staffAssignedFlights = await getFlightsByStaffId(staffId);
+            return res.render("flight_list", {staff: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn});
         }
     }
     else{
@@ -256,7 +257,7 @@ app.post("/admin/create-flight", async (req, res)=>{
     await createFlight(req.body);
 });
 
-app.post("/staff/tabular-view", async (req, res) => {
+app.post("/staff/flight-list", async (req, res) => {
     if(staff["Id"] == -1){
         return res.redirect("/login");
     }
@@ -265,10 +266,60 @@ app.post("/staff/tabular-view", async (req, res) => {
     if(!globalFlightData || !globalFlightData.flightInfo){
         return res.status(404).render("404");
     }
+    if(staff.staffInfo["role"]=="Admin"){
+        return res.redirect("/admin/flight-list/flight-dashboard");
+    }
     else{
-        res.render("tabular_view",{flightInfo: globalFlightData.flightInfo, staffInfo: globalFlightData.staff, passengers: globalFlightData.passengers, aircraft: globalFlightData.aircraftInfo, logIn: loggedIn, downloadJSON: true, staff: staff.staffInfo});
+        res.redirect("/staff/tabular-view");
     }
 });
+
+app.get("/admin/flight-list", async (req, res) => {
+    if(staff["Id"] == -1){
+        return res.redirect("/login");
+    }
+
+    if(staff.staffInfo["role"]=="Admin"){
+        staff.staffAssignedFlights = await getAllFlights();
+        return res.render("flight_list", {staff :staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn})
+    }
+    else{
+        res.redirect("/login"); 
+    }
+});
+
+app.get("/admin/flight-list/flight-dashboard", async (req, res) => {
+    if(staff["Id"] == -1){
+        return res.redirect("/login");
+    }
+    if(!globalFlightData || !globalFlightData.flightInfo){
+        return res.status(404).render("404");
+    }
+    if(staff.staffInfo["role"]=="Admin"){
+        return res.render("flight_dashboard", {flightInfo: globalFlightData.flightInfo, aircraft: globalFlightData.aircraftInfo, staffInfo: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, staff: staff.staffInfo});
+    }
+    else{
+        res.redirect("/login"); 
+    }
+});
+//WORK IN PROGRESS
+app.post("/admin/assign-staff", async (req, res) => {
+   res.send("Work in Progress!!!!");
+});
+//WORK IN PROGRESS
+app.post("/admin/delete-staff", async (req, res) => {
+    const deleteStaffId = req.body.deleteStaffId;
+    const flightNumber = req.body.flightNumber;
+    res.send(`Delete Staff Id ${deleteStaffId} From Flight ${flightNumber}`);
+});
+//WORK IN PROGRESS
+app.post("/admin/update-passenger-seat", async (req, res) => {
+    const ticketId = req.body.ticketId;
+    const flightNumber = req.body.flightNumber;
+    const newSeat = req.body.newSeat;
+    res.send(`Update Seat to: ${newSeat} of ticket ${ticketId} on Flight ${flightNumber}`);
+});
+
 
 app.get("/staff/extended-view", async (req,res) => {
     if(staff["Id"] == -1){
@@ -369,6 +420,7 @@ app.get("/",(req, res)=>{
         };
         globalFlightData = {
         flightInfo: null,
+        aircraftInfo: null,
         passengers: [],
         staff: {
             chef: [],
@@ -404,7 +456,7 @@ app.get("/about-us/crew", (req, res)=>{
 app.get("/test", (req, res)=>{
     res.render("404");
     //simple test URL will be removed later change file name to check certain pages too
-}) 
+});
 
 //404 page
 app.use((req, res) => {

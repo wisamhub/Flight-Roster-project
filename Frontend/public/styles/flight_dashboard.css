@@ -1,0 +1,143 @@
+body {
+    background-color: #02124e;
+    margin: 0;
+    padding: 0;
+    font-family: "Corben", serif;
+    font-weight: 400;
+}
+#dashboard_wrapper{
+    margin-top:90px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom:20px;
+    
+}
+#dashboard{
+    background-color: #011663;
+    color: white;
+    width: 90%;
+    max-width: 800px;
+    padding: 2rem;
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 5px solid rgb(0, 0, 0);
+}
+
+h1{
+    font-size:32px;
+    text-align:center;
+    padding-bottom: 25px;
+}
+
+h2{
+    font-size:24px;
+    text-align:center;
+    padding-bottom: 15px;
+}
+
+.flight-card{
+    background-color: #02193f;
+    border: 3px solid #fffcf8;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px; 
+    width: 100%; 
+    min-width: 450px;
+    white-space: nowrap;
+}
+
+.flex_row{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap:20px;
+}
+
+#add_staff_button{
+    margin-top: -5px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    outline: none;
+    font-size: 32px;
+    font-weight: bold;
+    color: #00FF11;
+    /* this is the outline */
+    text-shadow:
+    -3px -3px 0 rgb(0, 0, 0),
+    3px -3px 0 rgb(0, 0, 0),
+    -3px 3px 0 rgb(0, 0, 0),
+    3px 3px 0 rgb(0, 0, 0),
+    0px -3px 0 rgb(0, 0, 0),
+    0px 3px 0 rgb(0, 0, 0),
+    -3px 0px 0 rgb(0, 0, 0),
+    3px 0px 0 rgb(0, 0, 0);
+}
+
+#delete_staff_button{
+    background-color:red;
+    border: none;
+    min-height:10px;
+    min-width:20px;
+    border-radius:30%;
+
+}
+.flex_column{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0px;
+    padding-right:7.5px;
+    padding-left:7.5px;
+}
+
+.attribute{
+    margin:0px;
+    color:#FF8A02;
+}
+.value{
+    margin:0px;
+    color:#FFFFFF;
+}
+
+.card_row{
+    display: grid;
+    grid-template-columns: 60px 1fr 60px; 
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.input {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #FFFFFF;
+    font-family: "Corben", serif;
+    font-size: 16px;
+    text-align: center;
+    width: 60px;
+    outline: none;
+    cursor: text;
+    border-bottom: 1px dashed #FF8A02;
+}
+
+input::placeholder {
+    color:#FFFFFF;
+}
+
+input:focus::placeholder {
+    color: transparent;
+}
+
+.search_error{
+    display: none;
+    text-align: center;
+    color: white;
+}

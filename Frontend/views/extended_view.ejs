@@ -182,16 +182,20 @@
                     <div class="grid-cell header-cell">MAX RANGE</div>
                 </div>
                 <div class="responsive-grid data-row">
-                    <% let aircraft_name;
-                        if(aircraft && aircraft.family_name && aircraft.variant_name){
-                            if(aircraft.variant_name.startsWith('-')){
-                                aircraft_name = aircraft.family_name + aircraft.variant_name;
+                    <% function getAircraftName(aircraft) {
+                        let aircraft_name; 
+                        if (aircraft && aircraft.family_name && aircraft.variant_name) {
+                            if (aircraft.variant_name.startsWith('-')) {
+                                return aircraft_name = aircraft.family_name + aircraft.variant_name;
+                            } else {
+                                return aircraft_name = aircraft.variant_name;
                             }
-                            else{
-                                aircraft_name = aircraft.variant_name;
-                            }
+                        }
+                        else{
+                            return 'N/A';
+                        }
                     } %>
-                    <div class="grid-cell data-cell"><%= aircraft_name ? aircraft_name : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><%= getAircraftName(aircraft); %></div>
                     <div class="grid-cell data-cell"><%= aircraft.pilot_capacity ? aircraft.pilot_capacity : 'N/A' %></div>
                     <div class="grid-cell data-cell"><%= aircraft.cabin_crew_capacity ? aircraft.cabin_crew_capacity : 'N/A' %></div>
                     <div class="grid-cell data-cell"><% if(aircraft.economy_passenger_capacity && aircraft.business_passenger_capacity){ %> <%= aircraft.economy_passenger_capacity + aircraft.business_passenger_capacity %> / <%= aircraft.economy_passenger_capacity %> / <%= aircraft.business_passenger_capacity %> <% } else{ %> N/A <% } %></div>
