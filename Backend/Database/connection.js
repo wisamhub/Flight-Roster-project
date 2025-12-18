@@ -482,13 +482,13 @@ export const createFlight = async ({
                 aircraft_id,
                 date,
                 boarding_time,
-                departure_airport,
+                dept_airport,
                 arrival_time,
                 arrival_airport,
                 gate,
                 status,
                 flight_number,
-                departure_time
+                dept_time
             )
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
             RETURNING *

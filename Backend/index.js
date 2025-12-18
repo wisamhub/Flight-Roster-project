@@ -245,7 +245,6 @@ app.get("/admin/create-flight", (req,res) => {
 
 app.post("/admin/create-flight", async (req, res)=>{
     const errors = validateFlightData(req.body);
-
     if (errors.length > 0) {
         console.log(errors);
         return res.render("flight_creator", {
@@ -255,10 +254,11 @@ app.post("/admin/create-flight", async (req, res)=>{
             errors
         });
     }
-    if(flightExists(flight_number)){
+    if(await flightExists(req.body.flight_number)){
         res.render("flight_creator", {staff: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn, errors:["Flight number already exists"]});
     }
     await createFlight(req.body);
+    res.render("flight_creator",{staff: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn, success:true});
 });
 
 app.post("/staff/flight-list", async (req, res) => {
