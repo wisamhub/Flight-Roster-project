@@ -308,12 +308,29 @@ app.get("/admin/flight-list/flight-dashboard", async (req, res) => {
 });
 
 app.post("/admin/assign-staff", async (req, res) => {
-    const flightNumber = req.body.flightNumber;
-    const availableStaff = await getAvailableStaffForFlight(flightNumber);
-    res.render("assign_staff", {flightNumber, availableStaff});
+    if(staff["Id"] == -1){
+        return res.redirect("/login");
+    }
+    if(!globalFlightData || !globalFlightData.flightInfo){
+        return res.status(404).render("404");
+    }
+    if(staff.staffInfo["role"]=="Admin"){
+        const flightNumber = req.body.flightNumber;
+        const availableStaff = await getAvailableStaffForFlight(flightNumber);
+        return res.render("assign_staff", {flightNumber, availableStaff});
+    }
+    else{
+        res.redirect("/login");
+    }
 });
 
 app.post("/admin/confirm-assignment", async (req, res) => {
+    if(staff["Id"] == -1){
+        return res.redirect("/login");
+    }
+    if(!globalFlightData || !globalFlightData.flightInfo){
+        return res.status(404).render("404");
+    }
     const selectedStaffId = req.body.selectedStaffId;
     const flightNumber = req.body.flightNumber;
     await assignStaffToFlight(selectedStaffId, flightNumber);
@@ -322,20 +339,42 @@ app.post("/admin/confirm-assignment", async (req, res) => {
 });
 
 app.post("/admin/delete-staff", async (req, res) => {
-    const deleteStaffId = req.body.deleteStaffId;
-    const flightNumber = req.body.flightNumber;
-    await removeStaffFromFlight(deleteStaffId, flightNumber);
-    globalFlightData = await fetchFlightData(flightNumber);
-    res.redirect('/admin/flight-list/flight-dashboard');
+    if(staff["Id"] == -1){
+        return res.redirect("/login");
+    }
+    if(!globalFlightData || !globalFlightData.flightInfo){
+        return res.status(404).render("404");
+    }
+    if(staff.staffInfo["role"]=="Admin"){
+        const deleteStaffId = req.body.deleteStaffId;
+        const flightNumber = req.body.flightNumber;
+        await removeStaffFromFlight(deleteStaffId, flightNumber);
+        globalFlightData = await fetchFlightData(flightNumber);
+        return res.redirect('/admin/flight-list/flight-dashboard');
+    }
+    else{
+        res.redirect("/login");
+    }
 });
 
 app.post("/admin/update-passenger-seat", async (req, res) => {
-    const ticketId = req.body.ticketId;
-    const flightNumber = req.body.flightNumber;
-    const newSeat = req.body.newSeat;
-    await updatePassengerSeat(ticketId, newSeat);
-    globalFlightData = await fetchFlightData(flightNumber);
-    res.redirect('/admin/flight-list/flight-dashboard');
+    if(staff["Id"] == -1){
+        return res.redirect("/login");
+    }
+    if(!globalFlightData || !globalFlightData.flightInfo){
+        return res.status(404).render("404");
+    }
+    if(staff.staffInfo["role"]=="Admin"){
+        const ticketId = req.body.ticketId;
+        const flightNumber = req.body.flightNumber;
+        const newSeat = req.body.newSeat;
+        await updatePassengerSeat(ticketId, newSeat);
+        globalFlightData = await fetchFlightData(flightNumber);
+        return res.redirect('/admin/flight-list/flight-dashboard');
+    }
+    else{
+        res.redirect("/login");
+    }
 });
 
 
