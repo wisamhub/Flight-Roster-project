@@ -39,7 +39,7 @@ body {
 
 .section-title { 
     color: #ff8a02; 
-    font-size: 1.4rem; 
+    font-size: 24px; 
     margin-bottom: 0.5rem; 
     text-align: center; 
     align-self: center; 
@@ -55,8 +55,10 @@ body {
     align-items: center;
     padding: 15px 25px; 
     width: 100%;
-    min-width: 500px;
+    min-width: 570px;
+    max-width: 570px;
     white-space: nowrap;
+    cursor: pointer;
 }
 
 .group-airline {
@@ -69,9 +71,9 @@ body {
 .center-section {
     display: flex;
     flex-direction: row;
-    gap: 3rem; 
+    gap: 15px; 
     flex: 1; 
-    justify-content: center; 
+    justify-content: space-between; 
 }
 
 .info-col {
@@ -81,6 +83,12 @@ body {
     align-items: flex-start; 
     text-align: left;
     gap: 4px; 
+    width: 45%;
+    flex-shrink: 0;
+}
+
+.info-col:first-child {
+    margin-left: 50px;
 }
 
 .group-status {
@@ -137,4 +145,52 @@ button {
     background-color: #02193f;
     margin: 0px;
     border-radius:50%;
+}
+
+.input {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #FFFFFF;
+    font-family: "Corben", serif;
+    font-size: 16px;
+    text-align: center;
+    width: 100px;
+    outline: none;
+    cursor: text;
+    border-bottom: 1px dashed #FF8A02;
+}
+
+input::placeholder {
+    color:#FFFFFF;
+}
+
+input:focus::placeholder {
+    color: transparent;
+}
+
+.search_error{
+    display: none;
+    text-align: center;
+    color: white;
+}
+
+#search_div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+#search_icon{
+    width:20px;
+    height:20px;
+    display: block;
+    cursor: pointer;
+}
+
+.back_link {
+    color: #FF8A02;
+    text-decoration: none;
+    position: absolute;
+    left: 2%;
+    top: 10%;
 }

@@ -31,6 +31,19 @@
             margin-bottom: 20px;
             display: inline-block;
         }
+
+        #search_div{
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding-bottom: 15px;
+        }
+        #search_icon{
+            width:20px;
+            height:20px;
+            display: block;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -43,7 +56,10 @@
                 <section id="staff_selection">
                     <div class="flex_row">
                         <h2>Available Staff</h2>
-                        <input type="text" placeholder="Search..." id="assign_search_input" class="input">
+                        <div id="search_div">
+                            <img src="/assets/images/search_icon.png" alt="Search Icon" id="search_icon" onclick="document.getElementById('assign_search_input').focus()">
+                            <input type="text" placeholder="Name" id="assign_search_input" class="input">
+                        </div>
                     </div>
                     <% if (locals.availableStaff && availableStaff.length > 0) { %>
                         <% availableStaff.forEach(function(s) { %>

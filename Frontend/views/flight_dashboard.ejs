@@ -14,6 +14,7 @@
     <%- include("partials/navbar.ejs") %>
     <div id="dashboard_wrapper">
         <div id="dashboard">
+            <a href="/admin/flight-list" class="back_link"> &larr; Back to Flight List</a>
             <h1>Flight <%= flightInfo?.flight_number || 'N/A' %></h1>
             <div class="flex_column">
                 <section id="flight_info">
@@ -64,7 +65,10 @@
                             <button id="add_staff_button"><span>&#43;</span></button>
                             <input type="hidden" name="flightNumber" value="<%= flightInfo?.flight_number || null %>">
                         </form>
-                        <input type="text" placeholder="Name" id="staff_search_input" class="input">
+                        <div id="search_div">
+                            <img src="/assets/images/search_icon.png" alt="Search Icon" id="search_icon" onclick="document.getElementById('staff_search_input').focus()">
+                            <input type="text" placeholder="Name" id="staff_search_input" class="input">
+                        </div>
                     </div>
                     <% console.log(staffInfo); %>
                     <% if (staffInfo.pilot && staffInfo.pilot.length > 0) { %>
@@ -126,7 +130,10 @@
                 <section id="passengers">
                     <div class="flex_row">
                         <h2>Passengers</h2>
-                        <input type="text" placeholder="Name" id="passenger_search_input" class="input">
+                        <div id="search_div">
+                            <img src="/assets/images/search_icon.png" alt="Search Icon" id="search_icon" onclick="document.getElementById('passenger_search_input').focus()">
+                            <input type="text" placeholder="Name" id="passenger_search_input" class="input">
+                        </div>
                     </div>
                     <% if (passengers && passengers.length > 0) { %>
                         <% passengers.forEach(function(p) { %>

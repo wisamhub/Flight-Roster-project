@@ -117,10 +117,19 @@
             background-color: rgba(172, 255, 47, 0.349);
             border-radius:5%;
         }   
+
+        .back_link {
+            color: #FF8A02;
+            text-decoration: none;
+            position: absolute;
+            left: 2%;
+            top: 10%;
+        }
     </style>
 </head>
 <body>
     <%- include("partials/navbar.ejs") %>
+    <a href="/admin" class="back_link"> &larr; Back to Admnin Select</a>
     <div class="container">
         <h2>Create New Flight Record</h2>
         <div class="form-card">

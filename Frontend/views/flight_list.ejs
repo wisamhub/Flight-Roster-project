@@ -13,23 +13,28 @@
 <body>
     <%- include("partials/navbar.ejs") %>
     <div class="flight-list-container">
+        <a href="/admin" class="back_link"> &larr; Back to Admnin Select</a>
         <% if(staff && staff.role == "Admin"){ %>
-            <h2 class="section-title">All Flights</h2>
-        <% } else { %> 
-            <h2 class="section-title">Assigned Flights</h2>
-        <% } %>
+                <h1 class="section-title">All Flights</h1>
+            <% } else { %> 
+                <h1 class="section-title">Assigned Flights</h1>
+            <% } %>
+            <div id="search_div">
+                <img src="/assets/images/search_icon.png" alt="Search Icon" id="search_icon" onclick="document.getElementById('flight_search_input').focus()">
+                <input type="text" placeholder="Flight Number" id="flight_search_input" class="input">
+            </div> 
         <% if (flights && flights.length > 0) { %>
             <% flights.forEach(function(flight) { %>
-        <form action="/staff/flight-list" method="POST">
+        <form action="/staff/flight-list" method="POST" class="flight_row">
             <input type="hidden" name="flight_number" value="<%= flight.flight_number %>">
             <button type="submit">
                 <div class="flight-card" >
                     <div class="group-airline">
-                        <span class="highlight large"><%= flight.flight_number%> </span>
+                        <span class="highlight large flight_number_value"><%= flight.flight_number%> </span>
                     </div>
                     <div class="center-section">
                         <div class="info-col">
-                            <span class="highlight time"><%= flight.dept_time %> - <%= flight.arrival_time %></span>
+                            <span class="highlight time"><%= flight.dept_time.toString().slice(0, 5) %> - <%= flight.arrival_time.toString().slice(0, 5) %></span>
                             <span class="sub-text date"><%= flight.date.toISOString().split('T')[0]%> </span>
                         </div>
                         <div class="info-col">
@@ -43,7 +48,33 @@
                 </div>
             </button>
         </form>
-        <% })} %>
+        <p id="no_results_msg" class="search_error">Flight Not Found</p>
+        <% }) %>
+        <% } else { %>
+            <p>No Flights Assigned!</p>
+        <% } %>
     </div>
+    <script>
+        document.getElementById('flight_search_input').addEventListener('keyup', function() {
+            const searchValue = this.value.toLowerCase();
+            const rows = document.querySelectorAll('.flight_row');
+            let hasResults = false;
+
+            rows.forEach(row => {
+                const flightNumber = row.querySelector('.flight_number_value').textContent.toLowerCase();
+                if (flightNumber.includes(searchValue)) {
+                    row.style.display = 'flex';
+                    hasResults = true;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            const noResultsMsg = document.getElementById('no_results_msg');
+            if (noResultsMsg) {
+                noResultsMsg.style.display = hasResults ? 'none' : 'block';
+            }
+        });
+    </script>
 </body>
 </html>
