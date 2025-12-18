@@ -185,7 +185,7 @@ app.get("/login/flight-list", (req, res)=>{
         return res.redirect("/login");
     }
     else{
-        res.render("flight_list", {staff: staff.staffInfo, flights: staff.staffAssignedFlights});
+        res.render("flight_list", {staff: staff.staffInfo, flights: staff.staffAssignedFlights, logIn: loggedIn});
     }
 })
 
@@ -438,29 +438,29 @@ app.get("/about-us", (req, res)=>{
 });
 
 app.get("/about-us/airplanes", (req, res)=>{
-    res.render("airplanes");
+    res.render("airplanes", {logIn: loggedIn, staff : staff.staffInfo});
 })
 
 app.get("/about-us/destinations", (req, res)=>{
-    res.render("destinations");
+    res.render("destinations", {logIn: loggedIn, staff : staff.staffInfo});
 })
 
 app.get("/about-us/founders", (req, res)=>{
-    res.render("founders");
+    res.render("founders", {logIn: loggedIn, staff : staff.staffInfo});
 })
 
 app.get("/about-us/crew", (req, res)=>{
-    res.render("crew");
+    res.render("crew", {logIn: loggedIn, staff : staff.staffInfo});
 })
 
 app.get("/test", (req, res)=>{
-    res.render("404");
+    res.render("404", {logIn: loggedIn, staff : staff.staffInfo});
     //simple test URL will be removed later change file name to check certain pages too
 });
 
 //404 page
 app.use((req, res) => {
-  res.status(404).render("404");
+  res.status(404).render("404", {logIn: loggedIn, staff : staff.staffInfo});
 });
 
 //server listener

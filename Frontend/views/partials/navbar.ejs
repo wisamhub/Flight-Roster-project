@@ -20,6 +20,16 @@
                 <a class="nav_link" href="/">Home</a>
                 <a class="nav_link" href="/about-us">About Us</a>
                 <a class="nav_link" href="/guest">Flight Tracker</a>
+                <% if(locals.logIn && logIn){ %>
+                    <% if(staff){ %>
+                        <% if(staff.role == 'Admin') { %>
+                            <a class="nav_link" href="/admin/flight-list">Flight List</a>
+                            <a class="nav_link" href="/admin/">Admin Select</a>
+                        <% } else { %>
+                            <a class="nav_link" href="/login/flight-list">Flight List</a>
+                        <% } %>
+                    <% } %>
+                <% } %>
             </div>
         </div>
         <div id="nav_profile_container">
