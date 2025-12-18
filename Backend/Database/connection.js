@@ -515,5 +515,57 @@ export const createFlight = async ({
     }
 };
 
+// Remove a staff from a flight using his staff id and flight number
+export const removeStaffFromFlight = async (staffId, flightNumber) => {
+    try {
+        const query = `
+            DELETE FROM operating_on
+            WHERE staff_id = $1 
+            AND flight_id = (SELECT flight_id FROM flight WHERE flight_number = $2)
+        `;
+        const values = [staffId, flightNumber];
+        
+        await flight_roster_db.query(query, values);
+        return true; 
+    } catch (err) {
+        console.error(`Error removing staff ${staffId} from flight ${flightNumber}:`, err);
+        throw err;
+    }
+};
+
+// Assigns a staff to a flight using his staff id and flight number
+export const assignStaffToFlight = async (staffId, flightNumber) => {
+    try {
+        const query = `
+            INSERT INTO operating_on (staff_id, flight_id)
+            VALUES ($1, (SELECT flight_id FROM flight WHERE flight_number = $2))
+        `;
+        const values = [staffId, flightNumber];
+
+        await flight_roster_db.query(query, values);
+        return true;
+    } catch (err) {
+        console.error(`Error assigning staff ${staffId} to flight ${flightNumber}:`, err);
+        throw err;
+    }
+};
+
+// Updates passenger's flight ticket seat number it takes in the new seat number and the flight ticket
+export const updatePassengerSeat = async (ticketId, newSeat) => {
+    try {
+        const query = `
+            UPDATE flight_ticket
+            SET seat_number = $1
+            WHERE ticket_id = $2
+        `;
+        const values = [newSeat, ticketId];
+
+        const result = await flight_roster_db.query(query, values);
+        return result.rowCount > 0;
+    } catch (err) {
+        console.error(`Error updating seat to ${newSeat} for ticket ${ticketId}:`, err);
+        throw err;
+    }
+};
 
 export default flight_roster_db;

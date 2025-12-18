@@ -19,7 +19,10 @@ import {
   flightExists,
   validateFlightData,
   createFlight,
-  getAllFlights
+  getAllFlights,
+  removeStaffFromFlight,
+  assignStaffToFlight,
+  updatePassengerSeat
 } from "./Database/connection.js";
 
 //variables, constants, functions
@@ -306,18 +309,22 @@ app.get("/admin/flight-list/flight-dashboard", async (req, res) => {
 app.post("/admin/assign-staff", async (req, res) => {
    res.send("Work in Progress!!!!");
 });
-//WORK IN PROGRESS
+
 app.post("/admin/delete-staff", async (req, res) => {
     const deleteStaffId = req.body.deleteStaffId;
     const flightNumber = req.body.flightNumber;
-    res.send(`Delete Staff Id ${deleteStaffId} From Flight ${flightNumber}`);
+    await removeStaffFromFlight(deleteStaffId, flightNumber);
+    globalFlightData = await fetchFlightData(flightNumber);
+    res.redirect('/admin/flight-list/flight-dashboard');
 });
-//WORK IN PROGRESS
+
 app.post("/admin/update-passenger-seat", async (req, res) => {
     const ticketId = req.body.ticketId;
     const flightNumber = req.body.flightNumber;
     const newSeat = req.body.newSeat;
-    res.send(`Update Seat to: ${newSeat} of ticket ${ticketId} on Flight ${flightNumber}`);
+    await updatePassengerSeat(ticketId, newSeat);
+    globalFlightData = await fetchFlightData(flightNumber);
+    res.redirect('/admin/flight-list/flight-dashboard');
 });
 
 
