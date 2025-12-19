@@ -98,7 +98,13 @@ http://localhost:3000
 
 and enjoy :D
 
-# Part 3: Extras for Developers
+# part 3: Running Tests
+
+**Navigate to the `Backend` directory and execute the following command in the terminal:**
+
+`npm test`
+
+# Part 4: Extras for Developers
 
 If you plan on editing or extending this project, it is recommended to install **nodemon** for easier development.
 
@@ -116,7 +122,7 @@ Instead of:
 
 node index.js
 
-# part4 : passwords and others
+# part 5: passwords and others
 here is a list of all the data to input and try out our webpage
 for staff:
 the ID goes from 1 to 21

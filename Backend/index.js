@@ -520,7 +520,11 @@ app.use((req, res) => {
   res.status(404).render("404", {logIn: loggedIn, staff : staff.staffInfo});
 });
 
-//server listener
-app.listen(3000, async ()=>{
-    console.log("server started at port:"+ port);
-})
+//server listener - only start when not testing
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, async () => {
+    console.log("server started at port:" + port);
+  });
+}
+
+export default app;

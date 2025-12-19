@@ -10,7 +10,10 @@ const flight_roster_db = new pg.Client({
   port: process.env.DB_PORT,
 });
 
-flight_roster_db.connect()
+// Prevent real DB connection during tests; Jest sets NODE_ENV to 'test'
+if (process.env.NODE_ENV !== 'test') {
+  flight_roster_db.connect();
+}
 
 // Get the main passenger by using ticket id
 export const getMainPassengerByTicketId = async (ticketId) => {
