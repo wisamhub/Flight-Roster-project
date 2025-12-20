@@ -162,6 +162,55 @@ async function compare(password, hash){
  return match;
 };
 
+const seatPattern = /^(\d+)([A-Z])$/; 
+function isSeatValidForAircraft(seatStr, aircraft) {
+  if (!seatStr || !aircraft) {
+    return false;
+  }
+  
+  const match = seatStr.match(seatPattern);
+  if (!match) {
+    return false;
+  }
+
+  const rowNum = parseInt(match[1]);
+  const colLetter = match[2];
+  const colIndex = colLetter.charCodeAt(0) - 65;
+
+  // Calculate business dimensions
+  const busLayout = aircraft.business_passenger_layout;
+  const busCap = aircraft.business_passenger_capacity;
+  const busRowLen = busLayout.reduce((a, b) => a + b, 0);
+  const busRows = Math.ceil(busCap / busRowLen);
+
+  // Calculate economy dimensions
+  const ecoLayout = aircraft.economy_passenger_layout;
+  const ecoCap = aircraft.economy_passenger_capacity;
+  const ecoRowLen = ecoLayout.reduce((a, b) => a + b, 0);
+  const ecoRows = Math.ceil(ecoCap / ecoRowLen);
+
+  // Check if the seat is in business range
+  if (rowNum >= 1 && rowNum <= busRows) {
+    if (colIndex >= 0 && colIndex < busRowLen) {
+      const seatSequenceIndex = ((rowNum - 1) * busRowLen) + colIndex;
+      return seatSequenceIndex < busCap;
+    }
+  }
+
+  // Check if the seat is in economy range
+  const startEcoRow = busRows + 1;
+  const endEcoRow = busRows + ecoRows;
+  if (rowNum >= startEcoRow && rowNum <= endEcoRow) {
+    if (colIndex >= 0 && colIndex < ecoRowLen) {
+      const ecoRowOffset = rowNum - startEcoRow;
+      const seatSequenceIndex = (ecoRowOffset * ecoRowLen) + colIndex;
+      return seatSequenceIndex < ecoCap;
+    }
+  }
+
+  return false;
+}
+
 
 //Middlewares
 app.use(express.static(join(__dirname, "..", "Frontend", "public")));
@@ -296,6 +345,8 @@ app.get("/admin/flight-list", async (req, res) => {
 let bothCapaciyMaxError = false;
 let seatOccupiedError = false;
 let seatErrorTicketId = null;
+let seatInvalidError = false;
+let seatExistsError = false;
 app.get("/admin/flight-list/flight-dashboard", async (req, res) => {
     if(staff["Id"] == -1){
         return res.redirect("/login");
@@ -311,10 +362,12 @@ app.get("/admin/flight-list/flight-dashboard", async (req, res) => {
         if(currentPilotAmount >= currentPilotCapacity && currentCabinCrewAmount >= currentCabinCrewCapacity){
             bothCapaciyMaxError = true;
         }
-        res.render("flight_dashboard", {flightInfo: globalFlightData.flightInfo, aircraft: globalFlightData.aircraftInfo, staffInfo: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, staff: staff.staffInfo, bothCapaciyMaxError, seatOccupiedError, seatErrorTicketId});
+        res.render("flight_dashboard", {flightInfo: globalFlightData.flightInfo, aircraft: globalFlightData.aircraftInfo, staffInfo: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, staff: staff.staffInfo, bothCapaciyMaxError, seatOccupiedError, seatErrorTicketId, seatInvalidError, seatExistsError});
         bothCapaciyMaxError = false;
         seatOccupiedError = false;
         seatErrorTicketId = null
+        seatInvalidError = false;
+        seatExistsError = false;
         return;
     }
     else{
@@ -418,6 +471,16 @@ app.post("/admin/update-passenger-seat", async (req, res) => {
         const ticketId = req.body.ticketId;
         const newSeat = req.body.newSeat;
         const occupied = await isSeatOccupied(globalFlightData.flightInfo.flight_number, newSeat, ticketId);
+        if (!seatPattern.test(newSeat)) {
+            seatInvalidError = true;
+            seatErrorTicketId = ticketId;
+            return res.redirect('/admin/flight-list/flight-dashboard');
+        }
+         if (!isSeatValidForAircraft(newSeat, globalFlightData.aircraftInfo)) {
+            seatExistsError = true;
+            seatErrorTicketId = ticketId;
+            return res.redirect('/admin/flight-list/flight-dashboard');
+        }
         if(occupied){
             seatOccupiedError = true;
             seatErrorTicketId = ticketId;

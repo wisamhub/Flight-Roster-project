@@ -135,7 +135,7 @@
                     <% if (passengers && passengers.length > 0) { %>
                         <% passengers.forEach(function(p) { %>
                             <% const currentPassengerId = p.ticket_id %>
-                            <% const isThisPassengerError = seatOccupiedError && (seatErrorTicketId == currentPassengerId); %>
+                            <% const isThisPassengerError = seatErrorTicketId == currentPassengerId; %>
                             <div class="card_row passenger_row">
                                 <div></div>
                                 <div class="flight-card passengers">
@@ -149,7 +149,13 @@
                                             <input type="hidden" name="ticketId" value="<%= p.ticket_id || p.id %>">
                                             <input type="text" name="newSeat" value="<%= p.seat_number || 'N/A' %>" class="input" oninput="this.value = this.value.toUpperCase()">
                                             <% if (isThisPassengerError) { %>
-                                                <span class="occupied_error">Seat is Occupied!</span>
+                                                <% if (locals.seatOccupiedError) { %>
+                                                    <span class="error">Seat is Occupied!</span>
+                                                <% } else if (locals.seatInvalidError) { %>
+                                                    <span class="error">Invalid Format!</span>
+                                                <% } else if (locals.seatExistsError) { %>
+                                                    <span class="error">Seat doesn't exist on this plane!</span>
+                                                <% } %>
                                             <% } %>
                                         </form>
                                     </div>
