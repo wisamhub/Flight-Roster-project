@@ -44,6 +44,14 @@
             display: block;
             cursor: pointer;
         }
+
+        .capacity_error{
+            color: #FF4136;
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 15px;
+            text-align:center;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +59,7 @@
     <div id="dashboard_wrapper">
         <div id="dashboard">
             <a href="/admin/flight-list/flight-dashboard" class="back_link"> &larr; Back to Dashboard</a>
-            <h1>Assign to Flight <%= flightNumber %></h1>
+            <h1>Assign to Flight <%= flightInfo.flight_number %></h1>
             <div class="flex_column">
                 <section id="staff_selection">
                     <div class="flex_row">
@@ -61,12 +69,17 @@
                             <input type="text" placeholder="Name" id="assign_search_input" class="input">
                         </div>
                     </div>
+                    <% if (locals.cabinCrewCapacityMaxError) { %>
+                        <p class="capacity_error">Unable To Assign More Cabin Crew Due To Capacity!</p>
+                    <% } else if (locals.pilotCapacityMaxError) { %>
+                        <p class="capacity_error">Unable To Assign More Pilots Due To Capacity!</p>
+                    <% } %>
                     <% if (locals.availableStaff && availableStaff.length > 0) { %>
                         <% availableStaff.forEach(function(s) { %>
                             <div class="card_row assign_row">
                                 <form action="/admin/confirm-assignment" method="POST">
                                     <input type="hidden" name="selectedStaffId" value="<%= s.staff_id %>">
-                                    <input type="hidden" name="flightNumber" value="<%= flightNumber %>">
+                                    <input type="hidden" name="selectedStaffRole" value="<%= s.role %>">
                                     <button id="assign_btn">Add</button>
                                 </form>
                                 <div class="flight-card">

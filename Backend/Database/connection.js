@@ -612,4 +612,27 @@ export const getAvailableStaffForFlight = async (flightNumber) => {
     }
 };
 
+// Returns true if the seat is occupied on the flight identified by flight number excluding the given ticket id
+export const isSeatOccupied = async (flightNumber, seatNumber, excludeTicketId) => {
+    try {
+        const query = `
+            SELECT 1 
+            FROM flight_ticket ft
+            JOIN connected_flight cf ON ft.ticket_id = cf.ticket_id
+            JOIN flight f ON cf.flight_id = f.flight_id
+            WHERE f.flight_number = $1 
+              AND ft.seat_number = $2 
+              AND ft.ticket_id != $3
+            LIMIT 1
+        `;
+        const values = [flightNumber, seatNumber, excludeTicketId || -1];
+        const result = await flight_roster_db.query(query, values);
+        
+        return result.rowCount > 0;
+    } catch (err) {
+        console.error("Error checking seat occupancy by flight number:", err);
+        throw err;
+    }
+};
+
 export default flight_roster_db;

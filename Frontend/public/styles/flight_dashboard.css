@@ -162,3 +162,11 @@ input:focus::placeholder {
     margin-bottom: 20px;
     display: inline-block;
 }
+
+.occupied_error{
+            color: #FF4136;
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 15px;
+            text-align:center;
+        }

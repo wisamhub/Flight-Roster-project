@@ -70,13 +70,11 @@
                             <input type="text" placeholder="Name" id="staff_search_input" class="input">
                         </div>
                     </div>
-                    <% console.log(staffInfo); %>
                     <% if (staffInfo.pilot && staffInfo.pilot.length > 0) { %>
                         <% staffInfo.pilot.forEach(function(p) { %>
                             <div class="card_row staff_row">
                                 <form action="/admin/delete-staff" method="POST">
                                     <input type="hidden" name="deleteStaffId" value="<%= p.staff_id %>">
-                                    <input type="hidden" name="flightNumber" value="<%= flightInfo?.flight_number || null %>">
                                     <button id="delete_staff_button"></button>
                                 </form>
                                 <div class="flight-card">
@@ -103,7 +101,6 @@
                             <div class="card_row staff_row">
                                 <form action="/admin/delete-staff" method="POST">
                                     <input type="hidden" name="deleteStaffId" value="<%= c.staff_id %>">
-                                    <input type="hidden" name="flightNumber" value="<%= flightInfo?.flight_number || null %>">
                                     <button id="delete_staff_button"></button>
                                 </form>
                                 <div class="flight-card">
@@ -137,6 +134,8 @@
                     </div>
                     <% if (passengers && passengers.length > 0) { %>
                         <% passengers.forEach(function(p) { %>
+                            <% const currentPassengerId = p.ticket_id %>
+                            <% const isThisPassengerError = seatOccupiedError && (seatErrorTicketId == currentPassengerId); %>
                             <div class="card_row passenger_row">
                                 <div></div>
                                 <div class="flight-card passengers">
@@ -148,8 +147,10 @@
                                         <p class="attribute">Seat</p>
                                         <form action="/admin/update-passenger-seat" method="POST">
                                             <input type="hidden" name="ticketId" value="<%= p.ticket_id || p.id %>">
-                                            <input type="hidden" name="flightNumber" value="<%= flightInfo?.flight_number || null %>">
-                                            <input type="text" name="newSeat" value="<%= p.seat_number || 'N/A' %>" class="input">
+                                            <input type="text" name="newSeat" value="<%= p.seat_number || 'N/A' %>" class="input" oninput="this.value = this.value.toUpperCase()">
+                                            <% if (isThisPassengerError) { %>
+                                                <span class="occupied_error">Seat is Occupied!</span>
+                                            <% } %>
                                         </form>
                                     </div>
                                 </div>

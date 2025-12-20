@@ -23,7 +23,8 @@ import {
   removeStaffFromFlight,
   assignStaffToFlight,
   updatePassengerSeat,
-  getAvailableStaffForFlight
+  getAvailableStaffForFlight,
+  isSeatOccupied
 } from "./Database/connection.js";
 
 //variables, constants, functions
@@ -292,6 +293,9 @@ app.get("/admin/flight-list", async (req, res) => {
     }
 });
 
+let bothCapaciyMaxError = false;
+let seatOccupiedError = false;
+let seatErrorTicketId = null;
 app.get("/admin/flight-list/flight-dashboard", async (req, res) => {
     if(staff["Id"] == -1){
         return res.redirect("/login");
@@ -300,13 +304,26 @@ app.get("/admin/flight-list/flight-dashboard", async (req, res) => {
         return res.status(404).render("404");
     }
     if(staff.staffInfo["role"]=="Admin"){
-        return res.render("flight_dashboard", {flightInfo: globalFlightData.flightInfo, aircraft: globalFlightData.aircraftInfo, staffInfo: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, staff: staff.staffInfo});
+        let currentCabinCrewAmount = globalFlightData.staff.cabinCrew.length;
+        let currentPilotAmount = globalFlightData.staff.pilot.length;
+        let currentCabinCrewCapacity = globalFlightData.aircraftInfo.cabin_crew_capacity;
+        let currentPilotCapacity = globalFlightData.aircraftInfo.pilot_capacity;
+        if(currentPilotAmount >= currentPilotCapacity && currentCabinCrewAmount >= currentCabinCrewCapacity){
+            bothCapaciyMaxError = true;
+        }
+        res.render("flight_dashboard", {flightInfo: globalFlightData.flightInfo, aircraft: globalFlightData.aircraftInfo, staffInfo: globalFlightData.staff, passengers: globalFlightData.passengers, logIn: loggedIn, staff: staff.staffInfo, bothCapaciyMaxError, seatOccupiedError, seatErrorTicketId});
+        bothCapaciyMaxError = false;
+        seatOccupiedError = false;
+        seatErrorTicketId = null
+        return;
     }
     else{
         res.redirect("/login"); 
     }
 });
 
+let cabinCrewCapacityMaxError = false;
+let pilotCapacityMaxError = false;
 app.post("/admin/assign-staff", async (req, res) => {
     if(staff["Id"] == -1){
         return res.redirect("/login");
@@ -315,12 +332,31 @@ app.post("/admin/assign-staff", async (req, res) => {
         return res.status(404).render("404");
     }
     if(staff.staffInfo["role"]=="Admin"){
-        const flightNumber = req.body.flightNumber;
-        const availableStaff = await getAvailableStaffForFlight(flightNumber);
-        return res.render("assign_staff", {flightNumber, availableStaff});
+        const availableStaff = await getAvailableStaffForFlight(globalFlightData.flightInfo.flight_number);
+        res.render("assign_staff", {flightInfo: globalFlightData.flightInfo, availableStaff, staffInfo: globalFlightData.staff, aircraft: globalFlightData.aircraftInfo, logIn: loggedIn, staff: staff.staffInfo, cabinCrewCapacityMaxError, pilotCapacityMaxError});
+        cabinCrewCapacityMaxError = false;
+        pilotCapacityMaxError = false;
+        return;
     }
     else{
         res.redirect("/login");
+    }
+});
+
+app.get("/admin/assign-staff", async (req, res) => {
+    if(staff["Id"] == -1){
+        return res.redirect("/login");
+    }
+
+    if(staff.staffInfo["role"]=="Admin"){
+        const availableStaff = await getAvailableStaffForFlight(globalFlightData.flightInfo.flight_number);
+        res.render("assign_staff", {flightInfo: globalFlightData.flightInfo, availableStaff, staffInfo: globalFlightData.staff, aircraft: globalFlightData.aircraftInfo, logIn: loggedIn, staff: staff.staffInfo, cabinCrewCapacityMaxError, pilotCapacityMaxError});
+        cabinCrewCapacityMaxError = false;
+        pilotCapacityMaxError = false;
+        return;
+    }
+    else{
+        res.redirect("/login"); 
     }
 });
 
@@ -332,10 +368,25 @@ app.post("/admin/confirm-assignment", async (req, res) => {
         return res.status(404).render("404");
     }
     const selectedStaffId = req.body.selectedStaffId;
-    const flightNumber = req.body.flightNumber;
-    await assignStaffToFlight(selectedStaffId, flightNumber);
-    globalFlightData = await fetchFlightData(flightNumber);
-    res.redirect('/admin/flight-list/flight-dashboard');
+    const selectedStaffRole = req.body.selectedStaffRole;
+    let currentCabinCrewAmount = globalFlightData.staff.cabinCrew.length;
+    let currentPilotAmount = globalFlightData.staff.pilot.length;
+    let currentCabinCrewCapacity = globalFlightData.aircraftInfo.cabin_crew_capacity;
+    let currentPilotCapacity = globalFlightData.aircraftInfo.pilot_capacity;
+    const availableStaff = await getAvailableStaffForFlight(globalFlightData.flightInfo.flight_number);
+    if(selectedStaffRole=="Cabin Crew" && currentCabinCrewAmount >= currentCabinCrewCapacity){
+        cabinCrewCapacityMaxError = true;
+        return res.redirect("/admin/assign-staff");
+    }
+    else if(selectedStaffRole=="Pilot" && currentPilotAmount >= currentPilotCapacity){
+        pilotCapacityMaxError = true;
+        return res.redirect("/admin/assign-staff");
+    }
+    else{
+        await assignStaffToFlight(selectedStaffId, globalFlightData.flightInfo.flight_number);
+        globalFlightData = await fetchFlightData(globalFlightData.flightInfo.flight_number);
+        return res.redirect('/admin/assign-staff');
+    }
 });
 
 app.post("/admin/delete-staff", async (req, res) => {
@@ -347,9 +398,8 @@ app.post("/admin/delete-staff", async (req, res) => {
     }
     if(staff.staffInfo["role"]=="Admin"){
         const deleteStaffId = req.body.deleteStaffId;
-        const flightNumber = req.body.flightNumber;
-        await removeStaffFromFlight(deleteStaffId, flightNumber);
-        globalFlightData = await fetchFlightData(flightNumber);
+        await removeStaffFromFlight(deleteStaffId, globalFlightData.flightInfo.flight_number);
+        globalFlightData = await fetchFlightData(globalFlightData.flightInfo.flight_number);
         return res.redirect('/admin/flight-list/flight-dashboard');
     }
     else{
@@ -366,10 +416,15 @@ app.post("/admin/update-passenger-seat", async (req, res) => {
     }
     if(staff.staffInfo["role"]=="Admin"){
         const ticketId = req.body.ticketId;
-        const flightNumber = req.body.flightNumber;
         const newSeat = req.body.newSeat;
+        const occupied = await isSeatOccupied(globalFlightData.flightInfo.flight_number, newSeat, ticketId);
+        if(occupied){
+            seatOccupiedError = true;
+            seatErrorTicketId = ticketId;
+            return res.redirect('/admin/flight-list/flight-dashboard');
+        }
         await updatePassengerSeat(ticketId, newSeat);
-        globalFlightData = await fetchFlightData(flightNumber);
+        globalFlightData = await fetchFlightData(globalFlightData.flightInfo.flight_number);
         return res.redirect('/admin/flight-list/flight-dashboard');
     }
     else{
