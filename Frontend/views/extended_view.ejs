@@ -43,13 +43,13 @@
                     <div class="grid-cell header-cell">STATUS</div>
                 </div>
                 <div class="responsive-grid data-row flight-info">
-                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.flight_number : 'N/A' %></div>
-                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.gate : 'TBD' %></div>
+                    <div class="grid-cell data-cell"><%= flightInfo.flight_number ? flightInfo.flight_number : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><%= flightInfo.gate ? flightInfo.gate : 'TBD' %></div>
                     <div class="grid-cell data-cell"><%= flightInfo.date ? flightInfo.date.toISOString().split('T')[0] : 'N/A' %></div>
-                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.dept_airport : 'N/A' %></div>
-                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.dept_time : 'N/A' %></div>
-                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.arrival_airport : 'N/A' %></div> 
-                    <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.arrival_time : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><%= flightInfo.dept_airport ? flightInfo.dept_airport : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><%= flightInfo.dept_time ? flightInfo.dept_time.slice(0, 5) : 'N/A' %></div>
+                    <div class="grid-cell data-cell"><%= flightInfo.arrival_airport ? flightInfo.arrival_airport : 'N/A' %></div> 
+                    <div class="grid-cell data-cell"><%= flightInfo.arrival_time ? flightInfo.arrival_time.slice(0, 5) : 'N/A' %></div>
                     <div class="grid-cell data-cell"><%= flightInfo ? flightInfo.status : 'Scheduled' %></div>
                 </div>
                 

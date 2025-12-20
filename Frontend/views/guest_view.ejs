@@ -53,7 +53,11 @@
                                         </div>
                                         <div class="detail-item">
                                             <span class="label">DEPARTURE TIME</span>
-                                            <span class="value"><%= flightInfo.dept_time || 'N/A' %></span>
+                                            <span class="value"><%= flightInfo.dept_time ? flightInfo.dept_time.slice(0, 5) : 'N/A' %></span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="label">ARRIVAL TIME</span>
+                                            <span class="value"><%= flightInfo.arrival_time ? flightInfo.arrival_time.slice(0, 5) : 'N/A' %></span>
                                         </div>
                                         <div class="detail-item">
                                             <span class="label">GATE</span>
@@ -126,7 +130,11 @@
                                     </div>
                                     <div class="detail-item">
                                         <span class="label">DEPARTURE TIME</span>
-                                        <span class="value"><%= flightInfo.dept_time || 'N/A' %></span>
+                                        <span class="value"><%= flightInfo.dept_time ? flightInfo.dept_time.slice(0, 5) : 'N/A' %></span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="label">ARRIVAL TIME</span>
+                                        <span class="value"><%= flightInfo.arrival_time ? flightInfo.arrival_time.slice(0, 5) : 'N/A' %></span>
                                     </div>
                                     <div class="detail-item">
                                         <span class="label">GATE</span>
